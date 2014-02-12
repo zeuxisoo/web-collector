@@ -25,6 +25,17 @@
                     <li><a href="{{ url_for('index.index') }}">Stream</a></li>
                     <li><a href="{{ url_for('index.index') }}">Day</a></li>
                 </ul>
+
+                {% if g.user %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url_for('user.signout') }}">Sign Out</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url_for('user.signin') }}">Sign In</a></li>
+                        <li><a href="{{ url_for('user.signup') }}">Sign Up</a></li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </div>

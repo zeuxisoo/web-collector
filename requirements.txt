@@ -1,2 +1,7 @@
 Flask
 Flask-Script
+Flask-WTF
+Flask-SQLAlchemy
+Flask-BCrypt
+
+alembic
