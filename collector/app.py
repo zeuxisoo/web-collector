@@ -8,6 +8,7 @@ from .models import db
 from .routes import index, user, stream
 from .helpers.user import get_current_user
 from .filters import Embedly
+from .curators import API
 
 def create_app(config=None):
     app = Flask(__name__, template_folder='views')
@@ -21,6 +22,7 @@ def create_app(config=None):
         app.config.from_pyfile(os.path.abspath(config))
 
     register_hook(app)
+    register_curator(app)
     register_jinja2(app)
     register_database(app)
     register_route(app)
@@ -31,6 +33,9 @@ def register_hook(app):
     @app.before_request
     def load_current_user():
         g.user = get_current_user()
+
+def register_curator(app):
+    app.curator = API(app.config.get('CURATORS_API_TOKEN'))
 
 def register_jinja2(app):
     app.jinja_env.filters['embedly_fill'] = Embedly(app.config.get('EMBEDLY_API_TOKEN')).fill
