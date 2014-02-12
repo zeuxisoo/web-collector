@@ -2,37 +2,41 @@
 
 {% block container %}
 <div id="index">
-    <div class="col-xs-12 col-sm-8 col-md-9">
-        <div class="row">
-            {% for stream in paginator.items %}
-                <div class="col-xs-6 col-sm-3 col-md-3">
-                    <a class="thumbnail" rel="group" href="{{ url_for('stream.image', result_id=stream.result_id, name=stream.result_name) }}">
-                        <img src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
-                    </a>
-                </div>
-            {% endfor %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-9">
+            <div class="row">
+                {% for stream in paginator.items %}
+                    <div class="col-xs-6 col-sm-3 col-md-3">
+                        <a class="thumbnail" rel="group" href="{{ url_for('stream.image', result_id=stream.result_id, name=stream.result_name) }}">
+                            <img src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <div class="card text-center">
+                Record: {{ total_girl }}
+            </div>
+            <div class="thumbnail">
+                <div class="caption text-center">The day of girl</div>
+                <img src="{{ today_girl.image | embedly_fill(240, 240, 'FFF', 'true') }}" alt="{{ today_girl.name }}">
+                <div class="caption text-center">{{ today_girl.date }}</div>
+            </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-4 col-md-3">
-        <div class="card text-center">
-            Record: {{ total_girl }}
-        </div>
-        <div class="thumbnail">
-            <div class="caption text-center">The day of girl</div>
-            <img src="{{ today_girl.image | embedly_fill(240, 240, 'FFF', 'true') }}" alt="{{ today_girl.name }}">
-            <div class="caption text-center">{{ today_girl.date }}</div>
-        </div>
-    </div>
-    <div class="col-xs-12">
-        <ul class="pager">
-            {% if paginator.has_prev %}
-                <li class="previous"><a href="{{ url_for('index.index', page=paginator.prev_num) }}">Previous</a></li>
-            {% endif %}
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="pager">
+                {% if paginator.has_prev %}
+                    <li class="previous"><a href="{{ url_for('index.index', page=paginator.prev_num) }}">Previous</a></li>
+                {% endif %}
 
-            {% if paginator.has_next %}
-                <li class="next"><a href="{{ url_for('index.index', page=paginator.next_num) }}">Next</a></li>
-            {% endif %}
-        </ul>
+                {% if paginator.has_next %}
+                    <li class="next"><a href="{{ url_for('index.index', page=paginator.next_num) }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}
