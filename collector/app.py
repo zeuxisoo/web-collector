@@ -5,7 +5,7 @@ import os
 from flask import Flask
 from flask import g
 from .models import db
-from .routes import index, user
+from .routes import index, user, stream
 from .helpers.user import get_current_user
 from .filters import Embedly
 
@@ -40,5 +40,6 @@ def register_database(app):
     db.app = app
 
 def register_route(app):
+    app.register_blueprint(stream.blueprint, url_prefix='/stream')
     app.register_blueprint(user.blueprint, url_prefix='/user')
     app.register_blueprint(index.blueprint, url_prefix='')
