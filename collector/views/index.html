@@ -15,12 +15,12 @@
     </div>
     <div class="col-xs-12 col-sm-4 col-md-3">
         <div class="card text-center">
-            Record: 100
+            Record: {{ total_girl }}
         </div>
         <div class="thumbnail">
             <div class="caption text-center">The day of girl</div>
-            <img src="http://placehold.it/240x240" alt="">
-            <div class="caption text-center"></div>
+            <img src="{{ today_girl.image | embedly_fill(240, 240, 'FFF', 'true') }}" alt="{{ today_girl.name }}">
+            <div class="caption text-center">{{ today_girl.date }}</div>
         </div>
     </div>
     <div class="col-xs-12">
