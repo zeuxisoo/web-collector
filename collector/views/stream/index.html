@@ -26,7 +26,7 @@
             <div class="row">
                 {% for stream in random %}
                     <div class="col-xs-3 col-sm-3 col-md-3">
-                        <a class="thumbnail" rel="group" href="{{ url_for('stream.image', result_id=stream.result_id, name=stream.result_name) }}">
+                        <a class="thumbnail" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
                             <img src="{{ stream.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
                         </a>
                     </div>
