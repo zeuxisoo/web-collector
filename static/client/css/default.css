@@ -9,7 +9,7 @@ body {
 
 .card {
     border-style: solid;
-    background-color: #FAFAFA;
+    background-color: #FFF;
     border-color: #E0E0E0;
     border-width: 1px;
     padding: 10px;
@@ -20,6 +20,11 @@ body {
     padding-top: 19px;
     color: #777;
     border-top: 1px solid #e5e5e5;
+}
+
+.no-border {
+    border-width: 0px;
+    background: none;
 }
 
 @media screen and (min-width: 768px) {
