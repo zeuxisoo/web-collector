@@ -3,3 +3,4 @@
 from .base import *
 from .user import *
 from .stream import *
+from .bookmark import *
