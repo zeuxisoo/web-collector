@@ -27,3 +27,7 @@ class Stream(db.Model, SessionMixin):
 
     def __repr__(self):
         return '<Stream: %s>' % self.id
+
+    @classmethod
+    def randomly(cls, offset=0, limit=20):
+        return cls.query.order_by(db.func.random()).offset(offset).limit(limit).all()
