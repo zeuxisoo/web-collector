@@ -1,0 +1,50 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div id="index">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-9">
+            <div class="row">
+                {% for stream in paginator.items %}
+                    <div class="col-xs-6 col-sm-6 col-md-3">
+                        <a class="thumbnail" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
+                            <img src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <div class="card text-center">
+                Record: {{ total_bookmark }}
+            </div>
+            <div class="card text-center">
+                Randomly
+                <hr>
+                <div class="row">
+                    {% for stream in random_stream %}
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <a class="thumbnail no-border" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
+                                <img src="{{ stream.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="pager">
+                {% if paginator.has_prev %}
+                    <li class="previous"><a href="{{ url_for('index.index', page=paginator.prev_num) }}">Previous</a></li>
+                {% endif %}
+
+                {% if paginator.has_next %}
+                    <li class="next"><a href="{{ url_for('index.index', page=paginator.next_num) }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

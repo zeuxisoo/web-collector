@@ -1,11 +1,30 @@
 # coding: utf-8
 
 from flask import Blueprint, g
-from flask import flash, redirect, url_for
-from ..models import Stream, Bookmark
+from flask import render_template, request, flash, redirect, url_for
+from ..models import db, Stream, Bookmark
+from ..helpers.value import force_integer
 from ..helpers.user import require_login
 
 blueprint = Blueprint('bookmark', __name__)
+
+@blueprint.route('/')
+@require_login
+def index():
+    page = force_integer(request.args.get('page', 1), 0)
+
+    if not page:
+        return abort(404)
+    else:
+        paginator = Stream.query.outerjoin(Bookmark, Bookmark.target_id == Stream.id).filter(
+            Bookmark.category == 'stream',
+            Bookmark.user_id == g.user.id,
+        ).order_by(Bookmark.create_at.desc()).paginate(page)
+
+        total_bookmark = Bookmark.query.filter_by(category='stream', user_id=g.user.id).count()
+        random_stream  = Stream.query.order_by(db.func.random()).offset(0).limit(12).all()
+
+        return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, random_stream=random_stream)
 
 @blueprint.route('/create/stream/<int:stream_id>')
 @require_login
