@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Bookmark(db.Model, SessionMixin):
     id        = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    type      = db.Column(db.Enum('stream', 'the_of_girl'), nullable=False, default='stream')
+    category  = db.Column(db.Enum('stream', 'the_of_girl'), nullable=False, default='stream')
     user_id   = db.Column(db.Integer, index=True)
     target_id = db.Column(db.Integer, index=True)
     create_at = db.Column(db.DateTime, default=datetime.utcnow)
