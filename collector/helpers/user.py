@@ -1,6 +1,8 @@
 # coding: utf-8
 
-from flask import session
+import functools
+from flask import g
+from flask import session, redirect, url_for
 from ..models import User
 
 def login_user(user, permanent=False):
@@ -34,3 +36,11 @@ def get_current_user():
             return user
 
     return None
+
+def require_login(method):
+    @functools.wraps(method)
+    def wrapper(*args, **kwargs):
+        if not g.user:
+            return redirect(url_for('user.signin'))
+        return method(*args, **kwargs)
+    return wrapper
