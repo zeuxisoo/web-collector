@@ -11,6 +11,11 @@ class Bookmark(db.Model, SessionMixin):
     create_at = db.Column(db.DateTime, default=datetime.utcnow)
     update_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
+    # Support for
+    # - User.query.get(1).bookmarks
+    # - Bookmark.query.get(1).user
+    user = db.relationship('User', backref='bookmarks', primaryjoin="Bookmark.user_id == User.id", foreign_keys=[user_id])
+
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
