@@ -10,18 +10,20 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="card">
-                {% if bookmarked %}
-                    <a href="{{ url_for('bookmark.remove_stream', stream_id=stream.id) }}" class="btn btn-danger">
-                        <i class="glyphicon glyphicon-paperclip"></i> Bookmarked
-                    </a>
-                {% else %}
-                    <a href="{{ url_for('bookmark.create_stream', stream_id=stream.id) }}" class="btn btn-info">
-                        <i class="glyphicon glyphicon-paperclip"></i> Bookmark
-                    </a>
-                {% endif %}
-                <a href="" class="btn btn-info"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
-                <a href="" class="btn btn-info pull-right"><i class="glyphicon glyphicon-eye-open"></i></a>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% if bookmarked %}
+                        <a href="{{ url_for('bookmark.remove_stream', stream_id=stream.id) }}" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-paperclip"></i> Bookmarked
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('bookmark.create_stream', stream_id=stream.id) }}" class="btn btn-info">
+                            <i class="glyphicon glyphicon-paperclip"></i> Bookmark
+                        </a>
+                    {% endif %}
+                    <a href="" class="btn btn-info"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
+                    <a href="" class="btn btn-info pull-right"><i class="glyphicon glyphicon-eye-open"></i></a>
+                </div>
             </div>
             <div class="row">
                 {% for stream in random %}

@@ -15,20 +15,23 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-3">
-            <div class="card text-center">
-                Record: {{ total_bookmark }}
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    Record: {{ total_bookmark }}
+                </div>
             </div>
-            <div class="card text-center">
-                Randomly
-                <hr>
-                <div class="row">
-                    {% for stream in random_stream %}
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <a class="thumbnail no-border" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
-                                <img src="{{ stream.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
-                            </a>
-                        </div>
-                    {% endfor %}
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Randomly</div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% for stream in random_stream %}
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <a class="thumbnail no-border" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
+                                    <img src="{{ stream.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

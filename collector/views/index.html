@@ -15,13 +15,19 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-3">
-            <div class="card text-center">
-                Record: {{ total_girl }}
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    Record: {{ total_girl }}
+                </div>
             </div>
-            <div class="thumbnail">
-                <div class="caption text-center">The day of girl</div>
-                <img src="{{ today_girl.image | embedly_fill(240, 240, 'FFF', 'true') }}" alt="{{ today_girl.name }}">
-                <div class="caption text-center">{{ today_girl.date }}</div>
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    The day of girl
+                </div>
+                <div class="panel-body text-center">
+                    <img src="{{ today_girl.image | embedly_fill(240, 240, 'FFF', 'true') }}" alt="{{ today_girl.name }}">
+                    <p class="caption text-center">{{ today_girl.date }}</p>
+                </div>
             </div>
         </div>
     </div>
