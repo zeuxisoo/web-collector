@@ -22,7 +22,7 @@ def index():
         ).order_by(Bookmark.create_at.desc()).paginate(page)
 
         total_bookmark = Bookmark.query.filter_by(category='stream', user_id=g.user.id).count()
-        random_stream  = Stream.randomly(0, 20)
+        random_stream  = Stream.randomly(0, 6)
 
         return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, random_stream=random_stream)
 
