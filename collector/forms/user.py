@@ -18,9 +18,8 @@ class SignupForm(BaseForm):
         'Password',
         validators=[
             Required(message='Please enter password'),
-            EqualTo('confirm_password', message='Passwords must match'),
             Length(message="Password must more than 8 length", min=8),
-            EqualTo('password', message='Passwords must match')
+            EqualTo('confirm_password', message='Passwords must match'),
         ]
     )
 
