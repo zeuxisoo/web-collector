@@ -7,15 +7,6 @@ body {
     padding-top: 15px;
 }
 
-.card {
-    border-style: solid;
-    background-color: #FFF;
-    border-color: #E0E0E0;
-    border-width: 1px;
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
 .footer {
     margin-top: 10px;
     padding-top: 19px;
