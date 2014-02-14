@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from flask import g
 from wtforms import TextField, PasswordField, BooleanField
 from wtforms.validators import Required, Email, EqualTo, Length
 from .base import BaseForm
@@ -68,3 +69,42 @@ class SigninForm(BaseForm):
         else:
             self.user = user
             return user
+
+class ChangeProfileForm(BaseForm):
+    email = TextField(
+        'Email',
+        validators=[
+            Required(message='Please enter email'),
+            Email(message='Invalid email format')
+        ]
+    )
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data.lower()).count():
+            raise ValueError('Email already registered')
+
+class ChangePasswordForm(BaseForm):
+
+    old_password = PasswordField(
+        'Old Password',
+        validators=[
+            Required(message="Please enter old password")
+        ]
+    )
+
+    new_password = PasswordField(
+        'New Password',
+        validators=[
+            Required(message='Please enter new password'),
+            Length(message="New password must more than 8 length", min=8),
+            EqualTo('confirm_new_password', message='New password must match'),
+        ]
+    )
+
+    confirm_new_password = PasswordField('Confirm New Password')
+
+    def validate_old_password(self, field):
+        user = User.query.filter_by(email=g.user.email).first()
+
+        if User.password_verify(field.data.lower(), user.password) is False:
+            raise ValueError("Password incorrect")

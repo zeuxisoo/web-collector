@@ -1,9 +1,10 @@
 # coding: utf-8
 
-from flask import Blueprint
+from flask import Blueprint, g
 from flask import flash, redirect, url_for, render_template
-from ..forms import SignupForm, SigninForm
-from ..helpers.user import login_user, logout_user
+from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordForm
+from ..models import User
+from ..helpers.user import login_user, logout_user, require_login
 
 blueprint = Blueprint('user', __name__)
 
@@ -28,7 +29,42 @@ def signin():
 
     return render_template('user/signin.html', form=form)
 
+@require_login
 @blueprint.route('/signout')
 def signout():
     logout_user()
     return redirect(url_for('index.index'))
+
+@require_login
+@blueprint.route('/change/profile', methods=['GET', 'POST'])
+def change_profile():
+    form = ChangeProfileForm(obj=g.user)
+
+    if form.validate_on_submit():
+        user = User.query.get(g.user.id)
+        form.populate_obj(user)
+        user.save()
+
+        flash('Your profile was updated', 'success')
+
+        return redirect(url_for('user.change_profile'))
+
+    return render_template('user/change/profile.html', form=form)
+
+@require_login
+@blueprint.route('/change/password', methods=['GET', 'POST'])
+def change_password():
+    form = ChangePasswordForm(obj=g.user)
+
+    if form.validate_on_submit():
+        user = User.query.get(g.user.id)
+        user.change_password(form.new_password.data)
+        form.populate_obj(user)
+        user.save()
+
+        flash('Your password was updated, Please sign in again', 'success')
+
+        return redirect(url_for('user.signout'))
+
+    return render_template('user/change/password.html', form=form)
+

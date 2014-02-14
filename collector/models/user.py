@@ -31,6 +31,10 @@ class User(db.Model, SessionMixin):
     def __repr__(self):
         return '<User: %s>' % self.email
 
+    def change_password(self, new_password):
+        self.password = self.password_hash(new_password)
+        self.token    = self.generate_token(18)
+
     @staticmethod
     def generate_token(length=18):
         return security.gen_salt(length)
