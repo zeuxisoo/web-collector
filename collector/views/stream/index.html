@@ -24,7 +24,7 @@
                     <a href="{{ stream.result_image }}" class="btn btn-info" download="{{ stream.result_name }}">
                         <i class="glyphicon glyphicon-download-alt"></i> Download
                     </a>
-                    <a href="{{ stream.result_image }}" class="btn btn-info pull-right fancybox tips" data-toggle="tooltip" data-placement="bottom" title="Preview images">
+                    <a href="{{ stream.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
                 </div>
@@ -33,7 +33,7 @@
                 {% for stream in random %}
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <a class="thumbnail" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
-                            <img src="{{ stream.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
+                            <img src="{{ stream.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ stream.result_name }}" class="tips" data-placement="bottom" title="{{ stream.result_name }}">
                         </a>
                     </div>
                 {% endfor %}
