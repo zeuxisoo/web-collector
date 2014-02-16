@@ -18,6 +18,6 @@ def detail(result_id, name):
             Stream.result_id == Stream.query.with_entities(db.func.min(Stream.result_id).label('min')).filter(Stream.result_id > stream.result_id),
             Stream.result_id == Stream.query.with_entities(db.func.max(Stream.result_id).label('max')).filter(Stream.result_id < stream.result_id)
         )
-    ).order_by(Stream.result_created_at.asc()).all()
+    ).order_by(Stream.result_created_at.desc()).all()
 
     return render_template('stream/detail.html', stream=stream, random=random, bookmarked=is_bookmarked('stream', stream.id, user_id), old_new=old_new)
