@@ -14,15 +14,30 @@
                 <div class="panel-body">
                     {% if bookmarked %}
                         <a href="{{ url_for('bookmark.remove_stream', stream_id=stream.id) }}" class="btn btn-danger">
-                            <i class="glyphicon glyphicon-paperclip"></i> Bookmarked
+                            <div class="hidden-xs">
+                                <i class="glyphicon glyphicon-paperclip"></i> Bookmarked
+                            </div>
+                            <div class="visible-xs">
+                                <i class="glyphicon glyphicon-paperclip"></i>
+                            </div>
                         </a>
                     {% else %}
                         <a href="{{ url_for('bookmark.create_stream', stream_id=stream.id) }}" class="btn btn-info">
-                            <i class="glyphicon glyphicon-paperclip"></i> Bookmark
+                            <div class="hidden-xs">
+                                <i class="glyphicon glyphicon-paperclip"></i> Bookmark
+                            </div>
+                            <div class="visible-xs">
+                                <i class="glyphicon glyphicon-paperclip"></i>
+                            </div>
                         </a>
                     {% endif %}
                     <a href="{{ stream.result_image }}" class="btn btn-info" download="{{ stream.result_name }}">
-                        <i class="glyphicon glyphicon-download-alt"></i> Download
+                        <div class="hidden-xs">
+                            <i class="glyphicon glyphicon-download-alt"></i> Download
+                        </div>
+                        <div class="visible-xs">
+                            <i class="glyphicon glyphicon-download-alt"></i>
+                        </div>
                     </a>
                     <a href="{{ stream.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
                         <i class="glyphicon glyphicon-eye-open"></i>
