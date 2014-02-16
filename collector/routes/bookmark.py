@@ -5,6 +5,7 @@ from flask import render_template, request, flash, redirect, url_for
 from ..models import db, Stream, Bookmark
 from ..helpers.value import force_integer
 from ..helpers.user import require_login
+from ..helpers.bookmark import is_bookmarked
 
 blueprint = Blueprint('bookmark', __name__)
 
@@ -25,6 +26,28 @@ def index():
         random_stream  = Stream.randomly(0, 6)
 
         return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, random_stream=random_stream)
+
+@blueprint.route('/detail/<int:result_id>-<name>')
+def detail(result_id, name):
+    stream  = Stream.query.filter_by(result_id=result_id).first()
+    random  = Stream.randomly(0, 12)
+    user_id = g.user.id if g.user else None
+
+    user_bookmarks_subquery = Stream.query.outerjoin(Bookmark, Bookmark.target_id == Stream.id).filter(
+        Bookmark.category == 'stream',
+        Bookmark.user_id == 1,
+    ).order_by(Bookmark.create_at.desc()).subquery()
+
+    user_bookmarks_query = db.session.query(user_bookmarks_subquery)
+
+    old_new = user_bookmarks_query.filter(
+        db.or_(
+            user_bookmarks_subquery.c.result_id == user_bookmarks_query.with_entities(db.func.min(user_bookmarks_subquery.c.result_id).label('min')).filter(user_bookmarks_subquery.c.result_id > stream.result_id),
+            user_bookmarks_subquery.c.result_id == user_bookmarks_query.with_entities(db.func.max(user_bookmarks_subquery.c.result_id).label('max')).filter(user_bookmarks_subquery.c.result_id < stream.result_id)
+        )
+    ).all()
+
+    return render_template('bookmark/detail.html', stream=stream, random=random, bookmarked=is_bookmarked('stream', stream.id, user_id), old_new=old_new)
 
 @blueprint.route('/create/stream/<int:stream_id>')
 @require_login
