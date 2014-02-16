@@ -7,7 +7,7 @@
             <div class="row">
                 {% for stream in paginator.items %}
                     <div class="col-xs-6 col-sm-6 col-md-3">
-                        <a class="thumbnail" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
+                        <a class="thumbnail" rel="group" href="{{ url_for('stream.detail', result_id=stream.result_id, name=stream.result_name) }}">
                             <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
                         </a>
                     </div>
@@ -26,7 +26,7 @@
                     <div class="row">
                         {% for stream in random_stream %}
                             <div class="col-xs-6 col-sm-6 col-md-6">
-                                <a class="thumbnail no-border" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
+                                <a class="thumbnail no-border" rel="group" href="{{ url_for('stream.detail', result_id=stream.result_id, name=stream.result_name) }}">
                                     <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
                                 </a>
                             </div>

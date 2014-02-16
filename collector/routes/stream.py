@@ -7,8 +7,8 @@ from ..helpers.bookmark import is_bookmarked
 
 blueprint = Blueprint('stream', __name__)
 
-@blueprint.route('/<int:result_id>-<name>')
-def index(result_id, name):
+@blueprint.route('/detail/<int:result_id>-<name>')
+def detail(result_id, name):
     stream  = Stream.query.filter_by(result_id=result_id).first()
     random  = Stream.randomly(0, 12)
     user_id = g.user.id if g.user else None
@@ -20,4 +20,4 @@ def index(result_id, name):
         )
     ).order_by(Stream.result_created_at.asc()).all()
 
-    return render_template('stream/index.html', stream=stream, random=random, bookmarked=is_bookmarked('stream', stream.id, user_id), old_new=old_new)
+    return render_template('stream/detail.html', stream=stream, random=random, bookmarked=is_bookmarked('stream', stream.id, user_id), old_new=old_new)

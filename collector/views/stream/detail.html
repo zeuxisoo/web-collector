@@ -47,7 +47,7 @@
             <div class="row">
                 {% for stream in random %}
                     <div class="col-xs-3 col-sm-3 col-md-3">
-                        <a class="thumbnail" rel="group" href="{{ url_for('stream.index', result_id=stream.result_id, name=stream.result_name) }}">
+                        <a class="thumbnail" rel="group" href="{{ url_for('stream.detail', result_id=stream.result_id, name=stream.result_name) }}">
                             <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ stream.result_name }}" class="tips" data-placement="bottom" title="{{ stream.result_name }}">
                         </a>
                     </div>
@@ -61,10 +61,10 @@
                 <ul class="pager">
                     {% for row in old_new: %}
                         {% if row.result_id < stream.result_id %}
-                            <li class="previous"><a href="{{ url_for('stream.index', result_id=row.result_id, name=row.result_name) }}">Older</a></li>
+                            <li class="previous"><a href="{{ url_for('stream.detail', result_id=row.result_id, name=row.result_name) }}">Older</a></li>
                         {% endif %}
                         {% if row.result_id > stream.result_id %}
-                            <li class="next"><a href="{{ url_for('stream.index', result_id=row.result_id, name=row.result_name) }}">Latest</a></li>
+                            <li class="next"><a href="{{ url_for('stream.detail', result_id=row.result_id, name=row.result_name) }}">Latest</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
