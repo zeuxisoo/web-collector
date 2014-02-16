@@ -33,13 +33,16 @@ def detail(result_id, name):
     random  = Stream.randomly(0, 12)
     user_id = g.user.id if g.user else None
 
+    # Find user bookmarks, mark it is subquery, temp table
     user_bookmarks_subquery = Stream.query.outerjoin(Bookmark, Bookmark.target_id == Stream.id).filter(
         Bookmark.category == 'stream',
         Bookmark.user_id == 1,
     ).order_by(Bookmark.create_at.desc()).subquery()
 
+    # Set query object in the temp table user_bookmark_subquery (step 1 marked)
     user_bookmarks_query = db.session.query(user_bookmarks_subquery)
 
+    # Find out next and previous record in query object user_bookmarks_query (step 2 marked)
     old_new = user_bookmarks_query.filter(
         db.or_(
             user_bookmarks_subquery.c.result_id == user_bookmarks_query.with_entities(db.func.min(user_bookmarks_subquery.c.result_id).label('min')).filter(user_bookmarks_subquery.c.result_id > stream.result_id),
