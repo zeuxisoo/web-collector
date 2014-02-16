@@ -43,7 +43,7 @@ def create_stream(stream_id):
 
         flash('The girl was bookmarked', 'success')
 
-    return redirect(url_for('stream.index', result_id=stream.result_id, name=stream.result_name))
+    return redirect(url_for('stream.detail', result_id=stream.result_id, name=stream.result_name))
 
 @blueprint.route('/remove/stream/<int:stream_id>')
 @require_login
@@ -58,4 +58,4 @@ def remove_stream(stream_id):
 
         flash('The bookmark was removed', 'success')
 
-    return redirect(url_for('stream.index', result_id=stream.result_id, name=stream.result_name))
+    return redirect(url_for('stream.detail', result_id=stream.result_id, name=stream.result_name))
