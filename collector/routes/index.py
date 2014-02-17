@@ -17,6 +17,5 @@ def index():
     else:
         paginator  = Stream.query.order_by(Stream.result_created_at.desc()).paginate(page)
         total_girl = Stream.query.count()
-        today_girl = current_app.curator.girl_of_the_day()
 
-        return render_template('index.html', paginator=paginator, total_girl=total_girl, today_girl=today_girl.today_result())
+        return render_template('index.html', paginator=paginator, total_girl=total_girl)

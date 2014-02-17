@@ -5,7 +5,7 @@ import os
 from flask import Flask
 from flask import g
 from .models import db
-from .routes import index, user, stream, bookmark
+from .routes import index, user, stream, bookmark, ajax
 from .helpers.user import get_current_user
 from .filters import Embedly
 from .curators import API
@@ -45,6 +45,7 @@ def register_database(app):
     db.app = app
 
 def register_route(app):
+    app.register_blueprint(ajax.blueprint, url_prefix='/ajax')
     app.register_blueprint(bookmark.blueprint, url_prefix='/bookmark')
     app.register_blueprint(stream.blueprint, url_prefix='/stream')
     app.register_blueprint(user.blueprint, url_prefix='/user')

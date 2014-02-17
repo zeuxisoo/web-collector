@@ -24,10 +24,15 @@
                 <div class="panel-heading text-center">
                     The day of girl
                 </div>
-                <div class="panel-body text-center">
-                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today_girl.image | embedly_fill(240, 240, 'FFF', 'true') }}" alt="{{ today_girl.name }}">
-                    <p class="caption text-center">{{ today_girl.date }}</p>
+                <div class="panel-body text-center" id="today-girl">
+                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}">
                 </div>
+                {% raw %}
+                    <script id="today-girl-template" type="text/x-handlebars-template">
+                        <img src="{{ src }}" alt="{{ name }}">
+                        <p class="caption text-center">{{ date }}</p>
+                    </script>
+                {% endraw %}
             </div>
         </div>
     </div>
