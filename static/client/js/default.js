@@ -1,19 +1,23 @@
 (function($) {
-    $(function() {
-        $(".fancybox").fancybox();
-        $('.tips').tooltip();
-        $("img").unveil();
+    $('body').tooltip({
+        selector: '.tips'
+    });
 
-        $.getJSON("/ajax/today-girl").success(function(data) {
-            var source   = $("#today-girl-template").html();
+    $(".fancybox").fancybox();
+    $("img").unveil();
+
+    $(function() {
+        var source = $("#today-girl-template").html();
+        if (typeof source !== "undefined") {
             var template = Handlebars.compile(source);
-            var html     = template({
-                'src' : data.image,
-                'name': data.name,
-                'date': data.date
+            $.getJSON("/ajax/today-girl").success(function(data) {
+                var html = template({
+                    'src' : data.image,
+                    'name': data.name,
+                    'date': data.date
+                });
+                $("#today-girl").html(html);
             });
-            $("#today-girl").html(html);
-            $('.tips').tooltip();
-        });
+        }
     });
 })(jQuery)
