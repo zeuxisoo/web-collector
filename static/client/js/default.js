@@ -13,6 +13,7 @@
                 'date': data.date
             });
             $("#today-girl").html(html);
+            $('.tips').tooltip();
         });
     });
 })(jQuery)
