@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from dateutil import parser
 from ..curators import API
 from ..models import Stream
+from ..helpers.watcher import Watcher
 from .base import LoggerMixin
 
 class FillStream(LoggerMixin):
@@ -50,6 +51,7 @@ class FillStream(LoggerMixin):
     def make(self):
         page_nos = self.get_page_nos()
 
+        Watcher()
         pool = Pool(cpu_count())
         pool.map(self.save_page_results, page_nos)
         pool.close()
