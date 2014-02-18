@@ -3,7 +3,9 @@ Flask-Script
 Flask-WTF
 Flask-SQLAlchemy
 Flask-BCrypt
+Flask-OAuthlib
 
 alembic
 requests
 python-dateutil
+dropbox

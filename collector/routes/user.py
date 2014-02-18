@@ -3,7 +3,7 @@
 from flask import Blueprint, g
 from flask import flash, redirect, url_for, render_template
 from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordForm
-from ..models import User
+from ..models import User, UserConnection
 from ..helpers.user import login_user, logout_user, require_login
 
 blueprint = Blueprint('user', __name__)
@@ -67,4 +67,16 @@ def change_password():
         return redirect(url_for('user.signout'))
 
     return render_template('user/change/password.html', form=form)
+
+@require_login
+@blueprint.route('/change/connection', methods=['GET', 'POST'])
+def change_connection():
+    user_connections    = UserConnection.query.filter(
+        UserConnection.user_id == g.user.id,
+        UserConnection.access_token != ''
+    ).all()
+
+    connected_providers = [user_connection.provider_name for user_connection in user_connections]
+
+    return render_template('user/change/connection.html', connected_providers=connected_providers)
 
