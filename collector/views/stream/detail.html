@@ -39,6 +39,14 @@
                             <i class="glyphicon glyphicon-download-alt"></i>
                         </div>
                     </a>
+                    <a href="{{ url_for('stream.dropbox', result_id=stream.result_id) }}" class="btn btn-info">
+                        <div class="hidden-xs">
+                            <i class="glyphicon glyphicon-hdd"></i> Dropbox
+                        </div>
+                        <div class="visible-xs">
+                            <i class="glyphicon glyphicon-hdd"></i>
+                        </div>
+                    </a>
                     <a href="{{ stream.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>

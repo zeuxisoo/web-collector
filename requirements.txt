@@ -9,3 +9,5 @@ alembic
 requests
 python-dateutil
 dropbox
+celery
+redis

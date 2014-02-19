@@ -24,5 +24,12 @@ def fillstream():
     fill_stream = FillStream(app.config.get('CURATORS_API_TOKEN'))
     fill_stream.make()
 
+@manager.command
+def runcelery():
+    """Run celery."""
+    from celery.bin.worker import worker
+    worker = worker(app=app.celery)
+    worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
+
 if __name__ == '__main__':
     manager.run()

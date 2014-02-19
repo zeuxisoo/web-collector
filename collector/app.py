@@ -2,14 +2,14 @@
 # coding: utf-8
 
 import os
-from flask import Flask
-from flask import g
+from flask import Flask, g
 from flask.ext.oauthlib.client import OAuth
 from .models import db
 from .routes import index, user, stream, bookmark, ajax, oauth
 from .helpers.user import get_current_user
 from .filters import Embedly
 from .curators import API
+from .tasks import make_celery
 
 def create_app(config=None):
     app = Flask(__name__, template_folder='views')
@@ -23,6 +23,7 @@ def create_app(config=None):
         app.config.from_pyfile(os.path.abspath(config))
 
     register_hook(app)
+    register_celery(app)
     register_oauth(app)
     register_curator(app)
     register_jinja2(app)
@@ -35,6 +36,9 @@ def register_hook(app):
     @app.before_request
     def load_current_user():
         g.user = get_current_user()
+
+def register_celery(app):
+    app.celery = make_celery(app)
 
 def register_oauth(app):
     oauth   = OAuth(app)

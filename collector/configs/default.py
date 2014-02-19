@@ -22,3 +22,12 @@ DROPBOX = {
     'access_token_url'    : 'https://api.dropbox.com/1/oauth2/token',
     'authorize_url'       : 'https://www.dropbox.com/1/oauth2/authorize',
 }
+
+BROKER_URL               = 'redis://localhost:6379/0',
+CELERY_RESULT_BACKEND    = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT    = ['json', 'msgpack', 'yaml']
+CELERY_TASK_SERIALIZER   = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_LOG_LEVEL         = 'INFO'
+
+IMAGE_DOWNLOAD_PATH = os.path.join(os.getcwd(), 'static/download')
