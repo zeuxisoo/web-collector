@@ -4,7 +4,7 @@
 import os
 from flask import Flask
 from flask import g
-from flask_oauthlib.client import OAuth
+from flask.ext.oauthlib.client import OAuth
 from .models import db
 from .routes import index, user, stream, bookmark, ajax, oauth
 from .helpers.user import get_current_user
