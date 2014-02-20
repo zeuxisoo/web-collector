@@ -28,6 +28,7 @@ def fillstream():
 def runcelery():
     """Run celery."""
     from celery.bin.worker import worker
+
     worker = worker(app=app.celery)
     worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
 
