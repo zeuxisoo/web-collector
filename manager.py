@@ -32,5 +32,13 @@ def runcelery():
     worker = worker(app=app.celery)
     worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
 
+@manager.command
+def cronstream():
+    """ Run cron job to get latest stream """
+    from collector.command import CronStream
+
+    cron_stream = CronStream(app.config.get('CURATORS_API_TOKEN'))
+    cron_stream.make()
+
 if __name__ == '__main__':
     manager.run()
