@@ -21,7 +21,7 @@ def fillstream():
     """ Fill the stream table """
     from collector.command import FillStream
 
-    fill_stream = FillStream(app.config.get('CURATORS_API_TOKEN'))
+    fill_stream = FillStream()
     fill_stream.make()
 
 @manager.command
@@ -37,7 +37,7 @@ def cronstream():
     """ Run cron job to get latest stream """
     from collector.command import CronStream
 
-    cron_stream = CronStream(app.config.get('CURATORS_API_TOKEN'))
+    cron_stream = CronStream()
     cron_stream.make()
 
 if __name__ == '__main__':

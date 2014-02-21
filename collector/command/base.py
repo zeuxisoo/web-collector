@@ -1,8 +1,13 @@
 # coding: utf-8
 
 import logging
+from flask import current_app
+from ..curators import API
 
-class LoggerMixin(object):
+class BaseCommand(object):
+
+    def get_curator_api(self):
+        return API(current_app.config.get('CURATORS_API_TOKEN'))
 
     def get_logger(self):
         logger = logging.getLogger(__name__)
@@ -15,4 +20,4 @@ class LoggerMixin(object):
         logger_stream_handler.setFormatter(logger_formatter)
         logger.addHandler(logger_stream_handler)
 
-        self.logger = logger
+        return logger

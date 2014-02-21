@@ -5,16 +5,14 @@ from time import sleep
 from dateutil import parser
 from flask import current_app
 from ..models import db, Stream
-from ..curators import API
-from .base import LoggerMixin
+from .base import BaseCommand
 
-class CronStream(LoggerMixin):
+class CronStream(BaseCommand):
 
-    def __init__(self, curator_api_token):
-        self.curator_api   = API(curator_api_token)
+    def __init__(self):
+        self.curator_api   = self.get_curator_api()
         self.latest_stream = self.get_latest_stream()
-
-        self.get_logger()
+        self.logger        = self.get_logger()
 
         self.logger.debug("Latest stream")
         self.logger.debug("==> result id: {0}".format(self.latest_stream.result_id))

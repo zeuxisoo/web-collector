@@ -7,25 +7,23 @@ from multiprocessing import Pool, cpu_count
 from multiprocessing.dummy import Pool
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from dateutil import parser
-from ..curators import API
 from ..models import Stream
 from ..helpers.watcher import Watcher
-from .base import LoggerMixin
+from .base import BaseCommand
 
-class FillStream(LoggerMixin):
+class FillStream(BaseCommand):
 
-    def __init__(self, curator_api_token):
-        self.curator = API(curator_api_token)
-
-        self.get_logger()
+    def __init__(self):
+        self.curator_api = self.get_curator_api()
+        self.logger      = self.get_logger()
 
     def get_page_nos(self):
-        return [page_no for page_no in range(1, self.curator.stream().total_pages() + 1)]
+        return [page_no for page_no in range(1, self.curator_api.stream().total_pages() + 1)]
 
     def save_page_results(self, page_no):
         self.logger.debug("Getting page no: {0}".format(page_no))
 
-        stream = self.curator.stream(page_no)
+        stream = self.curator_api.stream(page_no)
 
         for result in stream.results():
             try:
