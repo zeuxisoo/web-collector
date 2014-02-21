@@ -24,7 +24,8 @@ def save_to_dropbox(user_id, result_id):
 
         dropbox_client.put_file(
             '/stream/{0}'.format(os.path.basename(saved_file)),
-            open(saved_file)
+            open(saved_file),
+            overwrite=True
         )
 
         print("==> Saved")
