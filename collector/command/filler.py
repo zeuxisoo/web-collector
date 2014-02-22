@@ -1,13 +1,10 @@
 # coding: utf-8
 
-import os
 import requests
 from time import sleep
 from multiprocessing import Pool, cpu_count
 from multiprocessing.dummy import Pool
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
-from dateutil import parser
-from ..models import Stream
 from ..helpers.watcher import Watcher
 from .base import BaseCommand
 
@@ -27,18 +24,7 @@ class FillStream(BaseCommand):
 
         for result in stream.results():
             try:
-                Stream(
-                    result_id               = result['id'],
-                    result_name             = result['name'],
-                    result_thumbnail        = result['thumbnail'],
-                    result_thumbnail_width  = result['thumbnail_width'],
-                    result_thumbnail_height = result['thumbnail_height'],
-                    result_image            = result['image'],
-                    result_width            = result['width'],
-                    result_height           = result['height'],
-                    result_created_at       = parser.parse(result['created_at']),
-                    filename                = "{0}{1}".format(result['id'], os.path.splitext(result['image'])[1])
-                ).save()
+                self.save_stream(result)
                 self.logger.debug("==> Result {0} saved".format(result['id']))
             except IntegrityError:
                 self.logger.debug("==> Result {0} already exists (unique)".format(result['id']))

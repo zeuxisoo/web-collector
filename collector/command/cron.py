@@ -2,7 +2,6 @@
 
 import os
 from time import sleep
-from dateutil import parser
 from flask import current_app
 from ..models import db, Stream
 from .base import BaseCommand
@@ -35,18 +34,7 @@ class CronStream(BaseCommand):
 
             for page_result in page_results:
                 if page_result['id'] > self.latest_stream.result_id:
-                    Stream(
-                        result_id               = page_result['id'],
-                        result_name             = page_result['name'],
-                        result_thumbnail        = page_result['thumbnail'],
-                        result_thumbnail_width  = page_result['thumbnail_width'],
-                        result_thumbnail_height = page_result['thumbnail_height'],
-                        result_image            = page_result['image'],
-                        result_width            = page_result['width'],
-                        result_height           = page_result['height'],
-                        result_created_at       = parser.parse(page_result['created_at']),
-                        filename                = "{0}{1}".format(page_result['id'], os.path.splitext(page_result['image'])[1])
-                    ).save()
+                    self.save_stream(page_result)
                     self.logger.debug("==> Result {0} saved".format(page_result['id']))
                 else:
                     same_result_count = same_result_count + 1
