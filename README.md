@@ -11,7 +11,7 @@ Redis
 1. Install by `brew install redis`
 2. Ran the command `redis-server /usr/local/etc/redis.conf`
 
-Celery
+Server
 
 1. Start the application `python manager.py runserver`
 2. Start the celery `python manager.py runcelery`
