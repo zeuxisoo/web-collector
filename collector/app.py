@@ -5,7 +5,7 @@ import os
 from flask import Flask, g
 from flask.ext.oauthlib.client import OAuth
 from .models import db
-from .routes import index, user, stream, bookmark, ajax, oauth
+from .routes import index, user, stream, bookmark, ajax, oauth, today
 from .helpers.user import get_current_user
 from .filters import Embedly
 from .curators import API
@@ -63,6 +63,7 @@ def register_route(app):
     app.register_blueprint(oauth.blueprint, url_prefix='/oauth')
     app.register_blueprint(ajax.blueprint, url_prefix='/ajax')
     app.register_blueprint(bookmark.blueprint, url_prefix='/bookmark')
+    app.register_blueprint(today.blueprint, url_prefix='/today')
     app.register_blueprint(stream.blueprint, url_prefix='/stream')
     app.register_blueprint(user.blueprint, url_prefix='/user')
     app.register_blueprint(index.blueprint, url_prefix='')
