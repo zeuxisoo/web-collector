@@ -41,7 +41,7 @@ class CronStream(BaseCommand):
                     self.logger.debug("Get same data, leave the page result list")
                     break
 
-                sleep(0.001)
+                sleep(1)
 
             if same_result_count >= 5:
                 self.logger.debug("Same data count equals 5 times, break the page list")
