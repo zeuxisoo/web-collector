@@ -8,7 +8,7 @@ blueprint = Blueprint('ajax', __name__)
 
 @blueprint.route('/today-girl')
 def today_girl():
-    today_girl     = current_app.curator.girl_of_the_day()
+    today_girl     = current_app.curator.today()
     today_result   = today_girl.today_result()
     embedly_filter = Embedly(current_app.config.get('EMBEDLY_API_TOKEN'))
 
