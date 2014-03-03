@@ -30,9 +30,9 @@ class Stream(object):
     def total_pages(self):
         return int(ceil(self.count() / Decimal(self.total_results())))
 
-    def find_result_by_id(self, id):
+    def find_result_by_id(self, id_):
         for result in self.results():
-            if result['id'] == id:
+            if result['id'] == int(id_):
                 return result
 
         return None
