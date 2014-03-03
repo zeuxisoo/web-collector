@@ -1,6 +1,6 @@
 # coding: utf-8
 
-class GirlOfTheDay(object):
+class Today(object):
 
     def __init__(self, response):
         self.response = response
