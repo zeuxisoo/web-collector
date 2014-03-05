@@ -4,7 +4,7 @@ import os
 from time import sleep
 from flask import current_app
 from dateutil import parser
-from ..models import db, Stream, Today
+from ..models import db, Stream, Today, TodayDetail
 from .base import BaseCommand
 
 class CronStream(BaseCommand):
@@ -90,5 +90,38 @@ class CronToday(BaseCommand):
             if same_result_count >= 5:
                 self.logger.debug("Same data count equals 5 times, break the page list")
                 break
+
+        self.logger.debug("Latest record was updated")
+
+class CronTodayDetail(BaseCommand):
+
+    def __init__(self):
+        self.curator_api         = self.get_curator_api()
+        self.logger              = self.get_logger()
+
+        self.logger.debug("Latest today detail")
+
+    def make(self):
+        # Get latest today_date from today_detail table
+        today_detail = TodayDetail.query.filter_by(
+            today_date = TodayDetail.query.with_entities(db.func.max(TodayDetail.today_date))
+        ).first()
+
+        self.logger.debug("==> today date: {0}".format(today_detail.today_date))
+
+        # Find all new date by condition today.result_date is newest than today_detail.today_date
+        # new_today = Today.query.filter(Today.result_date > '2014-03-03').all()
+        new_today = Today.query.filter(Today.result_date > today_detail.today_date).all()
+        new_dates = [today.result_date for today in new_today]
+
+        # Fetch the images from new date page into today_detail table
+        for new_date in new_dates:
+            self.logger.debug("Getting date string: {0}".format(new_date))
+
+            today_detail = self.curator_api.today_detail(new_date)
+
+            for page_result in today_detail.results():
+                self.save_today_detail(page_result)
+                self.logger.debug("==> Result {0} saved".format(page_result['id']))
 
         self.logger.debug("Latest record was updated")

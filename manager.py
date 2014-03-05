@@ -64,5 +64,13 @@ def crontoday():
     cron_today = CronToday()
     cron_today.make()
 
+@manager.command
+def crontodaydetail():
+    """ Run cron job to get latest today detail """
+    from collector.command import CronTodayDetail
+
+    cron_today_detail = CronTodayDetail()
+    cron_today_detail.make()
+
 if __name__ == '__main__':
     manager.run()
