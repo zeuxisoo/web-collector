@@ -5,7 +5,7 @@ import logging
 from dateutil import parser
 from flask import current_app
 from ..curators import API
-from ..models import Stream, Today
+from ..models import Stream, Today, TodayDetail
 
 class BaseCommand(object):
 
@@ -50,5 +50,20 @@ class BaseCommand(object):
             result_thumbnail_width  = result['thumbnail_width'],
             result_thumbnail_height = result['thumbnail_height'],
             result_date             = parser.parse(result['date']),
+            filename                = "{0}{1}".format(result['id'], os.path.splitext(result['image'])[1])
+        ).save()
+
+    def save_today_detail(self, today_date, result):
+        return TodayDetail(
+            today_date              = parser.parse(today_date),
+            result_id               = result['id'],
+            result_name             = result['name'],
+            result_thumbnail        = result['thumbnail'],
+            result_thumbnail_width  = result['thumbnail_width'],
+            result_thumbnail_height = result['thumbnail_height'],
+            result_image            = result['image'],
+            result_width            = result['width'],
+            result_height           = result['height'],
+            result_created_at       = parser.parse(result['created_at']),
             filename                = "{0}{1}".format(result['id'], os.path.splitext(result['image'])[1])
         ).save()

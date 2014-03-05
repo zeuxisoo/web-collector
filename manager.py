@@ -33,6 +33,14 @@ def filltoday():
     fill_today.make()
 
 @manager.command
+def filltodaydetail():
+    """ Fill the today detail table """
+    from collector.command import FillTodayDetail
+
+    fill_today_detail = FillTodayDetail()
+    fill_today_detail.make()
+
+@manager.command
 def runcelery():
     """Run celery."""
     from celery.bin.worker import worker
