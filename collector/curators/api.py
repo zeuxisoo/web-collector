@@ -24,10 +24,11 @@ class API(object):
 
         return Stream(response)
 
-    def today(self):
+    def today(self, page=1):
         response = requests.get(self.today_url, params={
             'token' : self.token,
             'format': self.format,
+            'page'  : page
         })
 
         return Today(response)
