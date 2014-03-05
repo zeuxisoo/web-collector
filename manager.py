@@ -25,6 +25,14 @@ def fillstream():
     fill_stream.make()
 
 @manager.command
+def filltoday():
+    """ Fill the today table """
+    from collector.command import FillToday
+
+    fill_today = FillToday()
+    fill_today.make()
+
+@manager.command
 def runcelery():
     """Run celery."""
     from celery.bin.worker import worker
@@ -39,6 +47,7 @@ def cronstream():
 
     cron_stream = CronStream()
     cron_stream.make()
+
 
 if __name__ == '__main__':
     manager.run()

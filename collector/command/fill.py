@@ -40,3 +40,36 @@ class FillStream(BaseCommand):
         pool.map(self.save_page_results, page_nos)
         pool.close()
         pool.join()
+
+class FillToday(BaseCommand):
+
+    def __init__(self):
+        self.curator_api = self.get_curator_api()
+        self.logger      = self.get_logger()
+
+    def get_page_nos(self):
+        return [page_no for page_no in range(1, self.curator_api.today().total_pages() + 1)]
+
+    def save_page_results(self, page_no):
+        self.logger.debug("Getting page no: {0}".format(page_no))
+
+        today = self.curator_api.today(page_no)
+
+        for result in today.results():
+            try:
+                self.save_today(result)
+                self.logger.debug("==> Result {0} saved".format(result['id']))
+            except IntegrityError:
+                self.logger.debug("==> Result {0} already exists (unique)".format(result['id']))
+            except InvalidRequestError:
+                self.logger.debug("==> Result {0} already exists (rollback)".format(result['id']))
+            sleep(0.001)
+
+    def make(self):
+        page_nos = self.get_page_nos()
+
+        Watcher()
+        pool = Pool(cpu_count())
+        pool.map(self.save_page_results, page_nos)
+        pool.close()
+        pool.join()
