@@ -3,7 +3,8 @@
 import os
 from time import sleep
 from flask import current_app
-from ..models import db, Stream
+from dateutil import parser
+from ..models import db, Stream, Today
 from .base import BaseCommand
 
 class CronStream(BaseCommand):
@@ -35,6 +36,49 @@ class CronStream(BaseCommand):
             for page_result in page_results:
                 if page_result['id'] > self.latest_stream.result_id:
                     self.save_stream(page_result)
+                    self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                else:
+                    same_result_count = same_result_count + 1
+                    self.logger.debug("Get same data, leave the page result list")
+                    break
+
+                sleep(1)
+
+            if same_result_count >= 5:
+                self.logger.debug("Same data count equals 5 times, break the page list")
+                break
+
+        self.logger.debug("Latest record was updated")
+
+class CronToday(BaseCommand):
+
+    def __init__(self):
+        self.curator_api  = self.get_curator_api()
+        self.latest_today = self.get_latest_today()
+        self.logger       = self.get_logger()
+
+        self.logger.debug("Latest today")
+        self.logger.debug("==> result date: {0}".format(self.latest_today.result_date))
+
+    def get_latest_today(self):
+        return Today.query.filter_by(
+            result_date = Today.query.with_entities(db.func.max(Today.result_date))
+        ).first()
+
+    def make(self):
+        today = self.curator_api.today()
+
+        same_result_count = 0
+
+        for page in range(1, today.total_pages() + 1):
+            self.logger.debug("Getting page no: {0}".format(page))
+
+            page_today   = self.curator_api.today(page)
+            page_results = page_today.results()
+
+            for page_result in page_results:
+                if parser.parser(page_result['date']) > parser.parser(self.latest_today.result_date):
+                    self.save_today(page_result)
                     self.logger.debug("==> Result {0} saved".format(page_result['id']))
                 else:
                     same_result_count = same_result_count + 1

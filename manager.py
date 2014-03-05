@@ -48,6 +48,13 @@ def cronstream():
     cron_stream = CronStream()
     cron_stream.make()
 
+@manager.command
+def crontoday():
+    """ Run cron job to get latest today """
+    from collector.command import CronToday
+
+    cron_today = CronToday()
+    cron_today.make()
 
 if __name__ == '__main__':
     manager.run()
