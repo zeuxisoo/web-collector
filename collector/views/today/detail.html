@@ -1,0 +1,56 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div id="index">
+    <h3>{{ today.result_name }}</h3>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="thumbnail">
+                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill(500, 500, 'FFF', 'true') }}">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{{ today.result_image }}" class="btn btn-info" download="{{ today.result_name }}">
+                        <div class="hidden-xs">
+                            <i class="glyphicon glyphicon-download-alt"></i> Download
+                        </div>
+                        <div class="visible-xs">
+                            <i class="glyphicon glyphicon-download-alt"></i>
+                        </div>
+                    </a>
+                    <a href="{{ today.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                {% for today in random %}
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <a class="thumbnail" rel="group" href="{{ url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name) }}">
+                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ today.result_name }}" class="tips" data-placement="bottom" title="{{ today.result_name }}">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% if old_new: %}
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="pager">
+                    {% for row in old_new: %}
+                        {% if row.id < today.id %}
+                            <li class="previous"><a href="{{ url_for('today.detail', result_date=row.result_date, result_id=row.result_id, name=row.result_name) }}">Latest</a></li>
+                        {% endif %}
+                        {% if row.id > today.id %}
+                            <li class="next"><a href="{{ url_for('today.detail', result_date=row.result_date, result_id=row.result_id, name=row.result_name) }}">Older</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

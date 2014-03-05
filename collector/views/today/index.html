@@ -8,7 +8,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">{{ today.result_date }}</div>
                     <div class="panel-body">
-                        <a href="#" class="thumbnail thumbnail-today">
+                        <a href="{{ url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name) }}" class="thumbnail thumbnail-today">
                             <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ today.result_name }}" class="tips" data-placement="bottom" title="{{ today.result_name }}">
                         </a>
                     </div>
