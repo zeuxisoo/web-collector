@@ -3,82 +3,29 @@
 {% block container %}
 <div id="index">
     <div class="row">
-        <div class="col-xs-12 col-sm-3 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">2014-03-02</div>
-                <div class="panel-body">
-                    <a href="#" class="thumbnail thumbnail-today">
-                        <img src="http://placehold.it/200x200">
-                    </a>
+        {% for today in paginator.items %}
+            <div class="col-xs-12 col-sm-3 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">{{ today.result_date }}</div>
+                    <div class="panel-body">
+                        <a href="#" class="thumbnail thumbnail-today">
+                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ today.result_name }}" class="tips" data-placement="bottom" title="{{ today.result_name }}">
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">2014-03-02</div>
-                <div class="panel-body">
-                    <a href="#" class="thumbnail thumbnail-today">
-                        <img src="http://placehold.it/200x200">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">2014-03-02</div>
-                <div class="panel-body">
-                    <a href="#" class="thumbnail thumbnail-today">
-                        <img src="http://placehold.it/200x200">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">2014-03-02</div>
-                <div class="panel-body">
-                    <a href="#" class="thumbnail thumbnail-today">
-                        <img src="http://placehold.it/200x200">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">2014-03-02</div>
-                <div class="panel-body">
-                    <a href="#" class="thumbnail thumbnail-today">
-                        <img src="http://placehold.it/200x200">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">2014-03-02</div>
-                <div class="panel-body">
-                    <a href="#" class="thumbnail thumbnail-today">
-                        <img src="http://placehold.it/200x200">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">2014-03-02</div>
-                <div class="panel-body">
-                    <a href="#" class="thumbnail thumbnail-today">
-                        <img src="http://placehold.it/200x200">
-                    </a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
     <div class="row">
         <div class="col-xs-12">
             <ul class="pager">
-                <li class="previous"><a href="#">Previous</a></li>
-                <li class="next"><a href="#">Next</a></li>
+                {% if paginator.has_prev %}
+                    <li class="previous"><a href="{{ url_for('today.index', page=paginator.prev_num) }}">Previous</a></li>
+                {% endif %}
+
+                {% if paginator.has_next %}
+                    <li class="next"><a href="{{ url_for('today.index', page=paginator.next_num) }}">Next</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
