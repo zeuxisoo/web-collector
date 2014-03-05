@@ -115,6 +115,6 @@ class FillTodayDetail(BaseCommand):
 
         Watcher()
         pool  = Pool(cpu_count())
-        pool.map(self.save_today_detail_page_results, chain.from_iterable(dates))
+        pool.map(self.save_today_detail_page_results, chain.from_iterable(dates)) # convert dates from 2d to 1d array
         pool.close()
         pool.join()
