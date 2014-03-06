@@ -77,8 +77,12 @@ class CronToday(BaseCommand):
             page_results = page_today.results()
 
             for page_result in page_results:
-                if parser.parser(page_result['date']) > parser.parser(self.latest_today.result_date):
-                    self.save_today(page_result)
+                page_date   = parser.parse(page_result['date']).date()
+                result_date = self.latest_today.result_date
+
+                if page_date > result_date:
+                    self.logger.debug("==> {0} > {1}".format(page_result['date'], self.latest_today.result_date))
+                    # self.save_today(page_result)
                     self.logger.debug("==> Result {0} saved".format(page_result['id']))
                 else:
                     same_result_count = same_result_count + 1
