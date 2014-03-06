@@ -17,30 +17,6 @@ def createdb():
     db.create_all()
 
 @manager.command
-def fillstream():
-    """ Fill the stream table """
-    from collector.command import FillStream
-
-    fill_stream = FillStream()
-    fill_stream.make()
-
-@manager.command
-def filltoday():
-    """ Fill the today table """
-    from collector.command import FillToday
-
-    fill_today = FillToday()
-    fill_today.make()
-
-@manager.command
-def filltodaydetail():
-    """ Fill the today detail table """
-    from collector.command import FillTodayDetail
-
-    fill_today_detail = FillTodayDetail()
-    fill_today_detail.make()
-
-@manager.command
 def runcelery():
     """Run celery."""
     from celery.bin.worker import worker
@@ -48,29 +24,41 @@ def runcelery():
     worker = worker(app=app.celery)
     worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
 
-@manager.command
-def cronstream():
-    """ Run cron job to get latest stream """
-    from collector.command import CronStream
+@manager.option('-t', '--table', help='Fill the table')
+def fill(table):
+    """Fill all the specified data into table"""
 
-    cron_stream = CronStream()
-    cron_stream.make()
+    from collector.command import FillStream, FillToday, FillTodayDetail
 
-@manager.command
-def crontoday():
-    """ Run cron job to get latest today """
-    from collector.command import CronToday
+    if table == "stream":
+        fill_stream = FillStream()
+        fill_stream.make()
+    elif table == "today":
+        fill_today = FillToday()
+        fill_today.make()
+    elif table == "todaydetail":
+        fill_today_detail = FillTodayDetail()
+        fill_today_detail.make()
+    else:
+        print("Usage: python manager.py fill -t [stream | today | todaydetail]")
 
-    cron_today = CronToday()
-    cron_today.make()
+@manager.option('-t', '--table', help="Cron the table")
+def cron(table):
+    """Fill latest and specified data into table"""
 
-@manager.command
-def crontodaydetail():
-    """ Run cron job to get latest today detail """
-    from collector.command import CronTodayDetail
+    from collector.command import CronStream, CronToday, CronTodayDetail
 
-    cron_today_detail = CronTodayDetail()
-    cron_today_detail.make()
+    if table == "stream":
+        cron_stream = CronStream()
+        cron_stream.make()
+    elif table == "today":
+        cron_today = CronToday()
+        cron_today.make()
+    elif table == "todaydetail":
+        cron_today_detail = CronTodayDetail()
+        cron_today_detail.make()
+    else:
+        print("Usage: python manager.py cron -t [stream | today | todaydetail]")
 
 if __name__ == '__main__':
     manager.run()
