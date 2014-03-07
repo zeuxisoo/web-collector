@@ -15,3 +15,8 @@ Server
 
 1. Start the application `python manager.py runserver`
 2. Start the celery `python manager.py runcelery`
+
+Data
+
+1. Fill all data `python manager.py fill -t [stream | today | todaydetail]`
+2. Fetch latest data `python manager.py cron -t [stream | today | todaydetail]`
