@@ -1,13 +1,13 @@
-Flask
-Flask-Script
-Flask-WTF
-Flask-SQLAlchemy
-Flask-BCrypt
-Flask-OAuthlib
+Flask==0.10.1
+Flask-Script==0.6.7
+Flask-WTF==0.9.4
+Flask-SQLAlchemy==1.0
+Flask-BCrypt==0.5.2
+Flask-OAuthlib==0.4.3
 
-alembic
-requests
-python-dateutil
-dropbox
-celery
-redis
+alembic==0.6.3
+requests==(2.2.1)
+python-dateutil==2.2
+dropbox==2.0.0
+celery==3.1.9
+redis==2.9.1
