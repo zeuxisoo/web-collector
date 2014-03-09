@@ -1,3 +1,18 @@
+Install
+
+1. Create the virtual environment
+
+    virtualenv-2.7 --no-site-package venv
+
+2. Install the dependency
+
+    source venv/bin/activate
+    pip install -r requirements.txt
+
+3. Create the database
+
+    python manager.py createdb
+
 Dropbox
 
 1. Go to https://www.dropbox.com/developers
