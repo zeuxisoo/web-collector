@@ -60,10 +60,10 @@
             <div class="col-xs-12">
                 <ul class="pager">
                     {% for row in old_new: %}
-                        {% if row.id < today.id %}
+                        {% if row.result_date > today.result_date %}
                             <li class="previous"><a href="{{ url_for('today.detail', result_date=row.result_date, result_id=row.result_id, name=row.result_name) }}">Latest</a></li>
                         {% endif %}
-                        {% if row.id > today.id %}
+                        {% if row.result_date < today.result_date %}
                             <li class="next"><a href="{{ url_for('today.detail', result_date=row.result_date, result_id=row.result_id, name=row.result_name) }}">Older</a></li>
                         {% endif %}
                     {% endfor %}
