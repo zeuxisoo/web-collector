@@ -5,6 +5,7 @@ from flask import Blueprint, g
 from flask import render_template, request, abort
 from ..models import db, Today
 from ..helpers.value import force_integer
+from ..helpers.bookmark import is_bookmarked
 
 blueprint = Blueprint('today', __name__)
 
@@ -32,4 +33,4 @@ def detail(result_date, result_id, name):
         )
     ).order_by(Today.result_date.desc()).all()
 
-    return render_template('today/detail.html', today=today, random=random, old_new=old_new)
+    return render_template('today/detail.html', today=today, random=random, bookmarked=is_bookmarked('today', today.id, user_id), old_new=old_new)

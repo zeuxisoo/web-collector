@@ -2,7 +2,7 @@
 
 from flask import Blueprint, g
 from flask import render_template, request, flash, redirect, url_for
-from ..models import db, Stream, Bookmark
+from ..models import db, Stream, Bookmark, Today
 from ..helpers.value import force_integer
 from ..helpers.user import require_login
 from ..helpers.bookmark import is_bookmarked
@@ -85,3 +85,37 @@ def remove_stream(stream_id):
         flash('The bookmark was removed', 'success')
 
     return redirect(url_for('stream.detail', result_id=stream.result_id, name=stream.result_name))
+
+@blueprint.route('/create/today/<int:today_id>')
+@require_login
+def create_today(today_id):
+    today    = Today.query.get_or_404(today_id)
+    bookmark = Bookmark.query.filter_by(category='today', target_id=today_id, user_id=g.user.id).first()
+
+    if bookmark:
+        flash('The girl already bookmarked', 'error')
+    else:
+        Bookmark(
+            category  = 'today',
+            user_id   = g.user.id,
+            target_id = today_id
+        ).save()
+
+        flash('The girl was bookmarked', 'success')
+
+    return redirect(url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name))
+
+@blueprint.route('/remove/today/<int:today_id>')
+@require_login
+def remove_today(today_id):
+    today    = Today.query.get_or_404(today_id)
+    bookmark = Bookmark.query.filter_by(category='today', target_id=today_id, user_id=g.user.id).first()
+
+    if not bookmark:
+        flash('You are not created bookmark on this girl', 'error')
+    else:
+        bookmark.delete()
+
+        flash('The bookmark was removed', 'success')
+
+    return redirect(url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name))
