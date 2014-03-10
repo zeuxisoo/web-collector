@@ -125,7 +125,7 @@ class CronTodayDetail(BaseCommand):
             today_detail = self.curator_api.today_detail(new_date)
 
             for page_result in today_detail.results():
-                self.save_today_detail(page_result)
+                self.save_today_detail(new_date, page_result)
                 self.logger.debug("==> Result {0} saved".format(page_result['id']))
 
         self.logger.debug("Latest record was updated")
