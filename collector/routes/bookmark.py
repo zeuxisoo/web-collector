@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from flask import Blueprint, g
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, abort
 from ..models import db, Stream, Bookmark, Today
 from ..helpers.value import force_integer
 from ..helpers.user import require_login
@@ -34,6 +34,8 @@ def index(category):
 
             total_bookmark = Bookmark.query.filter_by(category='today', user_id=g.user.id).count()
             random_images  = Today.randomly(0, 6)
+        else:
+            abort(400, 'Bookmark category does not match in index page')
 
         return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, random_images=random_images, category=category)
 
@@ -59,6 +61,8 @@ def detail(category, result_id, name):
             Bookmark.category == 'today',
             Bookmark.user_id == user_id,
         ).order_by(Bookmark.create_at.desc()).subquery()
+    else:
+        abort(400, 'Bookmark category does not match in detail page')
 
     # Set query object in the temp table user_bookmark_subquery (step 1 marked)
     user_bookmarks_query = db.session.query(user_bookmarks_subquery)
