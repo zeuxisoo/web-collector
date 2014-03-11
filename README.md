@@ -1,19 +1,19 @@
-Install
+#### Install
 
-1. Create the virtual environment
+Create the virtual environment
 
     virtualenv-2.7 --no-site-package venv
 
-2. Install the dependency
+Install the dependency
 
     source venv/bin/activate
     pip install -r requirements.txt
 
-3. Create the database
+Create the database
 
     python manager.py createdb
 
-Dropbox
+#### Dropbox
 
 1. Go to https://www.dropbox.com/developers
 2. Click App Console and create new app
@@ -21,17 +21,32 @@ Dropbox
 4. Enter the App name
 5. Add the callback url
 
-Redis
+#### Redis
 
-1. Install by `brew install redis`
-2. Ran the command `redis-server /usr/local/etc/redis.conf`
+Install from brew
 
-Server
+    brew install redis
 
-1. Start the application `python manager.py runserver`
-2. Start the celery `python manager.py runcelery`
+Start it
 
-Data
+    redis-server /usr/local/etc/redis.conf
 
-1. Fill all data `python manager.py fill -t [stream | today | todaydetail]`
-2. Fetch latest data `python manager.py cron -t [stream | today | todaydetail]`
+#### Web and Task Server
+
+Web
+
+    python manager.py runserver
+
+Task
+
+    python manager.py runcelery
+
+#### Data
+
+All
+
+    python manager.py fill -t [stream | today | todaydetail]
+
+Latest
+
+    python manager.py cron -t [stream | today | todaydetail]
