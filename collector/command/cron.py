@@ -82,7 +82,7 @@ class CronToday(BaseCommand):
 
                 if page_date > result_date:
                     self.logger.debug("==> {0} > {1}".format(page_result['date'], self.latest_today.result_date))
-                    # self.save_today(page_result)
+                    self.save_today(page_result)
                     self.logger.debug("==> Result {0} saved".format(page_result['id']))
                 else:
                     same_result_count = same_result_count + 1
@@ -111,7 +111,7 @@ class CronTodayDetail(BaseCommand):
             today_date = TodayDetail.query.with_entities(db.func.max(TodayDetail.today_date))
         ).first()
 
-        self.logger.debug("==> today date: {0}".format(today_detail.today_date))
+        self.logger.debug("==> latest today date: {0}".format(today_detail.today_date))
 
         # Find all new date by condition today.result_date is newest than today_detail.today_date
         # new_today = Today.query.filter(Today.result_date > '2014-03-03').all()
