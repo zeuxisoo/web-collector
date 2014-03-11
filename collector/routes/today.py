@@ -33,4 +33,4 @@ def detail(result_date, result_id, name):
         )
     ).order_by(Today.result_date.desc()).all()
 
-    return render_template('today/detail.html', today=today, random=random, bookmarked=is_bookmarked('today', today.id, user_id), old_new=old_new)
+    return render_template('today/detail.html', today=today, random=random, bookmarked=is_bookmarked('today', today.result_id, user_id), old_new=old_new)

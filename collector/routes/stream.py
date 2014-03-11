@@ -22,7 +22,7 @@ def detail(result_id, name):
         )
     ).order_by(Stream.result_created_at.desc()).all()
 
-    return render_template('stream/detail.html', stream=stream, random=random, bookmarked=is_bookmarked('stream', stream.id, user_id), old_new=old_new)
+    return render_template('stream/detail.html', stream=stream, random=random, bookmarked=is_bookmarked('stream', stream.result_id, user_id), old_new=old_new)
 
 @blueprint.route('/dropbox/<int:result_id>')
 @require_login

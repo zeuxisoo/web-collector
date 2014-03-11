@@ -17,7 +17,7 @@ def index():
     if not page:
         return abort(404)
     else:
-        paginator = Stream.query.outerjoin(Bookmark, Bookmark.target_id == Stream.id).filter(
+        paginator = Stream.query.outerjoin(Bookmark, Bookmark.target_id == Stream.result_id).filter(
             Bookmark.category == 'stream',
             Bookmark.user_id == g.user.id,
         ).order_by(Bookmark.create_at.desc()).paginate(page)
@@ -52,11 +52,11 @@ def detail(result_id, name):
 
     return render_template('bookmark/detail.html', stream=stream, random=random, bookmarked=is_bookmarked('stream', stream.id, user_id), old_new=old_new)
 
-@blueprint.route('/create/stream/<int:stream_id>')
+@blueprint.route('/create/stream/<int:result_id>')
 @require_login
-def create_stream(stream_id):
-    stream   = Stream.query.get_or_404(stream_id)
-    bookmark = Bookmark.query.filter_by(category='stream', target_id=stream_id, user_id=g.user.id).first()
+def create_stream(result_id):
+    stream   = Stream.query.filter_by(result_id=result_id).first_or_404()
+    bookmark = Bookmark.query.filter_by(category='stream', target_id=result_id, user_id=g.user.id).first()
 
     if bookmark:
         flash('The girl already bookmarked', 'error')
@@ -64,18 +64,18 @@ def create_stream(stream_id):
         Bookmark(
             category  = 'stream',
             user_id   = g.user.id,
-            target_id = stream_id
+            target_id = result_id
         ).save()
 
         flash('The girl was bookmarked', 'success')
 
     return redirect(url_for('stream.detail', result_id=stream.result_id, name=stream.result_name))
 
-@blueprint.route('/remove/stream/<int:stream_id>')
+@blueprint.route('/remove/stream/<int:result_id>')
 @require_login
-def remove_stream(stream_id):
-    stream   = Stream.query.get_or_404(stream_id)
-    bookmark = Bookmark.query.filter_by(category='stream', target_id=stream_id, user_id=g.user.id).first()
+def remove_stream(result_id):
+    stream   = Stream.query.filter_by(result_id=result_id).first_or_404()
+    bookmark = Bookmark.query.filter_by(category='stream', target_id=result_id, user_id=g.user.id).first()
 
     if not bookmark:
         flash('You are not created bookmark on this girl', 'error')
@@ -86,11 +86,11 @@ def remove_stream(stream_id):
 
     return redirect(url_for('stream.detail', result_id=stream.result_id, name=stream.result_name))
 
-@blueprint.route('/create/today/<int:today_id>')
+@blueprint.route('/create/today/<int:result_id>')
 @require_login
-def create_today(today_id):
-    today    = Today.query.get_or_404(today_id)
-    bookmark = Bookmark.query.filter_by(category='today', target_id=today_id, user_id=g.user.id).first()
+def create_today(result_id):
+    today    = Today.query.filter_by(result_id=result_id).first_or_404()
+    bookmark = Bookmark.query.filter_by(category='today', target_id=result_id, user_id=g.user.id).first()
 
     if bookmark:
         flash('The girl already bookmarked', 'error')
@@ -98,18 +98,18 @@ def create_today(today_id):
         Bookmark(
             category  = 'today',
             user_id   = g.user.id,
-            target_id = today_id
+            target_id = result_id
         ).save()
 
         flash('The girl was bookmarked', 'success')
 
     return redirect(url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name))
 
-@blueprint.route('/remove/today/<int:today_id>')
+@blueprint.route('/remove/today/<int:result_id>')
 @require_login
-def remove_today(today_id):
-    today    = Today.query.get_or_404(today_id)
-    bookmark = Bookmark.query.filter_by(category='today', target_id=today_id, user_id=g.user.id).first()
+def remove_today(result_id):
+    today    = Today.query.filter_by(result_id=result_id).first_or_404()
+    bookmark = Bookmark.query.filter_by(category='today', target_id=result_id, user_id=g.user.id).first()
 
     if not bookmark:
         flash('You are not created bookmark on this girl', 'error')

@@ -13,7 +13,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {% if bookmarked %}
-                        <a href="{{ url_for('bookmark.remove_stream', stream_id=stream.id) }}" class="btn btn-danger">
+                        <a href="{{ url_for('bookmark.remove_stream', result_id=stream.result_id) }}" class="btn btn-danger">
                             <div class="hidden-xs">
                                 <i class="glyphicon glyphicon-paperclip"></i> Bookmarked
                             </div>
@@ -22,7 +22,7 @@
                             </div>
                         </a>
                     {% else %}
-                        <a href="{{ url_for('bookmark.create_stream', stream_id=stream.id) }}" class="btn btn-info">
+                        <a href="{{ url_for('bookmark.create_stream', result_id=stream.result_id) }}" class="btn btn-info">
                             <div class="hidden-xs">
                                 <i class="glyphicon glyphicon-paperclip"></i> Bookmark
                             </div>
