@@ -7,7 +7,7 @@
             <div class="row">
                 {% for stream in paginator.items %}
                     <div class="col-xs-6 col-sm-6 col-md-3">
-                        <a class="thumbnail" rel="group" href="{{ url_for('bookmark.detail', result_id=stream.result_id, name=stream.result_name) }}">
+                        <a class="thumbnail" rel="group" href="{{ url_for('bookmark.detail', category=category, result_id=stream.result_id, name=stream.result_name) }}">
                             <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}" class="tips" data-placement="bottom" title="{{ stream.result_name }}">
                         </a>
                     </div>
@@ -21,16 +21,36 @@
                 </div>
             </div>
             <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <div class="btn-group btn-group-justified">
+                        <a href="{{ url_for('bookmark.index', category='stream') }}" class="btn btn-default">Stream</a>
+                        <a href="{{ url_for('bookmark.index', category='today') }}" class="btn btn-default">Today</a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
                 <div class="panel-heading text-center">Randomly</div>
                 <div class="panel-body">
                     <div class="row">
-                        {% for stream in random_stream %}
-                            <div class="col-xs-6 col-sm-6 col-md-6">
-                                <a class="thumbnail no-border" rel="group" href="{{ url_for('stream.detail', result_id=stream.result_id, name=stream.result_name) }}">
-                                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ stream.result_name }}">
-                                </a>
-                            </div>
-                        {% endfor %}
+                        {% if category == 'stream' %}
+                            {% for image in random_images %}
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <a class="thumbnail no-border" rel="group" href="{{ url_for('stream.detail', result_id=image.result_id, name=image.result_name) }}">
+                                        <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if category == 'today' %}
+                            {% for image in random_images %}
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <a class="thumbnail no-border" rel="group" href="{{ url_for('today.detail', result_date=image.result_date, result_id=image.result_id, name=image.result_name) }}">
+                                        <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
