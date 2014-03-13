@@ -17,25 +17,21 @@ def index(category):
 
     if not page:
         return abort(404)
+    elif category not in ['stream', 'today']:
+        return abort(400, 'Bookmark category does not match in index page')
     else:
         if category == 'stream':
-            paginator = Stream.query.outerjoin(Bookmark, Bookmark.target_id == Stream.result_id).filter(
-                Bookmark.category == 'stream',
-                Bookmark.user_id == g.user.id,
-            ).order_by(Bookmark.create_at.desc()).paginate(page)
-
-            total_bookmark = Bookmark.query.filter_by(category='stream', user_id=g.user.id).count()
-            random_images  = Stream.randomly(0, 6)
+            Model = Stream
         elif category == 'today':
-            paginator = Today.query.outerjoin(Bookmark, Bookmark.target_id == Today.result_id).filter(
-                Bookmark.category == 'today',
-                Bookmark.user_id == g.user.id,
-            ).order_by(Bookmark.create_at.desc()).paginate(page)
+            Model = Today
 
-            total_bookmark = Bookmark.query.filter_by(category='today', user_id=g.user.id).count()
-            random_images  = Today.randomly(0, 6)
-        else:
-            abort(400, 'Bookmark category does not match in index page')
+        paginator = Model.query.outerjoin(Bookmark, Bookmark.target_id == Model.result_id).filter(
+            Bookmark.category == category,
+            Bookmark.user_id == g.user.id,
+        ).order_by(Bookmark.create_at.desc()).paginate(page)
+
+        total_bookmark = Bookmark.query.filter_by(category=category, user_id=g.user.id).count()
+        random_images  = Model.randomly(0, 6)
 
         return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, random_images=random_images, category=category)
 
