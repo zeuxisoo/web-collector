@@ -15,15 +15,15 @@ def mkdirs(directory):
 
 def download_image(category, result_id):
     if category == 'stream':
-        model  = Stream
+        Model  = Stream
         folder = 'stream'
     elif category == 'today':
-        model  = Today
+        Model  = Today
         folder = 'today'
     else:
         return None
 
-    row = model.query.filter_by(result_id=result_id).first()
+    row = Model.query.filter_by(result_id=result_id).first()
 
     if row:
         image_path = current_app.config.get('IMAGE_DOWNLOAD_PATH')
