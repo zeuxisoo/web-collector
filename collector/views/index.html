@@ -29,7 +29,9 @@
                 </div>
                 {% raw %}
                     <script id="today-girl-template" type="text/x-handlebars-template">
-                        <img src="{{ src }}" alt="{{ name }}" class="tips" data-placement="left" title="{{ name }}">
+                        <a href="{{ href }}">
+                            <img src="{{ src }}" alt="{{ name }}" class="tips" data-placement="left" title="{{ name }}">
+                        </a>
                         <p class="caption text-center">{{ date }}</p>
                     </script>
                 {% endraw %}
