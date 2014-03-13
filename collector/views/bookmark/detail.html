@@ -2,18 +2,18 @@
 
 {% block container %}
 <div id="index">
-    <h3>{{ model.result_name }}</h3>
+    <h3>{{ row.result_name }}</h3>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6">
             <div class="thumbnail">
-                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ model.result_image | embedly_fill(500, 500, 'FFF', 'true') }}">
+                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ row.result_image | embedly_fill(500, 500, 'FFF', 'true') }}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
                     {% if bookmarked %}
-                        <a href="{{ url_for('bookmark.remove_stream', result_id=model.result_id) }}" class="btn btn-danger">
+                        <a href="{{ url_for('bookmark.remove_stream', result_id=row.result_id) }}" class="btn btn-danger">
                             <div class="hidden-xs">
                                 <i class="glyphicon glyphicon-paperclip"></i> Bookmarked
                             </div>
@@ -22,7 +22,7 @@
                             </div>
                         </a>
                     {% else %}
-                        <a href="{{ url_for('bookmark.create_stream', result_id=model.result_id) }}" class="btn btn-info">
+                        <a href="{{ url_for('bookmark.create_stream', result_id=row.result_id) }}" class="btn btn-info">
                             <div class="hidden-xs">
                                 <i class="glyphicon glyphicon-paperclip"></i> Bookmark
                             </div>
@@ -31,7 +31,7 @@
                             </div>
                         </a>
                     {% endif %}
-                    <a href="{{ model.result_image }}" class="btn btn-info" download="{{ model.result_name }}">
+                    <a href="{{ row.result_image }}" class="btn btn-info" download="{{ row.result_name }}">
                         <div class="hidden-xs">
                             <i class="glyphicon glyphicon-download-alt"></i> Download
                         </div>
@@ -39,7 +39,7 @@
                             <i class="glyphicon glyphicon-download-alt"></i>
                         </div>
                     </a>
-                    <a href="{{ model.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
+                    <a href="{{ row.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
                 </div>
@@ -71,12 +71,12 @@
         <div class="row">
             <div class="col-xs-12">
                 <ul class="pager">
-                    {% for row in old_new: %}
-                        {% if row.result_id > model.result_id %}
-                            <li class="previous"><a href="{{ url_for('bookmark.detail', category=category, result_id=row.result_id, name=row.result_name) }}">Latest</a></li>
+                    {% for pager in old_new: %}
+                        {% if pager.result_id > row.result_id %}
+                            <li class="previous"><a href="{{ url_for('bookmark.detail', category=category, result_id=pager.result_id, name=pager.result_name) }}">Latest</a></li>
                         {% endif %}
-                        {% if row.result_id < model.result_id %}
-                            <li class="next"><a href="{{ url_for('bookmark.detail', category=category, result_id=row.result_id, name=row.result_name) }}">Older</a></li>
+                        {% if pager.result_id < row.result_id %}
+                            <li class="next"><a href="{{ url_for('bookmark.detail', category=category, result_id=pager.result_id, name=pager.result_name) }}">Older</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>

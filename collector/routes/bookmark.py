@@ -37,41 +37,41 @@ def index(category):
 
 @blueprint.route('/detail/<category>/<int:result_id>-<path:name>')
 def detail(category, result_id, name):
-    user_id = g.user.id if g.user else None
-
-    if category == 'stream':
-        model  = Stream.query.filter_by(result_id=result_id).first()
-        random = Stream.randomly(0, 12)
-
-        # Find user bookmarks, mark it is subquery, temp table
-        user_bookmarks_subquery = Stream.query.outerjoin(Bookmark, Bookmark.target_id == Stream.result_id).filter(
-            Bookmark.category == 'stream',
-            Bookmark.user_id == user_id,
-        ).order_by(Bookmark.create_at.desc()).subquery()
-    elif category == 'today':
-        model  = Today.query.filter_by(result_id=result_id).first()
-        random = Today.randomly(0, 12)
-
-        # Find user bookmarks, mark it is subquery, temp table
-        user_bookmarks_subquery = Today.query.outerjoin(Bookmark, Bookmark.target_id == Today.result_id).filter(
-            Bookmark.category == 'today',
-            Bookmark.user_id == user_id,
-        ).order_by(Bookmark.create_at.desc()).subquery()
+    if category not in ['stream', 'today']:
+        return abort(400, 'Bookmark category does not match in index page')
     else:
-        abort(400, 'Bookmark category does not match in detail page')
+        user_id = g.user.id if g.user else None
 
-    # Set query object in the temp table user_bookmark_subquery (step 1 marked)
-    user_bookmarks_query = db.session.query(user_bookmarks_subquery)
+        if category == 'stream':
+            Model = Stream
+        elif category == 'today':
+            Model = Today
 
-    # Find out next and previous record in query object user_bookmarks_query (step 2 marked)
-    old_new = user_bookmarks_query.filter(
-        db.or_(
-            user_bookmarks_subquery.c.result_id == user_bookmarks_query.with_entities(db.func.min(user_bookmarks_subquery.c.result_id).label('min')).filter(user_bookmarks_subquery.c.result_id > model.result_id),
-            user_bookmarks_subquery.c.result_id == user_bookmarks_query.with_entities(db.func.max(user_bookmarks_subquery.c.result_id).label('max')).filter(user_bookmarks_subquery.c.result_id < model.result_id)
-        )
-    ).all()
+        row = Model.query.filter_by(result_id=result_id).first()
 
-    return render_template('bookmark/detail.html', model=model, random=random, bookmarked=is_bookmarked(category, model.result_id, user_id), old_new=old_new, category=category)
+        if not row:
+            return abort(404)
+        else:
+            random = Model.randomly(0, 12)
+
+            # Find user bookmarks, mark it is subquery, temp table
+            user_bookmarks_subquery = Model.query.outerjoin(Bookmark, Bookmark.target_id == Model.result_id).filter(
+                Bookmark.category == category,
+                Bookmark.user_id == user_id,
+            ).order_by(Bookmark.create_at.desc()).subquery()
+
+            # Set query object in the temp table user_bookmark_subquery (step 1 marked)
+            user_bookmarks_query = db.session.query(user_bookmarks_subquery)
+
+            # Find out next and previous record in query object user_bookmarks_query (step 2 marked)
+            old_new = user_bookmarks_query.filter(
+                db.or_(
+                    user_bookmarks_subquery.c.result_id == user_bookmarks_query.with_entities(db.func.min(user_bookmarks_subquery.c.result_id).label('min')).filter(user_bookmarks_subquery.c.result_id > row.result_id),
+                    user_bookmarks_subquery.c.result_id == user_bookmarks_query.with_entities(db.func.max(user_bookmarks_subquery.c.result_id).label('max')).filter(user_bookmarks_subquery.c.result_id < row.result_id)
+                )
+            ).all()
+
+            return render_template('bookmark/detail.html', row=row, random=random, bookmarked=is_bookmarked(category, row.result_id, user_id), old_new=old_new, category=category)
 
 @blueprint.route('/create/stream/<int:result_id>')
 @require_login
