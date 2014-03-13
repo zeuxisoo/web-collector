@@ -9,7 +9,7 @@ from ..tasks.stream import save_to_dropbox
 
 blueprint = Blueprint('stream', __name__)
 
-@blueprint.route('/detail/<int:result_id>-<name>')
+@blueprint.route('/detail/<int:result_id>-<path:name>')
 def detail(result_id, name):
     stream  = Stream.query.filter_by(result_id=result_id).first()
     random  = Stream.randomly(0, 12)

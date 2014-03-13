@@ -22,7 +22,7 @@ def index():
 
         return render_template('today/index.html', paginator=paginator)
 
-@blueprint.route('/detail/<result_date>/<int:result_id>-<name>')
+@blueprint.route('/detail/<result_date>/<int:result_id>-<path:name>')
 def detail(result_date, result_id, name):
     today   = Today.query.filter_by(result_id=result_id).first()
     random  = Today.randomly(0, 12)

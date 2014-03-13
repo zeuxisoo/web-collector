@@ -39,7 +39,7 @@ def index(category):
 
         return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, random_images=random_images, category=category)
 
-@blueprint.route('/detail/<category>/<int:result_id>-<name>')
+@blueprint.route('/detail/<category>/<int:result_id>-<path:name>')
 def detail(category, result_id, name):
     user_id = g.user.id if g.user else None
 
