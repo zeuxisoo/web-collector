@@ -11,9 +11,9 @@ from celery import task
 
 @task
 def save_to_dropbox(user_id, result_id):
-    print("called stream.save_to_dropbox, result id is : {0}".format(result_id))
+    print("called today.save_to_dropbox, result id is : {0}".format(result_id))
 
-    saved_file      = download_image('stream', result_id)
+    saved_file      = download_image('today', result_id)
     user_connection = UserConnection.query.filter_by(user_id=user_id, provider_name='dropbox').first()
 
     print("==> saved_file: {0}".format(saved_file))
@@ -23,7 +23,7 @@ def save_to_dropbox(user_id, result_id):
         dropbox_client = client.DropboxClient(user_connection.access_token)
 
         dropbox_client.put_file(
-            '/stream/{0}'.format(os.path.basename(saved_file)),
+            '/today/{0}'.format(os.path.basename(saved_file)),
             open(saved_file),
             overwrite=True
         )

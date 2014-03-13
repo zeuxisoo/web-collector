@@ -4,7 +4,7 @@ import os
 import errno
 import requests
 from flask import current_app
-from ..models import Stream
+from ..models import Stream, Today
 
 def mkdirs(directory):
     try:
@@ -13,18 +13,27 @@ def mkdirs(directory):
         if err.errno == errno.EEXIST and os.path.isdir(directory):
             pass
 
-def download_image(result_id):
-    stream = Stream.query.filter_by(result_id=result_id).first()
+def download_image(category, result_id):
+    if category == 'stream':
+        model  = Stream
+        folder = 'stream'
+    elif category == 'today':
+        model  = Today
+        folder = 'today'
+    else:
+        return None
 
-    if stream:
+    row = model.query.filter_by(result_id=result_id).first()
+
+    if row:
         image_path = current_app.config.get('IMAGE_DOWNLOAD_PATH')
-        save_path  = os.path.join(image_path, 'stream')
-        save_file  = os.path.join(save_path, stream.filename)
+        save_path  = os.path.join(image_path, folder)
+        save_file  = os.path.join(save_path, row.filename)
 
         if os.path.exists(save_file):
             return save_file
         else:
-            response = requests.get(stream.result_image, stream=True)
+            response = requests.get(row.result_image, stream=True)
 
             if response.status_code == 200:
                 mkdirs(save_path)
