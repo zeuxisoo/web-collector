@@ -41,6 +41,14 @@
                             <i class="glyphicon glyphicon-download-alt"></i>
                         </div>
                     </a>
+                    <a href="{{ url_for('bookmark.dropbox', result_id=row.result_id, category=category) }}" class="btn btn-info">
+                        <div class="hidden-xs">
+                            <i class="glyphicon glyphicon-hdd"></i> Dropbox
+                        </div>
+                        <div class="visible-xs">
+                            <i class="glyphicon glyphicon-hdd"></i>
+                        </div>
+                    </a>
                     <a href="{{ row.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
