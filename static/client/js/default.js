@@ -14,7 +14,8 @@
                 var html = template({
                     'src' : data.image,
                     'name': data.name,
-                    'date': data.date
+                    'date': data.date,
+                    'href': data.href
                 });
                 $("#today-girl").html(html);
             });
