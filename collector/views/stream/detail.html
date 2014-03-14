@@ -1,5 +1,7 @@
 {% extends 'layout/frontend.html' %}
 
+{% block subtitle %}{{ stream.result_name }}{% endblock %}
+
 {% block container %}
 <div id="index">
     <h3>{{ stream.result_name }}</h3>
