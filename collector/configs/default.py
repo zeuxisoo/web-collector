@@ -41,3 +41,5 @@ SOCIAL_BUTTON = {
     'count': True,
     'text' : 'Would you like to collector the girls? See ? Come here !!'
 }
+
+GOOGLE_ANALYTICS = ''
