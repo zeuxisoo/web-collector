@@ -31,3 +31,13 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_LOG_LEVEL         = 'INFO'
 
 IMAGE_DOWNLOAD_PATH = os.path.join(os.getcwd(), 'static/download')
+
+SOCIAL_BUTTON = {
+    'ids': {
+        'twitter' : 'zeuxisoo',
+        'facebook': 'zeuxisoo',
+        'weibo'   : 'zeuxisoo'
+    },
+    'count': True,
+    'text' : 'Would you like to collector the girls? See ? Come here !!'
+}

@@ -7,7 +7,7 @@ from flask.ext.oauthlib.client import OAuth
 from .models import db
 from .routes import index, user, stream, bookmark, ajax, oauth, today
 from .helpers.user import get_current_user
-from .filters import Embedly
+from .filters import Embedly, SocialButton
 from .curators import API
 from .tasks import make_celery
 
@@ -53,7 +53,8 @@ def register_curator(app):
     app.curator = API(app.config.get('CURATORS_API_TOKEN'))
 
 def register_jinja2(app):
-    app.jinja_env.filters['embedly_fill'] = Embedly(app.config.get('EMBEDLY_API_TOKEN')).fill
+    app.jinja_env.filters['embedly_fill']  = Embedly(app.config.get('EMBEDLY_API_TOKEN')).fill
+    app.jinja_env.filters['social_button'] = SocialButton(app.config.get('SOCIAL_BUTTON')).create
 
 def register_database(app):
     db.init_app(app)
