@@ -43,3 +43,12 @@ SOCIAL_BUTTON = {
 }
 
 GOOGLE_ANALYTICS = ''
+
+ADDTHIS = {
+    'enable'   : True,
+    'facebook' : True,
+    'twitter'  : True,
+    'google'   : True,
+    'pinterest': True,
+    'pubid'    : '',
+}

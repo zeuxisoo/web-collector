@@ -10,6 +10,7 @@
             <div class="thumbnail">
                 <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(500, 500, 'FFF', 'true') }}">
             </div>
+            {% include "share/addthis.html" %}
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6">
             <div class="panel panel-default">
@@ -58,7 +59,7 @@
                 {% for stream in random %}
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <a class="thumbnail" rel="group" href="{{ url_for('stream.detail', result_id=stream.result_id, name=stream.result_name) }}">
-                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ stream.result_name }}" class="tips" data-placement="bottom" title="{{ stream.result_name }}">
+                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(100, 146, 'FFF', 'true') }}" alt="{{ stream.result_name }}" class="tips" data-placement="bottom" title="{{ stream.result_name }}">
                         </a>
                     </div>
                 {% endfor %}
