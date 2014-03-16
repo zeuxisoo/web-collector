@@ -1,5 +1,9 @@
 {% extends 'layout/frontend.html' %}
 
+{% block navbar %}
+    {{ navigation('today') }}
+{% endblock %}
+
 {% block container %}
 <div id="index">
     <div class="row">

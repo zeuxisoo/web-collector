@@ -1,0 +1,7 @@
+{% macro navigation(current='stream') %}
+<ul class="nav navbar-nav">
+    <li {% if current == 'stream' %}class="active"{% endif %}><a href="{{ url_for('index.index') }}">Stream</a></li>
+    <li {% if current == 'today' %}class="active"{% endif %}><a href="{{ url_for('today.index') }}">Today</a></li>
+    <li {% if current == 'bookmark' %}class="active"{% endif %}><a href="{{ url_for('bookmark.index') }}">Bookmark</a></li>
+</ul>
+{% endmacro %}

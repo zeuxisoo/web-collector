@@ -1,6 +1,12 @@
 {% extends 'layout/frontend.html' %}
 
-{% block subtitle %}{{ row.result_name }}{% endblock %}
+{% block subtitle %}
+    {{ row.result_name }}
+{% endblock %}
+
+{% block navbar %}
+    {{ navigation('bookmark') }}
+{% endblock %}
 
 {% block container %}
 <div id="index">

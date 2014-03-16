@@ -1,6 +1,12 @@
 {% extends 'layout/frontend.html' %}
 
-{% block subtitle %}{{ today.result_name }}{% endblock %}
+{% block subtitle %}
+    {{ today.result_name }}
+{% endblock %}
+
+{% block navbar %}
+    {{ navigation('today') }}
+{% endblock %}
 
 {% block container %}
 <div id="index">

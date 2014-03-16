@@ -1,6 +1,12 @@
 {% extends 'layout/frontend.html' %}
 
-{% block subtitle %}{{ stream.result_name }}{% endblock %}
+{% block subtitle %}
+    {{ stream.result_name }}
+{% endblock %}
+
+{% block navbar %}
+    {{ navigation('stream') }}
+{% endblock %}
 
 {% block container %}
 <div id="index">
