@@ -2,11 +2,20 @@
 
 from flask import g
 from wtforms import TextField, PasswordField, BooleanField
-from wtforms.validators import Required, Email, EqualTo, Length
+from wtforms.validators import Required, Email, EqualTo, Length, Regexp
 from .base import BaseForm
 from ..models import User
 
 class SignupForm(BaseForm):
+    username = TextField(
+        'Username',
+        validators=[
+            Required(message='Please enter username'),
+            Length(min=3, max=20),
+            Regexp(r'^[a-z0-9A-Z]+$', message='Username must english characters only.')
+        ]
+    )
+
     email = TextField(
         'Email',
         validators=[
@@ -25,6 +34,10 @@ class SignupForm(BaseForm):
     )
 
     confirm_password = PasswordField('Confirm Password')
+
+    def validate_username(self, field):
+        if User.query.filter_by(username=field.data.lower()).count():
+            raise ValueError('This username has been registered.')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data.lower()).count():

@@ -7,6 +7,7 @@ from flask.ext.bcrypt import Bcrypt
 
 class User(db.Model, SessionMixin):
     id        = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username  = db.Column(db.String(40), unique=True, index=True, nullable=False)
     email     = db.Column(db.String(80), unique=True, index=True, nullable=False)
     password  = db.Column(db.String(60))
     token     = db.Column(db.String(20))
@@ -15,6 +16,9 @@ class User(db.Model, SessionMixin):
 
     def __init__(self, **kwargs):
         self.token = self.generate_token(18)
+
+        if 'username' in kwargs:
+            self.username = kwargs.pop('username').lower()
 
         if 'email' in kwargs:
             self.email = kwargs.pop('email').lower()

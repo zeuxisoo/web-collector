@@ -9,6 +9,10 @@
                 <form method="post" action="{{ url_for('user.signup') }}" role="form">
                     {{ form.csrf_token }}
                     <div class="form-group">
+                        {{ form.username.label(class="control-label", for="username") }}
+                        {{ form.username(class="form-control", placeholder="Enter username, English Characters Only.") }}
+                    </div>
+                    <div class="form-group">
                         {{ form.email.label(class="control-label", for="email") }}
                         {{ form.email(class="form-control", placeholder="Enter email") }}
                     </div>
