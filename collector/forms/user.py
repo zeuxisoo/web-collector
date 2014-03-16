@@ -53,11 +53,10 @@ class SignupForm(BaseForm):
         return user
 
 class SigninForm(BaseForm):
-    email = TextField(
-        'Email',
+    account = TextField(
+        'Account',
         validators=[
-            Required(message='Please enter email'),
-            Email(message='Invalid email format')
+            Required(message='Please enter email or username'),
         ]
     )
 
@@ -71,9 +70,12 @@ class SigninForm(BaseForm):
     permanent = BooleanField('Remember me')
 
     def validate_password(self, field):
-        account = self.email.data
+        account = self.account.data
 
-        user = User.query.filter_by(email=account).first()
+        if '@' in account:
+            user = User.query.filter_by(email=account).first()
+        else:
+            user = User.query.filter_by(username=account).first()
 
         if not user:
             raise ValueError('Account not found')

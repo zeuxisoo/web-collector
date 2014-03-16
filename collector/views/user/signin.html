@@ -9,8 +9,8 @@
                 <form method="post" action="{{ url_for('user.signin') }}" role="form">
                     {{ form.csrf_token }}
                     <div class="form-group">
-                        {{ form.email.label(class="control-label", for="email") }}
-                        {{ form.email(id="email", class="form-control", placeholder="Enter email") }}
+                        {{ form.account.label(class="control-label", for="account") }}
+                        {{ form.account(id="account", class="form-control", placeholder="Enter email or username") }}
                     </div>
                     <div class="form-group">
                         {{ form.password.label(class="control-label", for="password") }}
