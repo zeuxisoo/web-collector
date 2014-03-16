@@ -28,7 +28,7 @@ def runcelery():
 def fill(table):
     """Fill all the specified data into table"""
 
-    from collector.command import FillStream, FillToday, FillTodayDetail
+    from collector.commands import FillStream, FillToday, FillTodayDetail
 
     if table == "stream":
         fill_stream = FillStream()
@@ -46,7 +46,7 @@ def fill(table):
 def cron(table):
     """Fill latest and specified data into table"""
 
-    from collector.command import CronStream, CronToday, CronTodayDetail
+    from collector.commands import CronStream, CronToday, CronTodayDetail
 
     if table == "stream":
         cron_stream = CronStream()
