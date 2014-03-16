@@ -1,4 +1,5 @@
 {% extends 'layout/frontend.html' %}
+{% from "share/macro.html" import bookmark_categories %}
 
 {% block navbar %}
     {{ navigation('bookmark') }}
@@ -26,10 +27,7 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body text-center">
-                    <div class="btn-group btn-group-justified">
-                        <a href="{{ url_for('bookmark.index', category='stream') }}" class="btn btn-default">Stream</a>
-                        <a href="{{ url_for('bookmark.index', category='today') }}" class="btn btn-default">Today</a>
-                    </div>
+                    {{ bookmark_categories(category) }}
                 </div>
             </div>
             <div class="panel panel-default">

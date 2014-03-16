@@ -5,3 +5,10 @@
         <li{% if current == 'bookmark' %} class="active"{% endif %}><a href="{{ url_for('bookmark.index') }}">Bookmark</a></li>
     </ul>
 {% endmacro %}
+
+{% macro bookmark_categories(current='stream') %}
+    <div class="btn-group btn-group-justified">
+        <a href="{{ url_for('bookmark.index', category='stream') }}" class="btn btn-default{% if current == 'stream' %} active{% endif %}">Stream</a>
+        <a href="{{ url_for('bookmark.index', category='today') }}" class="btn btn-default{% if current == 'today' %} active{% endif %}">Today</a>
+    </div>
+{% endmacro %}
