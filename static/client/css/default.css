@@ -5,6 +5,7 @@ body {
     padding-top: 80px;
     padding-bottom: 10px;
     background:#E1DDD0 url('../img/background.png') repeat;
+    min-height: 640px;
 }
 
 .padding-top-15px {
