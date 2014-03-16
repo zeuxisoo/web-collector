@@ -49,6 +49,8 @@ ADDTHIS = {
     'facebook' : True,
     'twitter'  : True,
     'google'   : True,
+    'sinaweibo': True,
+    'plurk'    : True,
     'pinterest': True,
     'pubid'    : '',
 }
