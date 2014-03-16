@@ -1,7 +1,10 @@
 body {
+}
+
+#wrapper {
+    padding-top: 80px;
+    padding-bottom: 10px;
     background:#E1DDD0 url('../img/background.png') repeat;
-    padding-top: 60px;
-    padding-bottom: 60px;
 }
 
 .padding-top-15px {
@@ -9,10 +12,8 @@ body {
 }
 
 .footer {
-    margin-top: 10px;
-    padding-top: 19px;
     color: #777;
-    border-top: 1px solid #e5e5e5;
+    padding: 20px 0 10px;
 }
 
 .no-border {

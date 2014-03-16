@@ -54,41 +54,45 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        {% if form and form.errors %}
-            {% for field_name, field_errors in form.errors | dictsort if field_errors %}
-                    {% if loop.index <= 1 %}
-                            {% for error in field_errors %}
-                                    {% if loop.index <= 1 %}
-                                            <div class="alert alert-danger">
-                                                    <strong>Error!</strong> {{ error }}
-                                            </div>
-                                    {% endif %}
-                            {% endfor %}
-                    {% endif %}
-            {% endfor %}
-        {% endif %}
-
-        {% with messages = get_flashed_messages(with_categories = true) %}
-            {% if messages %}
-                    {% for category, message in messages %}
-                        {% if category == 'error' %}
-                            <div class="alert alert-danger">
-                                    <strong>{{ category | capitalize }}!</strong> {{ message }}
-                            </div>
-                        {% else %}
-                            <div class="alert alert-{{ category }}">
-                                    <strong>{{ category | capitalize }}!</strong> {{ message }}
-                            </div>
+    <div id="wrapper">
+        <div class="container">
+            {% if form and form.errors %}
+                {% for field_name, field_errors in form.errors | dictsort if field_errors %}
+                        {% if loop.index <= 1 %}
+                                {% for error in field_errors %}
+                                        {% if loop.index <= 1 %}
+                                                <div class="alert alert-danger">
+                                                        <strong>Error!</strong> {{ error }}
+                                                </div>
+                                        {% endif %}
+                                {% endfor %}
                         {% endif %}
-                    {% endfor %}
+                {% endfor %}
             {% endif %}
-        {% endwith %}
 
-        {% block container %}
-        {% endblock %}
+            {% with messages = get_flashed_messages(with_categories = true) %}
+                {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'error' %}
+                                <div class="alert alert-danger">
+                                        <strong>{{ category | capitalize }}!</strong> {{ message }}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-{{ category }}">
+                                        <strong>{{ category | capitalize }}!</strong> {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-        <div class="footer">
+            {% block container %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
             <p>
                 <span class="pull-left">&copy; Collector 2014</span>
                 <span class="pull-right">Source: curator.im</span>
@@ -96,16 +100,14 @@
         </div>
     </div>
 
-    <div id="fb-root"></div>
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/fancybox/jquery.fancybox.pack.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/unveil/jquery.unveil.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/handlebars/handlebars.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/social/widget.js') }}"></script>
+    <script src="{{ url_for('static', filename='client/js/default.js') }}"></script>
 
-<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ url_for('static', filename='vendor/fancybox/jquery.fancybox.pack.js') }}"></script>
-<script src="{{ url_for('static', filename='vendor/unveil/jquery.unveil.min.js') }}"></script>
-<script src="{{ url_for('static', filename='vendor/handlebars/handlebars.js') }}"></script>
-<script src="{{ url_for('static', filename='vendor/social/widget.js') }}"></script>
-<script src="{{ url_for('static', filename='client/js/default.js') }}"></script>
-
-{% include "share/google-analytics.html" %}
+    {% include "share/google-analytics.html" %}
 </body>
 </html>
