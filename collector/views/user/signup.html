@@ -2,24 +2,28 @@
 
 {% block container %}
 <div id="index">
-    <fieldset>
-        <legend>Sign up</legend>
-        <form method="post" action="{{ url_for('user.signup') }}" role="form">
-            {{ form.csrf_token }}
-            <div class="form-group">
-                {{ form.email.label(class="control-label", for="email") }}
-                {{ form.email(class="form-control", placeholder="Enter email") }}
-            </div>
-            <div class="form-group">
-                {{ form.password.label(class="control-label", for="password") }}
-                {{ form.password(class="form-control", placeholder="Enter password") }}
-            </div>
-            <div class="form-group">
-                {{ form.confirm_password.label(class="control-label", for="confirm_password") }}
-                {{ form.confirm_password(class="form-control", placeholder="Enter confirm password") }}
-            </div>
-            <button type="submit" class="btn btn-default">Sign up</button>
-        </form>
-    </fieldset>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <fieldset>
+                <legend>Sign up</legend>
+                <form method="post" action="{{ url_for('user.signup') }}" role="form">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        {{ form.email.label(class="control-label", for="email") }}
+                        {{ form.email(class="form-control", placeholder="Enter email") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password.label(class="control-label", for="password") }}
+                        {{ form.password(class="form-control", placeholder="Enter password") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.confirm_password.label(class="control-label", for="confirm_password") }}
+                        {{ form.confirm_password(class="form-control", placeholder="Enter confirm password") }}
+                    </div>
+                    <button type="submit" class="btn btn-default">Sign up</button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
 </div>
 {% endblock %}

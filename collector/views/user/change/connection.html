@@ -1,21 +1,25 @@
 {% extends 'layout/user/change.html' %}
 
 {% block container_profile %}
-<form class="form-horizontal" role="form">
-    <fieldset>
-        <legend>Connection</legend>
-        <div class="form-group">
-            <label for="dropbox" class="col-sm-2 control-label">Dropbox</label>
-            <div class="col-sm-10">
-                <div class="form-control-static">
-                    {% if 'dropbox' in connected_providers %}
-                        <a href="{{ url_for('oauth.disconnect', provider='dropbox') }}" class="btn btn-danger btn-xs">Disconnect</a>
-                    {% else %}
-                        <a href="{{ url_for('oauth.connect', provider='dropbox') }}" class="btn btn-info btn-xs">Connect</a>
-                    {% endif %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal" role="form">
+            <fieldset>
+                <legend>Connection</legend>
+                <div class="form-group">
+                    <label for="dropbox" class="col-sm-2 control-label">Dropbox</label>
+                    <div class="col-sm-10">
+                        <div class="form-control-static">
+                            {% if 'dropbox' in connected_providers %}
+                                <a href="{{ url_for('oauth.disconnect', provider='dropbox') }}" class="btn btn-danger btn-xs">Disconnect</a>
+                            {% else %}
+                                <a href="{{ url_for('oauth.connect', provider='dropbox') }}" class="btn btn-info btn-xs">Connect</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </fieldset>
-</form>
+            </fieldset>
+        </form>
+    </div>
+</div>
 {% endblock %}
