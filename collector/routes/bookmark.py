@@ -2,13 +2,11 @@
 
 from flask import Blueprint, g
 from flask import render_template, request, flash, redirect, url_for, abort
-from ..models import db, Stream, Bookmark, Today, UserConnection, Comment
+from ..models import db, Stream, Bookmark, Today, Comment
 from ..forms import CommentForm
 from ..helpers.value import force_integer, fill_with_users
 from ..helpers.user import require_login
 from ..helpers.bookmark import is_bookmarked
-from ..tasks.stream import save_to_dropbox as save_stream_to_dropbox
-from ..tasks.today import save_to_dropbox as save_today_to_dropbox
 
 blueprint = Blueprint('bookmark', __name__)
 
@@ -156,30 +154,3 @@ def remove_today(result_id):
         flash('The bookmark was removed', 'success')
 
     return redirect(url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name))
-
-@blueprint.route('/dropbox/<category>/<int:result_id>')
-@require_login
-def dropbox(category, result_id):
-    if category not in ['stream', 'today']:
-        return abort(400, 'Bookmark category does not match in index page')
-    else:
-        if category == 'stream':
-            Model = Stream
-            task  = save_stream_to_dropbox
-        elif category == 'today':
-            Model = Today
-            task  = save_today_to_dropbox
-
-        row             = Model.query.filter_by(result_id=result_id).first()
-        user_connection = UserConnection.query.filter_by(user_id=g.user.id, provider_name='dropbox').first()
-
-        if not row:
-            flash('Can not found the bookmarked image', 'error')
-        elif not user_connection:
-            flash('Please enable dropbox connection in your account settings page', 'error')
-        else:
-            task.apply_async((g.user.id, result_id))
-
-            flash('Bookmarked image is sending to your dropbox, Please check again after a while', 'success')
-
-        return redirect(url_for('bookmark.detail', category=category, result_id=row.result_id, name=row.result_name))

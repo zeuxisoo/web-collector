@@ -5,7 +5,7 @@ import os
 from flask import Flask, g
 from flask.ext.oauthlib.client import OAuth
 from .models import db
-from .routes import index, user, stream, bookmark, ajax, oauth, today, comment
+from .routes import index, user, stream, bookmark, ajax, oauth, today, comment, dropbox
 from .helpers.user import get_current_user
 from .filters import Embedly, SocialButton, Clock
 from .curators import API
@@ -63,6 +63,7 @@ def register_database(app):
     db.app = app
 
 def register_route(app):
+    app.register_blueprint(dropbox.blueprint, url_prefix='/dropbox')
     app.register_blueprint(comment.blueprint, url_prefix='/comment')
     app.register_blueprint(oauth.blueprint, url_prefix='/oauth')
     app.register_blueprint(ajax.blueprint, url_prefix='/ajax')

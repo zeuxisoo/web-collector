@@ -7,12 +7,13 @@ from ..models import UserConnection
 
 blueprint = Blueprint('oauth', __name__)
 
-@blueprint.route('/connect/<provider>')
-def connect(provider):
+@blueprint.route('/connect/<provider>', defaults={ 'kind': 'normal' })
+@blueprint.route('/connect/<provider>/<kind>')
+def connect(provider, kind):
     providers = current_app.oauth.providers
 
     if provider in providers:
-        return providers[provider].authorize(callback=url_for('oauth.authorized', provider=provider, _external=True))
+        return providers[provider].authorize(callback=url_for('oauth.authorized', provider=provider, kind=kind, _external=True))
     else:
         flash('Not found provider', 'error')
         return redirect(url_for('user.signin'))
@@ -41,12 +42,13 @@ def disconnect(provider):
 
     return redirect(url_for('index.index'))
 
-@blueprint.route('/connect/authorized/<provider>')
-def authorized(provider):
+@blueprint.route('/connect/authorized/<provider>', defaults={ 'kind': 'normal' })
+@blueprint.route('/connect/authorized/<provider>/<kind>')
+def authorized(provider, kind):
     providers = current_app.oauth.providers
 
     if provider in providers:
-        return providers[provider].authorized_handler(authorized_callback)(provider)
+        return providers[provider].authorized_handler(authorized_callback)(provider, kind)
     else:
         flash('Not found provider', 'error')
         return redirect(url_for('user.signin'))

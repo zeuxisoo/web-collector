@@ -49,7 +49,7 @@
                             <i class="glyphicon glyphicon-download-alt"></i>
                         </div>
                     </a>
-                    <a href="{{ url_for('stream.dropbox', result_id=stream.result_id) }}" class="btn btn-info">
+                    <a href="{{ url_for('dropbox.create', category='stream', result_id=stream.result_id, page_name='stream') }}" class="btn btn-info">
                         <div class="hidden-xs">
                             <i class="glyphicon glyphicon-hdd"></i> Dropbox
                         </div>

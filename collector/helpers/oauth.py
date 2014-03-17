@@ -1,13 +1,14 @@
 # coding: utf-8
 
 import importlib
+import hashlib
 from flask import g
 from flask import request, flash, redirect, url_for
 from flask_oauthlib.client import OAuthException
 from ..models import UserConnection, User
 from ..helpers.user import login_user
 
-def authorized_callback(response, provider_name):
+def authorized_callback(response, provider_name, kind):
     if response is None:
         error = request.args.get('error'),
         error_description = request.args.get('error_description')
@@ -46,18 +47,29 @@ def authorized_callback(response, provider_name):
             return redirect(url_for('user.change_connection' if g.user else 'index.index'))
 
         # Redirect to sign in page if the provider.email() is registered in website
-        if provider.email():
+        if provider_email:
             user = User.query.filter_by(email=provider.email()).first()
 
             if user:
                 flash('You already registered, Please sign in by email account', 'error')
                 return redirect(url_for('user.change_connection' if g.user else 'user.signin'))
 
-        # Create new user if not connected and email is not registered
-        user = User(
-            email    = provider_email,
-            password = User.generate_token(20)
-        ).save()
+        # If kind is normal will create user, else just connect like dropbox
+        if kind == 'normal':
+            # Check the username is or not exists, if exists, it will md5 email for username
+            username = provider_email.split('@')[0]
+
+            if User.query.filter_by(username=username).first():
+                username = hashlib.md5(provider_email).hexdigest()[0:10]
+
+            # Create new user if not connected and email is not registered
+            user = User(
+                username = username,
+                email    = provider_email,
+                password = User.generate_token(20)
+            ).save()
+        else:
+            user = g.user
 
         UserConnection(
             user_id          = user.id,
