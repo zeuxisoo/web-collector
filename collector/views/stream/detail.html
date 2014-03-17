@@ -1,4 +1,5 @@
 {% extends 'layout/frontend.html' %}
+{% from 'share/macro.html' import facebook_comment %}
 
 {% block subtitle %}
     {{ stream.result_name }}
@@ -88,5 +89,14 @@
             </div>
         </div>
     {% endif %}
+    <div class="row">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    {{ facebook_comment(request.url) }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

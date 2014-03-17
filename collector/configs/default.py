@@ -54,3 +54,9 @@ ADDTHIS = {
     'pinterest': True,
     'pubid'    : '',
 }
+
+FACEBOOK_COMMENT = {
+    'enable'     : True,
+    'colorscheme': 'light',
+    'order_by'   : 'social'
+}

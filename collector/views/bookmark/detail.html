@@ -1,4 +1,5 @@
 {% extends 'layout/frontend.html' %}
+{% from 'share/macro.html' import facebook_comment %}
 
 {% block subtitle %}
     {{ row.result_name }}
@@ -99,5 +100,20 @@
             </div>
         </div>
     {% endif %}
+    <div class="row">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    {% if category == 'stream' %}
+                        {{ facebook_comment(url_for('stream.detail', _external=True, result_id=row.result_id, name=row.result_name)) }}
+                    {% endif %}
+
+                    {% if category == 'today' %}
+                        {{ facebook_comment(url_for('today.detail', _external=True, result_date=row.result_date, result_id=row.result_id, name=row.result_name)) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
