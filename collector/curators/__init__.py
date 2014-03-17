@@ -2,4 +2,4 @@
 
 from .api import *
 from .stream import *
-from .girl_of_the_day import *
+from .today import *
