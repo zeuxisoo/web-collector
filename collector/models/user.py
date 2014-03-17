@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import hashlib
 from .base import db, SessionMixin
 from datetime import datetime
 from werkzeug import security
@@ -34,6 +35,11 @@ class User(db.Model, SessionMixin):
 
     def __repr__(self):
         return '<User: %s>' % self.email
+
+    def avatar(self, size=48):
+        md5email = hashlib.md5(self.email).hexdigest()
+        query = "{0}?s={1}{2}".format(md5email, size, db.app.config['GRAVATAR_EXTRA'])
+        return db.app.config['GRAVATAR_BASE_URL'] + query
 
     def change_password(self, new_password):
         self.password = self.password_hash(new_password)

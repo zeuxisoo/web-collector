@@ -1,5 +1,5 @@
 {% extends 'layout/frontend.html' %}
-{% from 'share/macro.html' import facebook_comment %}
+{% from 'share/macro.html' import facebook_comment, insite_comment %}
 
 {% block subtitle %}
     {{ row.result_name }}
@@ -113,6 +113,17 @@
                     {% endif %}
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            {% if category == 'stream' %}
+                {{ insite_comment('stream', row.result_id, comment_paginator, comment_form, page_name='bookmark') }}
+            {% endif %}
+
+            {% if category == 'today' %}
+                {{ insite_comment('today', row.result_id, comment_paginator, comment_form, page_name='bookmark') }}
+            {% endif %}
         </div>
     </div>
 </div>

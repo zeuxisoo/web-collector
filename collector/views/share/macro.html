@@ -41,3 +41,60 @@
         <div class="fb-comments" data-href="{{ href }}" data-num-posts="{{ num_posts }}" data-width="{{ width }}" data-colorscheme="{{ config['FACEBOOK_COMMENT']['colorscheme'] }}" data-order-by="{{ config['FACEBOOK_COMMENT']['order_by'] }}"></div>
     {% endif %}
 {% endmacro %}
+
+{% macro insite_comment(category, result_id, paginator, form, page_name) %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ paginator.total }} comments
+        </div>
+        <div class="panel-body">
+            {% if paginator.items %}
+                {% for comment in paginator.items %}
+                    {% if loop.index > 1 %}
+                        <hr>
+                    {% endif %}
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object img-rounded" src="{{ comment.user.avatar(48) }}">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                {{ comment.user.username }}
+                                <small>
+                                    <time datetime="{{ comment.create_at | clock_xml_format }}" pubdate>
+                                        {{ comment.create_at | clock_humanize }}
+                                    </time>
+                                </small>
+                            </h4>
+                            <p class="comment-content">
+                                {{ comment.content }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">No comments yet.</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        {% if form %}
+            <form class="form panel-body" action="{{ url_for('comment.create', category=category, result_id=result_id, page_name=page_name) }}" method="post">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.content.label(class_='sr-only') }}
+                    {{ form.content(class_='form-control') }}
+                </div>
+                <div class="form-submit text-right">
+                    <button class="btn btn-success">Leave a Comment</button>
+                </div>
+            </form>
+        {% else %}
+            <div class="panel-body">
+                <div class="alert alert-info">Login is required</div>
+                <a href="{{ url_for('user.signin') }}" class="btn btn-success">Sign In</a>
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}

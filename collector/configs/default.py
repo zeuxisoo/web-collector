@@ -60,3 +60,6 @@ FACEBOOK_COMMENT = {
     'colorscheme': 'light',
     'order_by'   : 'social'
 }
+
+GRAVATAR_BASE_URL = 'http://www.gravatar.com/avatar/'
+GRAVATAR_EXTRA    = ''

@@ -7,3 +7,4 @@ from .today import *
 from .today_detail import *
 from .bookmark import *
 from .user_connection import *
+from .comment import *

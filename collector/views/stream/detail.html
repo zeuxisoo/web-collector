@@ -1,5 +1,5 @@
 {% extends 'layout/frontend.html' %}
-{% from 'share/macro.html' import facebook_comment %}
+{% from 'share/macro.html' import facebook_comment, insite_comment %}
 
 {% block subtitle %}
     {{ stream.result_name }}
@@ -96,6 +96,11 @@
                     {{ facebook_comment(request.url) }}
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            {{ insite_comment('stream', stream.result_id, comment_paginator, comment_form, page_name='stream') }}
         </div>
     </div>
 </div>

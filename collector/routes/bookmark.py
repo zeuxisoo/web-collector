@@ -2,8 +2,9 @@
 
 from flask import Blueprint, g
 from flask import render_template, request, flash, redirect, url_for, abort
-from ..models import db, Stream, Bookmark, Today, UserConnection
-from ..helpers.value import force_integer
+from ..models import db, Stream, Bookmark, Today, UserConnection, Comment
+from ..forms import CommentForm
+from ..helpers.value import force_integer, fill_with_users
 from ..helpers.user import require_login
 from ..helpers.bookmark import is_bookmarked
 from ..tasks.stream import save_to_dropbox as save_stream_to_dropbox
@@ -39,10 +40,19 @@ def index(category):
 
 @blueprint.route('/detail/<category>/<int:result_id>-<path:name>')
 def detail(category, result_id, name):
-    if category not in ['stream', 'today']:
+    page = force_integer(request.args.get('page', 1), 0)
+
+    if not page:
+        return abort(404)
+    elif category not in ['stream', 'today']:
         return abort(400, 'Bookmark category does not match in index page')
     else:
-        user_id = g.user.id if g.user else None
+        if g.user:
+            user_id      = g.user.id
+            comment_form = CommentForm()
+        else:
+            user_id      = None
+            comment_form = None
 
         if category == 'stream':
             Model = Stream
@@ -73,7 +83,11 @@ def detail(category, result_id, name):
                 )
             ).all()
 
-            return render_template('bookmark/detail.html', row=row, random=random, bookmarked=is_bookmarked(category, row.result_id, user_id), old_new=old_new, category=category)
+            # Comment
+            comment_paginator       = Comment.query.filter_by(category=category, result_id=result_id).paginate(page)
+            comment_paginator.items = fill_with_users(comment_paginator.items)
+
+            return render_template('bookmark/detail.html', row=row, random=random, bookmarked=is_bookmarked(category, row.result_id, user_id), old_new=old_new, category=category, comment_form=comment_form, comment_paginator=comment_paginator)
 
 @blueprint.route('/create/stream/<int:result_id>')
 @require_login

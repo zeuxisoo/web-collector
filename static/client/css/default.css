@@ -38,6 +38,11 @@ body {
     margin-left: 5px;
 }
 
+.comment-content {
+    color: #555555;
+    line-height: 1.4;
+}
+
 @media screen and (min-width: 768px) {
     .footer {
         padding-left: 0;

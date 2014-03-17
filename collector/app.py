@@ -5,9 +5,9 @@ import os
 from flask import Flask, g
 from flask.ext.oauthlib.client import OAuth
 from .models import db
-from .routes import index, user, stream, bookmark, ajax, oauth, today
+from .routes import index, user, stream, bookmark, ajax, oauth, today, comment
 from .helpers.user import get_current_user
-from .filters import Embedly, SocialButton
+from .filters import Embedly, SocialButton, Clock
 from .curators import API
 from .tasks import make_celery
 
@@ -55,12 +55,15 @@ def register_curator(app):
 def register_jinja2(app):
     app.jinja_env.filters['embedly_fill']  = Embedly(app.config.get('EMBEDLY_API_TOKEN')).fill
     app.jinja_env.filters['social_button'] = SocialButton(app.config.get('SOCIAL_BUTTON')).create
+    app.jinja_env.filters['clock_humanize'] = Clock().humanize
+    app.jinja_env.filters['clock_xml_format'] = Clock().xml_format
 
 def register_database(app):
     db.init_app(app)
     db.app = app
 
 def register_route(app):
+    app.register_blueprint(comment.blueprint, url_prefix='/comment')
     app.register_blueprint(oauth.blueprint, url_prefix='/oauth')
     app.register_blueprint(ajax.blueprint, url_prefix='/ajax')
     app.register_blueprint(bookmark.blueprint, url_prefix='/bookmark')
