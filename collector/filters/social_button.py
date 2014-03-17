@@ -18,4 +18,4 @@ class SocialButton(object):
         if text is None or len(text) <= 0:
             text = self.config['text']
 
-        return template.format(' '.join(enabled_socials), self.config['count'], text, request.url)
+        return template.format(' '.join(enabled_socials), self.config['count'], text, request.url_root)
