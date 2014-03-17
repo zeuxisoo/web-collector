@@ -1,6 +1,10 @@
 {% extends 'layout/frontend.html' %}
 {% from "share/macro.html" import bookmark_categories %}
 
+{% block subtitle %}
+    Bookmark
+{% endblock %}
+
 {% block navbar %}
     {{ navigation('bookmark') }}
 {% endblock %}
