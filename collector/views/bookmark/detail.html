@@ -76,7 +76,7 @@
                     {% for image in random %}
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <a class="thumbnail" rel="group" href="{{ url_for('today.detail', result_date=image.result_date, result_id=image.result_id, name=image.result_name) }}">
-                                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ image.result_name }}">
+                                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 120, 'FFF', 'true') }}" alt="{{ image.result_name }}" class="tips" data-placement="bottom" title="{{ image.result_name }}">
                             </a>
                         </div>
                     {% endfor %}
