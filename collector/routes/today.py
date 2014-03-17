@@ -1,6 +1,5 @@
 # coding: utf-8
 
-import os
 from flask import Blueprint, g
 from flask import render_template, request, abort, flash, redirect, url_for
 from ..models import db, Today, UserConnection

@@ -1,13 +1,26 @@
 # coding: utf-8
 
 from flask import Blueprint, g
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, request, abort, flash, redirect, url_for
 from ..models import db, Stream, UserConnection
+from ..helpers.value import force_integer
 from ..helpers.bookmark import is_bookmarked
 from ..helpers.user import require_login
 from ..tasks.stream import save_to_dropbox
 
 blueprint = Blueprint('stream', __name__)
+
+@blueprint.route('/')
+def index():
+    page = force_integer(request.args.get('page', 1), 0)
+
+    if not page:
+        return abort(404)
+    else:
+        paginator  = Stream.query.order_by(Stream.result_created_at.desc()).paginate(page)
+        total_girl = Stream.query.count()
+
+        return render_template('stream/index.html', paginator=paginator, total_girl=total_girl)
 
 @blueprint.route('/detail/<int:result_id>-<path:name>')
 def detail(result_id, name):

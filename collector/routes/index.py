@@ -15,7 +15,4 @@ def index():
     if not page:
         return abort(404)
     else:
-        paginator  = Stream.query.order_by(Stream.result_created_at.desc()).paginate(page)
-        total_girl = Stream.query.count()
-
-        return render_template('index.html', paginator=paginator, total_girl=total_girl)
+        return render_template('index.html')

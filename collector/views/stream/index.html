@@ -1,0 +1,60 @@
+{% extends 'layout/frontend.html' %}
+
+{% block navbar %}
+    {{ navigation('stream') }}
+{% endblock %}
+
+{% block container %}
+<div id="index">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-9">
+            <div class="row">
+                {% for stream in paginator.items %}
+                    <div class="col-xs-6 col-sm-3 col-md-3">
+                        <a class="thumbnail" rel="group" href="{{ url_for('stream.detail', result_id=stream.result_id, name=stream.result_name) }}">
+                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}"  class="tips" data-placement="bottom" title="{{ stream.result_name }}">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    Record: {{ total_girl }}
+                </div>
+            </div>
+            {% include 'share/social-like.html' %}
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    The day of girl
+                </div>
+                <div class="panel-body text-center" id="today-girl">
+                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}">
+                </div>
+                {% raw %}
+                    <script id="today-girl-template" type="text/x-handlebars-template">
+                        <a href="{{ href }}">
+                            <img src="{{ src }}" alt="{{ name }}" class="tips" data-placement="left" title="{{ name }}">
+                        </a>
+                        <p class="caption text-center">{{ date }}</p>
+                    </script>
+                {% endraw %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="pager">
+                {% if paginator.has_prev %}
+                    <li class="previous"><a href="{{ url_for('stream.index', page=paginator.prev_num) }}">Previous</a></li>
+                {% endif %}
+
+                {% if paginator.has_next %}
+                    <li class="next"><a href="{{ url_for('stream.index', page=paginator.next_num) }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,59 +1,73 @@
 {% extends 'layout/frontend.html' %}
 
+{% block navbar %}
+    {{ navigation('home') }}
+{% endblock %}
+
 {% block container %}
 <div id="index">
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-9">
-            <div class="row">
-                {% for stream in paginator.items %}
-                    <div class="col-xs-6 col-sm-3 col-md-3">
-                        <a class="thumbnail" rel="group" href="{{ url_for('stream.detail', result_id=stream.result_id, name=stream.result_name) }}">
-                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}"  class="tips" data-placement="bottom" title="{{ stream.result_name }}">
-                        </a>
-                    </div>
-                {% endfor %}
+            <div class="panel panel-default">
+                <div class="panel-heading">Stream</div>
+                <div class="panel-body">
+                    {% for i in range(12) %}
+                        <div class="col-xs-6 col-sm-3 col-md-2">
+                            <a class="thumbnail no-border" rel="group">
+                                <img src="http://placehold.it/100x100">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Today</div>
+                <div class="panel-body">
+                    {% for i in range(12) %}
+                        <div class="col-xs-6 col-sm-3 col-md-2">
+                            <a class="thumbnail no-border" rel="group">
+                                <img src="http://placehold.it/100x100">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body text-center">
-                    Record: {{ total_girl }}
+                    Total Images: 6749
+                </div>
+            </div>
+            {% include 'share/social-like.html' %}
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Random Stream</div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% for i in range(6) %}
+                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                <a class="thumbnail no-border" rel="group">
+                                    <img src="http://placehold.it/90x90">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-body text-center">
-                    {{ "Let's go to collect your girl ..." | social_button | safe }}
+                <div class="panel-heading text-center">Random Today</div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% for i in range(6) %}
+                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                <a class="thumbnail no-border" rel="group">
+                                    <img src="http://placehold.it/90x90">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">
-                    The day of girl
-                </div>
-                <div class="panel-body text-center" id="today-girl">
-                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}">
-                </div>
-                {% raw %}
-                    <script id="today-girl-template" type="text/x-handlebars-template">
-                        <a href="{{ href }}">
-                            <img src="{{ src }}" alt="{{ name }}" class="tips" data-placement="left" title="{{ name }}">
-                        </a>
-                        <p class="caption text-center">{{ date }}</p>
-                    </script>
-                {% endraw %}
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <ul class="pager">
-                {% if paginator.has_prev %}
-                    <li class="previous"><a href="{{ url_for('index.index', page=paginator.prev_num) }}">Previous</a></li>
-                {% endif %}
-
-                {% if paginator.has_next %}
-                    <li class="next"><a href="{{ url_for('index.index', page=paginator.next_num) }}">Next</a></li>
-                {% endif %}
-            </ul>
         </div>
     </div>
 </div>
