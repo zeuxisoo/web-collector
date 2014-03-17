@@ -18,8 +18,9 @@ def index():
         return abort(404)
     else:
         paginator  = Today.query.order_by(Today.result_date.desc()).paginate(page)
+        total_days = Today.query.count()
 
-        return render_template('today/index.html', paginator=paginator)
+        return render_template('today/index.html', paginator=paginator, total_days=total_days)
 
 @blueprint.route('/detail/<result_date>/<int:result_id>-<path:name>')
 def detail(result_date, result_id, name):

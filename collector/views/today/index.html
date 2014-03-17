@@ -1,4 +1,5 @@
 {% extends 'layout/frontend.html' %}
+{% from 'share/macro.html' import social_like %}
 
 {% block navbar %}
     {{ navigation('today') }}
@@ -6,6 +7,15 @@
 
 {% block container %}
 <div id="index">
+    <div class="panel panel-default">
+        <div class="panel-body text-center panel-body-slim">
+            <p class="lead panel-lead pull-left">Days: {{ total_days }}</p>
+            <div class="pull-right">
+                {{ social_like(panel=False) }}
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         {% for today in paginator.items %}
             <div class="col-xs-12 col-sm-3 col-md-3">
