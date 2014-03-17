@@ -62,11 +62,11 @@
         <div class="col-xs-12">
             <ul class="pager">
                 {% if paginator.has_prev %}
-                    <li class="previous"><a href="{{ url_for('index.index', page=paginator.prev_num) }}">Previous</a></li>
+                    <li class="previous"><a href="{{ url_for('bookmark.index', page=paginator.prev_num) }}">Previous</a></li>
                 {% endif %}
 
                 {% if paginator.has_next %}
-                    <li class="next"><a href="{{ url_for('index.index', page=paginator.next_num) }}">Next</a></li>
+                    <li class="next"><a href="{{ url_for('bookmark.index', page=paginator.next_num) }}">Next</a></li>
                 {% endif %}
             </ul>
         </div>
