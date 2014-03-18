@@ -1,0 +1,4 @@
+User-Agent: *
+
+Disallow: /user/signin
+Disallow: /user/signout

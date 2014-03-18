@@ -2,7 +2,7 @@
 
 import os
 from flask import Blueprint
-from flask import render_template, request, abort, current_app
+from flask import render_template, request, abort, current_app, send_from_directory
 from ..models import db, Stream, Today
 from ..helpers.value import force_integer
 
@@ -24,3 +24,7 @@ def index():
         total_images   = Stream.query.count() + Today.query.count()
 
         return render_template('index.html', latest_streams=latest_streams, latest_todays=latest_todays, random_streams=random_streams, random_todays=random_todays, total_images=total_images)
+
+@blueprint.route('/robots.txt')
+def robots():
+    return send_from_directory(current_app.static_folder, request.path[1:])
