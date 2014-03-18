@@ -18,11 +18,28 @@ def createdb():
 
 @manager.command
 def runcelery():
-    """Run celery."""
+    """Run celery"""
     from celery.bin.worker import worker
 
     worker = worker(app=app.celery)
     worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
+
+@manager.command
+def runbeat():
+    """Run celery beat scheduler"""
+    from celery.bin.beat import beat
+
+    beat = beat(app=app.celery)
+    beat.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
+
+@manager.command
+def runceleryandbeat():
+    """Run celery with beat scheduler"""
+    from celery.bin.worker import worker
+    from celery.bin.beat import beat
+
+    worker = worker(app=app.celery)
+    worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'), beat=True)
 
 @manager.option('-t', '--table', help='Fill the table')
 def fill(table):
