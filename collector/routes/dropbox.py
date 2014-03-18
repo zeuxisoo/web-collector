@@ -2,25 +2,22 @@
 
 import functools
 from flask import Blueprint, g
-from flask import url_for, redirect, flash
+from flask import url_for, redirect, flash, abort
 from ..models import Stream, Today, UserConnection
 from ..helpers.user import require_login
-from ..tasks.stream import save_to_dropbox as save_stream_to_dropbox
-from ..tasks.today import save_to_dropbox as save_today_to_dropbox
+from ..tasks.dropbox import sync_image
 
 blueprint = Blueprint('dropbox', __name__)
 
 @blueprint.route('/create/<category>/<result_id>/<page_name>')
 @require_login
 def create(category, result_id, page_name):
+    if category not in ['stream', 'today']:
+        return abort(400, 'Image category does not match in dropbox.create page')
+
     models = {
         'stream': Stream,
         'today' : Today
-    }
-
-    tasks = {
-        'stream': save_stream_to_dropbox,
-        'today' : save_today_to_dropbox
     }
 
     return_urls = {
@@ -31,7 +28,6 @@ def create(category, result_id, page_name):
 
     # Find matched model object, send to dropbox task and return_url method
     Model      = models[category]
-    task       = tasks[category]
     return_url = return_urls[page_name]
 
     # Find record by result_id, dropbox connection and default params for return url
@@ -55,7 +51,7 @@ def create(category, result_id, page_name):
     elif not user_connection:
         flash('Please enable dropbox connection in your account settings page', 'error')
     else:
-        task.apply_async((g.user.id, result_id))
+        sync_image.apply_async((category, g.user.id, result_id))
 
         flash('Image is sending to your dropbox, Please check again after a while', 'success')
 
