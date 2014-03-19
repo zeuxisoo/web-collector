@@ -16,6 +16,13 @@ def createdb():
 
     db.create_all()
 
+@manager.command
+def createsitemap():
+    """Create the sitemap"""
+    from collector.tasks.sitemap import create_all
+
+    create_all(0, 10000)
+
 @manager.option('-n', '--name', help='Run task server')
 def runtask(name):
     """Run task server"""

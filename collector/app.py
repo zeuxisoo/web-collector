@@ -24,6 +24,7 @@ def create_app(config=None):
 
     register_hook(app)
     register_celery(app)
+    register_celery_beat(app)
     register_oauth(app)
     register_curator(app)
     register_jinja2(app)
@@ -39,6 +40,10 @@ def register_hook(app):
 
 def register_celery(app):
     app.celery = make_celery(app)
+
+def register_celery_beat(app):
+    # import cron job task for beat
+    from .tasks.sitemap import *
 
 def register_oauth(app):
     oauth   = OAuth(app)

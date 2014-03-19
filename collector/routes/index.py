@@ -26,5 +26,6 @@ def index():
         return render_template('index.html', latest_streams=latest_streams, latest_todays=latest_todays, random_streams=random_streams, random_todays=random_todays, total_images=total_images)
 
 @blueprint.route('/robots.txt')
-def robots():
+@blueprint.route('/sitemap.xml')
+def send_specific_file():
     return send_from_directory(current_app.static_folder, request.path[1:])

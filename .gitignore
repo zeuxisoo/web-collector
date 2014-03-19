@@ -3,3 +3,5 @@
 *.pyo
 venv
 data/*.sqlite
+data/celery-beat
+static/download

@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import os
+from celery.schedules import crontab
 
 DEBUG                      = True
 SESSION_COOKIE_NAME        = '_s'
@@ -23,12 +24,21 @@ DROPBOX = {
     'authorize_url'       : 'https://www.dropbox.com/1/oauth2/authorize',
 }
 
-BROKER_URL               = 'redis://localhost:6379/0',
-CELERY_RESULT_BACKEND    = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT    = ['json', 'msgpack', 'yaml']
-CELERY_TASK_SERIALIZER   = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_LOG_LEVEL         = 'INFO'
+BROKER_URL                   = 'redis://localhost:6379/0',
+CELERY_RESULT_BACKEND        = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT        = ['json', 'msgpack', 'yaml']
+CELERY_TASK_SERIALIZER       = 'json'
+CELERY_RESULT_SERIALIZER     = 'json'
+CELERY_LOG_LEVEL             = 'INFO'
+CELERY_TIMEZONE              = 'Asia/Hong_Kong'
+CELERYBEAT_SCHEDULE_FILENAME = os.path.join(os.getcwd(), 'data/celery-beat')
+CELERYBEAT_SCHEDULE          = {
+    'sitemap-create-all': {
+        'task': 'collector.tasks.sitemap.create_all',
+        'schedule': crontab(minute=0, hour='*/3'), # every three hours
+        'args': (0, 10000)
+    },
+}
 
 IMAGE_DOWNLOAD_PATH = os.path.join(os.getcwd(), 'static/download')
 
