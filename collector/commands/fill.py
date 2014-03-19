@@ -6,6 +6,7 @@ from multiprocessing import Pool, cpu_count
 from multiprocessing.dummy import Pool
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from itertools import chain
+from ..models import db
 from ..helpers.watcher import Watcher
 from .base import BaseCommand
 
@@ -27,10 +28,10 @@ class FillStream(BaseCommand):
             try:
                 self.save_stream(result)
                 self.logger.debug("==> Result {0} saved".format(result['id']))
-            except IntegrityError:
-                self.logger.debug("==> Result {0} already exists (unique)".format(result['id']))
-            except InvalidRequestError:
+            except (IntegrityError, InvalidRequestError):
                 self.logger.debug("==> Result {0} already exists (rollback)".format(result['id']))
+                db.session.rollback()
+
             sleep(0.001)
 
     def make(self):
@@ -60,10 +61,10 @@ class FillToday(BaseCommand):
             try:
                 self.save_today(result)
                 self.logger.debug("==> Result {0} saved".format(result['id']))
-            except IntegrityError:
-                self.logger.debug("==> Result {0} already exists (unique)".format(result['id']))
-            except InvalidRequestError:
+            except (IntegrityError, InvalidRequestError):
                 self.logger.debug("==> Result {0} already exists (rollback)".format(result['id']))
+                db.session.rollback()
+
             sleep(0.001)
 
     def make(self):
@@ -98,10 +99,10 @@ class FillTodayDetail(BaseCommand):
             try:
                 self.save_today_detail(today_date, result)
                 self.logger.debug("==> Result {0} saved".format(result['id']))
-            except IntegrityError:
-                self.logger.debug("==> Result {0} already exists (unique)".format(result['id']))
-            except InvalidRequestError:
+            except (IntegrityError, InvalidRequestError):
                 self.logger.debug("==> Result {0} already exists (rollback)".format(result['id']))
+                db.session.rollback()
+
             sleep(0.001)
 
     def make(self):

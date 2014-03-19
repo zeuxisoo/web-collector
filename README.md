@@ -49,4 +49,4 @@ All
 
 Latest
 
-    python manager.py cron -t [stream | today | todaydetail]
+    python manager.py latest -t [stream | today | todaydetail]

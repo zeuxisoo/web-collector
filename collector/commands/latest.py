@@ -4,10 +4,11 @@ import os
 from time import sleep
 from flask import current_app
 from dateutil import parser
+from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from ..models import db, Stream, Today, TodayDetail
 from .base import BaseCommand
 
-class CronStream(BaseCommand):
+class LatestStream(BaseCommand):
 
     def __init__(self):
         self.curator_api   = self.get_curator_api()
@@ -35,14 +36,18 @@ class CronStream(BaseCommand):
 
             for page_result in page_results:
                 if page_result['id'] > self.latest_stream.result_id:
-                    self.save_stream(page_result)
-                    self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                    try:
+                        self.save_stream(page_result)
+                        self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                    except (IntegrityError, InvalidRequestError):
+                        self.logger.debug("==> Result {0} already exists (rollback)".format(page_result['id']))
+                        db.session.rollback()
                 else:
                     same_result_count = same_result_count + 1
                     self.logger.debug("Get same data, leave the page result list")
                     break
 
-                sleep(1)
+                sleep(0.001)
 
             if same_result_count >= 5:
                 self.logger.debug("Same data count equals 5 times, break the page list")
@@ -50,7 +55,7 @@ class CronStream(BaseCommand):
 
         self.logger.debug("Latest record was updated")
 
-class CronToday(BaseCommand):
+class LatestToday(BaseCommand):
 
     def __init__(self):
         self.curator_api  = self.get_curator_api()
@@ -81,15 +86,19 @@ class CronToday(BaseCommand):
                 result_date = self.latest_today.result_date
 
                 if page_date > result_date:
-                    self.logger.debug("==> {0} > {1}".format(page_result['date'], self.latest_today.result_date))
-                    self.save_today(page_result)
-                    self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                    try:
+                        self.logger.debug("==> {0} > {1}".format(page_result['date'], self.latest_today.result_date))
+                        self.save_today(page_result)
+                        self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                    except (IntegrityError, InvalidRequestError):
+                        self.logger.debug("==> Result {0} already exists (rollback)".format(page_result['id']))
+                        db.session.rollback()
                 else:
                     same_result_count = same_result_count + 1
                     self.logger.debug("Get same data, leave the page result list")
                     break
 
-                sleep(1)
+                sleep(0.001)
 
             if same_result_count >= 5:
                 self.logger.debug("Same data count equals 5 times, break the page list")
@@ -97,7 +106,7 @@ class CronToday(BaseCommand):
 
         self.logger.debug("Latest record was updated")
 
-class CronTodayDetail(BaseCommand):
+class LatestTodayDetail(BaseCommand):
 
     def __init__(self):
         self.curator_api         = self.get_curator_api()
@@ -125,7 +134,13 @@ class CronTodayDetail(BaseCommand):
             today_detail = self.curator_api.today_detail(new_date)
 
             for page_result in today_detail.results():
-                self.save_today_detail(new_date, page_result)
-                self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                try:
+                    self.save_today_detail(new_date, page_result)
+                    self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                except (IntegrityError, InvalidRequestError):
+                    self.logger.debug("==> Result {0} already exists (rollback)".format(page_result['id']))
+                    db.session.rollback()
+
+            sleep(0.001)
 
         self.logger.debug("Latest record was updated")

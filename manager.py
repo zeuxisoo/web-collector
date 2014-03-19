@@ -43,7 +43,7 @@ def runtask(name):
     else:
         print("Usage: python manager.py runtask -n [celery | beat | all]")
 
-@manager.option('-t', '--table', help='Fill the table')
+@manager.option('-t', '--table', help='Fill all data to table')
 def fill(table):
     """Fill all the specified data into table"""
 
@@ -61,23 +61,23 @@ def fill(table):
     else:
         print("Usage: python manager.py fill -t [stream | today | todaydetail]")
 
-@manager.option('-t', '--table', help="Cron the table")
-def cron(table):
+@manager.option('-t', '--table', help="Fill Latest data to table")
+def latest(table):
     """Fill latest and specified data into table"""
 
-    from collector.commands import CronStream, CronToday, CronTodayDetail
+    from collector.commands import LatestStream, LatestToday, LatestTodayDetail
 
     if table == "stream":
-        cron_stream = CronStream()
-        cron_stream.make()
+        latest_stream = LatestStream()
+        latest_stream.make()
     elif table == "today":
-        cron_today = CronToday()
-        cron_today.make()
+        latst_today = LatestToday()
+        latst_today.make()
     elif table == "todaydetail":
-        cron_today_detail = CronTodayDetail()
-        cron_today_detail.make()
+        latest_today_detail = LatestTodayDetail()
+        latest_today_detail.make()
     else:
-        print("Usage: python manager.py cron -t [stream | today | todaydetail]")
+        print("Usage: python manager.py latest -t [stream | today | todaydetail]")
 
 if __name__ == '__main__':
     manager.run()

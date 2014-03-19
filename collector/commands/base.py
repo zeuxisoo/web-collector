@@ -55,7 +55,7 @@ class BaseCommand(object):
 
     def save_today_detail(self, today_date, result):
         return TodayDetail(
-            today_date              = today_date,
+            today_date              = parser.parse(today_date),
             result_id               = result['id'],
             result_name             = result['name'],
             result_thumbnail        = result['thumbnail'],
