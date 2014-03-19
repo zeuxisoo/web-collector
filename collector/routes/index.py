@@ -15,8 +15,10 @@ def index():
     if not page:
         return abort(404)
     else:
-        latest_streams = Stream.query.order_by(Stream.result_created_at.desc()).offset(0).limit(24).all()
-        latest_todays  = Today.query.order_by(Today.result_date.desc()).offset(0).limit(24).all()
+        limit = 30 if current_app.config.get('GOOGLE_ADSENSE')['slidebar']['enable'] else 24
+
+        latest_streams = Stream.query.order_by(Stream.result_created_at.desc()).offset(0).limit(limit).all()
+        latest_todays  = Today.query.order_by(Today.result_date.desc()).offset(0).limit(limit).all()
 
         random_streams = Stream.randomly(0, 6)
         random_todays  = Today.randomly(0, 6)

@@ -52,7 +52,16 @@ SOCIAL_BUTTON = {
     'text' : 'Would you like to collector the girls? See ? Come here !!'
 }
 
-GOOGLE_ANALYTICS = ''
+GRAVATAR_BASE_URL = 'http://www.gravatar.com/avatar/'
+GRAVATAR_EXTRA    = ''
+
+GOOGLE_ANALYTICS  = ''
+
+GOOGLE_ADSENSE = {
+    'client'   : 'ca-pub-XXXXX',
+    'slidebar' : dict(enable=False, slot=''),
+    'footer'   : dict(enable=False, slot='')
+}
 
 ADDTHIS = {
     'enable'   : True,
@@ -70,6 +79,3 @@ FACEBOOK_COMMENT = {
     'colorscheme': 'light',
     'order_by'   : 'social'
 }
-
-GRAVATAR_BASE_URL = 'http://www.gravatar.com/avatar/'
-GRAVATAR_EXTRA    = ''
