@@ -39,7 +39,7 @@ Web
 
 Task
 
-    python manager.py runcelery
+    python manager.py runtask -n [celery | beat | all]
 
 #### Data
 
