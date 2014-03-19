@@ -11,35 +11,30 @@ manager.add_command('runserver', Server())
 
 @manager.command
 def createdb():
-    """ Create the database """
+    """Create the database"""
     from collector.models import db
 
     db.create_all()
 
-@manager.command
-def runcelery():
-    """Run celery"""
-    from celery.bin.worker import worker
-
-    worker = worker(app=app.celery)
-    worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
-
-@manager.command
-def runbeat():
-    """Run celery beat scheduler"""
-    from celery.bin.beat import beat
-
-    beat = beat(app=app.celery)
-    beat.run(loglevel=app.config.get('CELERY_LOG_LEVEL'))
-
-@manager.command
-def runceleryandbeat():
-    """Run celery with beat scheduler"""
+@manager.option('-n', '--name', help='Run task server')
+def runtask(name):
+    """Run task server"""
     from celery.bin.worker import worker
     from celery.bin.beat import beat
 
-    worker = worker(app=app.celery)
-    worker.run(loglevel=app.config.get('CELERY_LOG_LEVEL'), beat=True)
+    log_level = app.config.get('CELERY_LOG_LEVEL')
+
+    if name == 'celery':
+        worker = worker(app=app.celery)
+        worker.run(loglevel=log_level)
+    elif name == 'beat':
+        beat = beat(app=app.celery)
+        beat.run(loglevel=log_level)
+    elif name == 'all':
+        worker = worker(app=app.celery)
+        worker.run(loglevel=log_level, beat=True)
+    else:
+        print("Usage: python manager.py runtask -n [celery | beat | all]")
 
 @manager.option('-t', '--table', help='Fill the table')
 def fill(table):
