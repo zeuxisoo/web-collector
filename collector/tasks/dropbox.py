@@ -2,7 +2,6 @@
 
 from __future__ import absolute_import
 import os
-import importlib
 from dropbox import client
 from flask import g
 from ..helpers.task import download_image
