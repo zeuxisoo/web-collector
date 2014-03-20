@@ -43,7 +43,7 @@ def register_celery(app):
 
 def register_celery_beat(app):
     # import cron job task for beat
-    from .tasks.schedule import create_sitemap
+    from .tasks.schedule import create_sitemap, create_latest
 
 def register_oauth(app):
     oauth   = OAuth(app)

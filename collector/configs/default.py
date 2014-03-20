@@ -33,11 +33,26 @@ CELERY_LOG_LEVEL             = 'INFO'
 CELERY_TIMEZONE              = 'Asia/Hong_Kong'
 CELERYBEAT_SCHEDULE_FILENAME = os.path.join(os.getcwd(), 'data/celery-beat')
 CELERYBEAT_SCHEDULE          = {
-    'sitemap-create-all': {
+    'create-sitemap-all': {
         'task': 'collector.tasks.schedule.create_sitemap',
         'schedule': crontab(minute=0, hour='*/3'), # every three hours
         'args': (0, 10000)
     },
+    # 'create-latest-stream': {
+    #     'task': 'collector.tasks.schedule.create_latest',
+    #     'schedule': crontab(minute='*/15'), # every 15 minute
+    #     'args': ('Stream',)
+    # },
+    # 'create-latest-today': {
+    #     'task': 'collector.tasks.schedule.create_latest',
+    #     'schedule': crontab(minute=0, hour=0), # every daily at 00:00
+    #     'args': ('Today',)
+    # },
+    # 'create-latest-todaydetail': {
+    #     'task': 'collector.tasks.schedule.create_latest',
+    #     'schedule': crontab(minute=3, hour=0), # every daily at 00:03
+    #     'args': ('TodayDetail',)
+    # }
 }
 
 IMAGE_DOWNLOAD_PATH = os.path.join(os.getcwd(), 'static/download')

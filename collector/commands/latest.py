@@ -10,13 +10,13 @@ from .base import BaseCommand
 
 class LatestStream(BaseCommand):
 
-    def __init__(self):
+    def __init__(self, logger=None):
         self.curator_api   = self.get_curator_api()
         self.latest_stream = self.get_latest_stream()
-        self.logger        = self.get_logger()
+        self.logger        = self.get_logger() if logger is None else logger
 
-        self.logger.debug("Latest stream")
-        self.logger.debug("==> result id: {0}".format(self.latest_stream.result_id))
+        self.logger.info("Latest stream")
+        self.logger.info("==> result id: {0}".format(self.latest_stream.result_id))
 
     def get_latest_stream(self):
         return Stream.query.filter_by(
@@ -29,7 +29,7 @@ class LatestStream(BaseCommand):
         same_result_count = 0
 
         for page in range(1, stream.total_pages() + 1):
-            self.logger.debug("Getting page no: {0}".format(page))
+            self.logger.info("Getting page no: {0}".format(page))
 
             page_stream  = self.curator_api.stream(page)
             page_results = page_stream.results()
@@ -38,32 +38,32 @@ class LatestStream(BaseCommand):
                 if page_result['id'] > self.latest_stream.result_id:
                     try:
                         self.save_stream(page_result)
-                        self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                        self.logger.info("==> Result {0} saved".format(page_result['id']))
                     except (IntegrityError, InvalidRequestError):
-                        self.logger.debug("==> Result {0} already exists (rollback)".format(page_result['id']))
+                        self.logger.info("==> Result {0} already exists (rollback)".format(page_result['id']))
                         db.session.rollback()
                 else:
                     same_result_count = same_result_count + 1
-                    self.logger.debug("Get same data, leave the page result list")
+                    self.logger.info("Get same data, leave the page result list")
                     break
 
                 sleep(0.001)
 
             if same_result_count >= 5:
-                self.logger.debug("Same data count equals 5 times, break the page list")
+                self.logger.info("Same data count equals 5 times, break the page list")
                 break
 
-        self.logger.debug("Latest record was updated")
+        self.logger.info("Latest record was updated")
 
 class LatestToday(BaseCommand):
 
-    def __init__(self):
+    def __init__(self, logger=None):
         self.curator_api  = self.get_curator_api()
         self.latest_today = self.get_latest_today()
-        self.logger       = self.get_logger()
+        self.logger       = self.get_logger() if logger is None else logger
 
-        self.logger.debug("Latest today")
-        self.logger.debug("==> result date: {0}".format(self.latest_today.result_date))
+        self.logger.info("Latest today")
+        self.logger.info("==> result date: {0}".format(self.latest_today.result_date))
 
     def get_latest_today(self):
         return Today.query.filter_by(
@@ -76,7 +76,7 @@ class LatestToday(BaseCommand):
         same_result_count = 0
 
         for page in range(1, today.total_pages() + 1):
-            self.logger.debug("Getting page no: {0}".format(page))
+            self.logger.info("Getting page no: {0}".format(page))
 
             page_today   = self.curator_api.today(page)
             page_results = page_today.results()
@@ -87,32 +87,32 @@ class LatestToday(BaseCommand):
 
                 if page_date > result_date:
                     try:
-                        self.logger.debug("==> {0} > {1}".format(page_result['date'], self.latest_today.result_date))
+                        self.logger.info("==> {0} > {1}".format(page_result['date'], self.latest_today.result_date))
                         self.save_today(page_result)
-                        self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                        self.logger.info("==> Result {0} saved".format(page_result['id']))
                     except (IntegrityError, InvalidRequestError):
-                        self.logger.debug("==> Result {0} already exists (rollback)".format(page_result['id']))
+                        self.logger.info("==> Result {0} already exists (rollback)".format(page_result['id']))
                         db.session.rollback()
                 else:
                     same_result_count = same_result_count + 1
-                    self.logger.debug("Get same data, leave the page result list")
+                    self.logger.info("Get same data, leave the page result list")
                     break
 
                 sleep(0.001)
 
             if same_result_count >= 5:
-                self.logger.debug("Same data count equals 5 times, break the page list")
+                self.logger.info("Same data count equals 5 times, break the page list")
                 break
 
-        self.logger.debug("Latest record was updated")
+        self.logger.info("Latest record was updated")
 
 class LatestTodayDetail(BaseCommand):
 
-    def __init__(self):
+    def __init__(self, logger=None):
         self.curator_api         = self.get_curator_api()
-        self.logger              = self.get_logger()
+        self.logger              = self.get_logger() if logger is None else logger
 
-        self.logger.debug("Latest today detail")
+        self.logger.info("Latest today detail")
 
     def make(self):
         # Get latest today_date from today_detail table
@@ -120,7 +120,7 @@ class LatestTodayDetail(BaseCommand):
             today_date = TodayDetail.query.with_entities(db.func.max(TodayDetail.today_date))
         ).first()
 
-        self.logger.debug("==> latest today date: {0}".format(today_detail.today_date))
+        self.logger.info("==> latest today date: {0}".format(today_detail.today_date))
 
         # Find all new date by condition today.result_date is newest than today_detail.today_date
         # new_today = Today.query.filter(Today.result_date > '2014-03-03').all()
@@ -129,18 +129,18 @@ class LatestTodayDetail(BaseCommand):
 
         # Fetch the images from new date page into today_detail table
         for new_date in new_dates:
-            self.logger.debug("Getting date string: {0}".format(new_date))
+            self.logger.info("Getting date string: {0}".format(new_date))
 
             today_detail = self.curator_api.today_detail(new_date)
 
             for page_result in today_detail.results():
                 try:
                     self.save_today_detail(new_date, page_result)
-                    self.logger.debug("==> Result {0} saved".format(page_result['id']))
+                    self.logger.info("==> Result {0} saved".format(page_result['id']))
                 except (IntegrityError, InvalidRequestError):
-                    self.logger.debug("==> Result {0} already exists (rollback)".format(page_result['id']))
+                    self.logger.info("==> Result {0} already exists (rollback)".format(page_result['id']))
                     db.session.rollback()
 
             sleep(0.001)
 
-        self.logger.debug("Latest record was updated")
+        self.logger.info("Latest record was updated")
