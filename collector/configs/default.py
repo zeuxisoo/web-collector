@@ -34,7 +34,7 @@ CELERY_TIMEZONE              = 'Asia/Hong_Kong'
 CELERYBEAT_SCHEDULE_FILENAME = os.path.join(os.getcwd(), 'data/celery-beat')
 CELERYBEAT_SCHEDULE          = {
     'sitemap-create-all': {
-        'task': 'collector.tasks.sitemap.create_all',
+        'task': 'collector.tasks.schedule.create_sitemap',
         'schedule': crontab(minute=0, hour='*/3'), # every three hours
         'args': (0, 10000)
     },
