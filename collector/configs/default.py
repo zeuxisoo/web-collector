@@ -31,6 +31,7 @@ CELERY_TASK_SERIALIZER       = 'json'
 CELERY_RESULT_SERIALIZER     = 'json'
 CELERY_LOG_LEVEL             = 'INFO'
 CELERY_TIMEZONE              = 'Asia/Hong_Kong'
+# CELERYD_LOG_FILE             = os.path.join(os.getcwd(), 'data/celeryd.log')
 CELERYBEAT_SCHEDULE_FILENAME = os.path.join(os.getcwd(), 'data/celery-beat')
 CELERYBEAT_SCHEDULE          = {
     'create-sitemap-all': {
