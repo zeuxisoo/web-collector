@@ -24,8 +24,8 @@ def createsitemap():
     sitemap = Sitemap()
     sitemap.make()
 
-@manager.option('-n', '--name', help='Run task server')
-def runtask(name):
+@manager.command
+def runtask(name=None):
     """Run task server"""
     from celery.bin.worker import worker
     from celery.bin.beat import beat
@@ -44,8 +44,8 @@ def runtask(name):
     else:
         print("Usage: python manager.py runtask -n [celery | beat | all]")
 
-@manager.option('-t', '--table', help='Fill all data to table')
-def fill(table):
+@manager.command
+def fill(table=None):
     """Fill all the specified data into table"""
 
     from collector.commands import FillStream, FillToday, FillTodayDetail
@@ -62,8 +62,8 @@ def fill(table):
     else:
         print("Usage: python manager.py fill -t [stream | today | todaydetail]")
 
-@manager.option('-t', '--table', help="Fill Latest data to table")
-def latest(table):
+@manager.command
+def latest(table=None):
     """Fill latest and specified data into table"""
 
     from collector.commands import LatestStream, LatestToday, LatestTodayDetail
