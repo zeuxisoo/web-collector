@@ -98,3 +98,15 @@
         {% endif %}
     </div>
 {% endmacro %}
+
+{% macro image_detail_link(category, image) %}
+    {% if category == 'stream' %}
+        <a href="{{ url_for('stream.detail', result_id=image.result_id, name=image.result_name) }}">
+            {{ image.result_name }}
+        </a>
+    {% else %}
+        <a href="{{ url_for('today.detail', result_id=image.result_id, name=image.result_name, result_date=image.result_date) }}">
+            {{ image.result_name }}
+        </a>
+    {% endif %}
+{% endmacro %}

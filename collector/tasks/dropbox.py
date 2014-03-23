@@ -5,7 +5,7 @@ import os
 from flask import g
 from celery import task
 from dropbox import client
-from ..models import UserConnection
+from ..models import UserConnection, DropboxLog
 from ..helpers.task import download_image
 
 @task
@@ -14,6 +14,7 @@ def sync_image(category, user_id, result_id):
 
     saved_file      = download_image(category, result_id)
     user_connection = UserConnection.query.filter_by(user_id=user_id, provider_name='dropbox').first()
+    status          = 'faield'
 
     print("==> saved_file: {0}".format(saved_file))
     print("==> user_connection: {0}".format('PASS' if user_connection.access_token != '' else 'Failed'))
@@ -27,6 +28,15 @@ def sync_image(category, user_id, result_id):
             overwrite=True
         )
 
+        status = 'success'
+
         print("==> Saved")
     else:
         print("==> Failed")
+
+    DropboxLog(
+        category  = category,
+        user_id   = user_id,
+        target_id = result_id,
+        status    = status,
+    ).save()

@@ -3,8 +3,9 @@
 from flask import Blueprint, g
 from flask import flash, redirect, url_for, render_template
 from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordForm
-from ..models import User, UserConnection
+from ..models import User, UserConnection, DropboxLog
 from ..helpers.user import login_user, logout_user, require_login
+from ..helpers.value import fill_with_images
 
 blueprint = Blueprint('user', __name__)
 
@@ -78,5 +79,8 @@ def change_connection():
 
     connected_providers = [user_connection.provider_name for user_connection in user_connections]
 
-    return render_template('user/change/connection.html', connected_providers=connected_providers)
+    dropbox_logs = DropboxLog.query.filter_by(user_id=g.user.id).order_by(DropboxLog.create_at.desc()).offset(0).limit(10).all()
+    dropbox_logs = fill_with_images(dropbox_logs)
+
+    return render_template('user/change/connection.html', connected_providers=connected_providers, dropbox_logs=dropbox_logs)
 

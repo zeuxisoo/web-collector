@@ -12,6 +12,10 @@ body {
     padding-top: 15px;
 }
 
+.padding-top-5px {
+    padding-top: 5px;
+}
+
 .footer {
     color: #777;
     padding: 20px 0 10px;
@@ -30,6 +34,10 @@ body {
 
 .panel-body-slim {
     padding: 5px;
+}
+
+.panel-body-log {
+    padding: 10px 15px;
 }
 
 .panel-lead {

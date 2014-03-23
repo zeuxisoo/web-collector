@@ -1,4 +1,5 @@
 {% extends 'layout/user/change.html' %}
+{% from 'share/macro.html' import image_detail_link %}
 
 {% block container_profile %}
 <div class="panel panel-default">
@@ -23,16 +24,27 @@
     </div>
 </div>
 <div class="panel panel-default">
-    <div class="panel-heading">Dropbox Log</div>
-    <div class="panel-body">
-        <p>
-            <label class="label label-danger">Status</label>
-            <span class="text-danger">Dropbox sync message</span>
-        </p>
-        <p>
-            <label class="label label-primary">Status</label>
-            <span class="text-primary">Dropbox sync message</span>
-        </p>
+    <div class="panel-heading">Dropbox Log <small class="text-muted">( latest 10 record )</small></div>
+    <div class="panel-body panel-body-log">
+        {% for log in dropbox_logs %}
+            <div class="row container">
+                {% if log.status == 'success' %}
+                    <span class="text-success">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        The <a href="{{ url_for(log.category + '.index') }}">{{ log.category }}</a> image was synchronized
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        Image named: <small>{{ image_detail_link(log.category, log.image) }}</small>
+                    </span>
+                {% else %}
+                    <span class="text-danger">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        The <a href="{{ url_for(log.category + '.index') }}">{{ log.category }}</a> image could not be synchronized
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        Image named: <small>{{ image_detail_link(log.category, log.image) }}</small>
+                    </span>
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
