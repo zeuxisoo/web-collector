@@ -2,11 +2,11 @@
 
 from __future__ import absolute_import
 import os
-from dropbox import client
 from flask import g
-from ..helpers.task import download_image
-from ..models import UserConnection
 from celery import task
+from dropbox import client
+from ..models import UserConnection
+from ..helpers.task import download_image
 
 @task
 def sync_image(category, user_id, result_id):
