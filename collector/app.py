@@ -46,12 +46,14 @@ def register_celery_beat(app):
     from .tasks.schedule import create_sitemap, create_latest
 
 def register_oauth(app):
-    oauth   = OAuth(app)
-    dropbox = oauth.remote_app('dropbox', app_key='DROPBOX')
+    oauth    = OAuth(app)
+    dropbox  = oauth.remote_app('dropbox', app_key='DROPBOX')
+    facebook = oauth.remote_app('facebook', app_key='FACEBOOK')
 
     app.oauth = oauth
     app.oauth.providers = {
-        'dropbox': dropbox
+        'dropbox' : dropbox,
+        'facebook': facebook,
     }
 
 def register_curator(app):

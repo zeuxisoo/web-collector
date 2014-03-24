@@ -24,6 +24,17 @@ DROPBOX = {
     'authorize_url'       : 'https://www.dropbox.com/1/oauth2/authorize',
 }
 
+FACEBOOK = {
+    'consumer_key'        : '144059545617481',
+    'consumer_secret'     : 'be3e4ae0013f6c7526ef3dc153ed412d',
+    'request_token_params': {'scope': 'email'},
+    'base_url'            : 'https://graph.facebook.com',
+    'request_token_url'   : None,
+    'access_token_method' : 'POST',
+    'access_token_url'    : '/oauth/access_token',
+    'authorize_url'       : 'https://www.facebook.com/dialog/oauth',
+}
+
 BROKER_URL                   = 'redis://localhost:6379/0',
 CELERY_RESULT_BACKEND        = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT        = ['json', 'msgpack', 'yaml']
