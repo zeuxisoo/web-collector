@@ -6,6 +6,7 @@ from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordFor
 from ..models import User, UserConnection, DropboxLog
 from ..helpers.user import login_user, logout_user, require_login
 from ..helpers.value import fill_with_images
+from ..helpers.oauth import is_aouth_signin
 
 blueprint = Blueprint('user', __name__)
 
@@ -50,7 +51,7 @@ def change_profile():
 
         return redirect(url_for('user.change_profile'))
 
-    return render_template('user/change/profile.html', form=form)
+    return render_template('user/change/profile.html', form=form, is_aouth_signin=is_aouth_signin())
 
 @require_login
 @blueprint.route('/change/password', methods=['GET', 'POST'])
@@ -67,7 +68,7 @@ def change_password():
 
         return redirect(url_for('user.signout'))
 
-    return render_template('user/change/password.html', form=form)
+    return render_template('user/change/password.html', form=form, is_aouth_signin=is_aouth_signin())
 
 @require_login
 @blueprint.route('/change/connection', methods=['GET', 'POST'])

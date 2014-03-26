@@ -82,3 +82,9 @@ def authorized_callback(response, provider_name, kind):
         login_user(user)
 
         return redirect(url_for('user.change_connection' if g.user else 'index.index'))
+
+def is_aouth_signin():
+    return UserConnection.query.filter(
+        UserConnection.user_id == g.user.id,
+        UserConnection.provider_name != 'dropbox'
+    ).first() is not None
