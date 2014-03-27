@@ -3,6 +3,9 @@
 all:
 	@echo "make install"
 
+createdb:
+	@source ./venv/bin/activate && python manager.py createdb
+
 server:
 	@python manager.py runserver
 
