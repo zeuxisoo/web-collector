@@ -86,17 +86,12 @@ class SigninForm(BaseForm):
             return user
 
 class ChangeProfileForm(BaseForm):
-    email = TextField(
-        'Email',
+    screen_name = TextField(
+        'Screen Name',
         validators=[
-            Required(message='Please enter email'),
-            Email(message='Invalid email format')
+            Length(min=3, max=80),
         ]
     )
-
-    def validate_email(self, field):
-        if User.query.filter_by(email=field.data.lower()).count():
-            raise ValueError('Email already registered')
 
 class ChangePasswordForm(BaseForm):
 

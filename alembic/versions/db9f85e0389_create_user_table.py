@@ -22,6 +22,7 @@ def upgrade():
     sa.Column('email', sa.String(length=80), nullable=False),
     sa.Column('password', sa.String(length=60), nullable=True),
     sa.Column('token', sa.String(length=20), nullable=True),
+    sa.Column('screen_name', sa.String(length=80), nullable=True),
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')

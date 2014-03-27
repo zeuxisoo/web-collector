@@ -7,13 +7,14 @@ from werkzeug import security
 from flask.ext.bcrypt import Bcrypt
 
 class User(db.Model, SessionMixin):
-    id        = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username  = db.Column(db.String(40), unique=True, index=True, nullable=False)
-    email     = db.Column(db.String(80), unique=True, index=True, nullable=False)
-    password  = db.Column(db.String(60))
-    token     = db.Column(db.String(20))
-    create_at = db.Column(db.DateTime, default=datetime.utcnow)
-    update_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    id          = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username    = db.Column(db.String(40), unique=True, index=True, nullable=False)
+    email       = db.Column(db.String(80), unique=True, index=True, nullable=False)
+    password    = db.Column(db.String(60))
+    token       = db.Column(db.String(20))
+    screen_name = db.Column(db.String(80))
+    create_at   = db.Column(db.DateTime, default=datetime.utcnow)
+    update_at   = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
     def __init__(self, **kwargs):
         self.token = self.generate_token(18)
@@ -31,7 +32,7 @@ class User(db.Model, SessionMixin):
             setattr(self, k, v)
 
     def __str__(self):
-        return self.email
+        return self.screen_name or self.username
 
     def __repr__(self):
         return '<User: %s>' % self.email

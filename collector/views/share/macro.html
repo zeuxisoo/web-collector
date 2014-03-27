@@ -59,7 +59,7 @@
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">
-                                {{ comment.user.username }}
+                                {{ comment.user }}
                                 <small>
                                     <time datetime="{{ comment.create_at | clock_xml_format }}" pubdate>
                                         {{ comment.create_at | clock_humanize }}
