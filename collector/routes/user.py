@@ -10,6 +10,10 @@ from ..helpers.oauth import is_aouth_signin
 
 blueprint = Blueprint('user', __name__)
 
+@blueprint.route('/profile/<username>')
+def profile(username):
+    return render_template('user/profile.html')
+
 @blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignupForm()

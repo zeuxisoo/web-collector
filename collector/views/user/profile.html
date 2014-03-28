@@ -1,0 +1,63 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div id="index">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">Profile</div>
+                <div class="panel-body">
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" src="http://placehold.it/100x100">
+                        </a>
+                        <div class="media-body">
+                            <h3 class="media-heading">Screen name or Username</h3>
+                            <p class="text-info">Collected images</p>
+                            <div class="row text-muted">
+                                <div class="col-md-1">Stream</div>
+                                <div class="col-md-11">2 pic</div>
+                            </div>
+                            <div class="row text-muted">
+                                <div class="col-md-1">Today</div>
+                                <div class="col-md-11">2 pic</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Stream</div>
+                <div class="panel-body">
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Today</div>
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Random Stream</div>
+                <div class="panel-body">
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Random Today</div>
+                <div class="panel-body">
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>
+            {% include 'share/google-adsense/slidebar.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
