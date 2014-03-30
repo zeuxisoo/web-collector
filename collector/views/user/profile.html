@@ -9,18 +9,18 @@
                 <div class="panel-body">
                     <div class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object" src="http://placehold.it/100x100">
+                            <img class="media-object" src="{{ user.avatar(100) }}">
                         </a>
                         <div class="media-body">
-                            <h3 class="media-heading">Screen name or Username</h3>
+                            <h3 class="media-heading">{{ user }}</h3>
                             <p class="text-info">Collected images</p>
                             <div class="row text-muted">
                                 <div class="col-md-1">Stream</div>
-                                <div class="col-md-11">2 pic</div>
+                                <div class="col-md-11">{{ totals['stream'] }} pic</div>
                             </div>
                             <div class="row text-muted">
                                 <div class="col-md-1">Today</div>
-                                <div class="col-md-11">2 pic</div>
+                                <div class="col-md-11">{{ totals['today'] }} pic</div>
                             </div>
                         </div>
                     </div>
@@ -29,13 +29,25 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Stream</div>
                 <div class="panel-body">
-
+                    {% for stream in images['stream'] %}
+                        <div class="col-xs-6 col-sm-3 col-md-2">
+                            <a class="thumbnail" rel="group" href="{{ url_for('stream.detail', result_id=stream.image.result_id, name=stream.image.result_name) }}">
+                                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ stream.image.result_name }}" class="tips" data-placement="bottom" title="{{ stream.image.result_name }}">
+                            </a>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">Today</div>
                 <div class="panel-body">
-
+                    {% for today in images['today'] %}
+                        <div class="col-xs-6 col-sm-3 col-md-2">
+                            <a class="thumbnail" rel="group" href="{{ url_for('today.detail', result_date=today.image.result_date, result_id=today.image.result_id, name=today.image.result_name) }}">
+                                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ today.image.result_name }}" class="tips" data-placement="bottom" title="{{ today.image.result_name }}">
+                            </a>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

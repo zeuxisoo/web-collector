@@ -3,7 +3,7 @@
 from flask import Blueprint, g
 from flask import flash, redirect, url_for, render_template
 from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordForm
-from ..models import User, UserConnection, DropboxLog
+from ..models import User, UserConnection, DropboxLog, Bookmark, Stream, Today
 from ..helpers.user import login_user, logout_user, require_login
 from ..helpers.value import fill_with_images
 from ..helpers.oauth import is_aouth_signin
@@ -12,7 +12,19 @@ blueprint = Blueprint('user', __name__)
 
 @blueprint.route('/profile/<username>')
 def profile(username):
-    return render_template('user/profile.html')
+    user = User.query.filter_by(username=username).first_or_404()
+
+    totals = dict(
+        stream = Bookmark.query.filter_by(category='stream', user_id=user.id).count(),
+        today  = Bookmark.query.filter_by(category='today', user_id=user.id).count()
+    )
+
+    images = dict(
+        stream = fill_with_images(Bookmark.query.filter_by(category='stream', user_id=user.id).order_by(Bookmark.create_at.desc()).offset(0).limit(12).all()),
+        today  = fill_with_images(Bookmark.query.filter_by(category='today', user_id=user.id).order_by(Bookmark.create_at.desc()).offset(0).limit(12).all()),
+    )
+
+    return render_template('user/profile.html', user=user, totals=totals, images=images)
 
 @blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
