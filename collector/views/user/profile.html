@@ -56,7 +56,13 @@
                 <div class="panel-heading text-center">Random Stream</div>
                 <div class="panel-body">
                     <div class="row">
-
+                        {% for image in random_streams %}
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <a class="thumbnail" rel="group" href="{{ url_for('stream.detail', result_id=image.result_id, name=image.result_name) }}">
+                                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}" class="tips" data-placement="bottom" title="{{ image.result_name }}">
+                                </a>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -64,7 +70,13 @@
                 <div class="panel-heading text-center">Random Today</div>
                 <div class="panel-body">
                     <div class="row">
-
+                        {% for image in random_todays %}
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <a class="thumbnail" rel="group" href="{{ url_for('today.detail', result_date=image.result_date, result_id=image.result_id, name=image.result_name) }}">
+                                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}" class="tips" data-placement="bottom" title="{{ image.result_name }}">
+                                </a>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

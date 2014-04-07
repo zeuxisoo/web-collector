@@ -24,7 +24,10 @@ def profile(username):
         today  = fill_with_images(Bookmark.query.filter_by(category='today', user_id=user.id).order_by(Bookmark.create_at.desc()).offset(0).limit(12).all()),
     )
 
-    return render_template('user/profile.html', user=user, totals=totals, images=images)
+    random_streams = Stream.randomly(0, 6)
+    random_todays  = Today.randomly(0, 6)
+
+    return render_template('user/profile.html', user=user, totals=totals, images=images, random_streams=random_streams, random_todays=random_todays)
 
 @blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
