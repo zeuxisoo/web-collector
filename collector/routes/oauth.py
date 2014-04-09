@@ -14,7 +14,7 @@ def connect(provider, kind):
     providers = current_app.oauth.providers
 
     if provider in providers:
-        if provider == 'dropbox' and re.match(r'^localhost:\d+$', request.host) is False:
+        if provider == 'dropbox' and re.match(r'^localhost:\d+$', request.host) is None:
             return providers[provider].authorize(callback=url_for('oauth.authorized', provider=provider, kind=kind, _external=True, _scheme='https'))
         else:
             return providers[provider].authorize(callback=url_for('oauth.authorized', provider=provider, kind=kind, _external=True))
