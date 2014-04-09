@@ -31,10 +31,10 @@ def index(category):
             Bookmark.user_id == g.user.id,
         ).order_by(Bookmark.create_at.desc()).paginate(page)
 
-        total_bookmark = Bookmark.query.filter_by(category=category, user_id=g.user.id).count()
-        random_images  = Model.randomly(0, 6)
+        total_bookmark  = Bookmark.query.filter_by(category=category, user_id=g.user.id).count()
+        randomly_images = Model.randomly(0, 6)
 
-        return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, random_images=random_images, category=category)
+        return render_template('bookmark/index.html', paginator=paginator, total_bookmark=total_bookmark, randomly_images=randomly_images, category=category)
 
 @blueprint.route('/detail/<category>/<int:result_id>-<path:name>')
 def detail(category, result_id, name):
