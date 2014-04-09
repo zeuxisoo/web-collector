@@ -1,7 +1,8 @@
 # coding: utf-8
 
+import re
 from flask import Blueprint, g
-from flask import current_app, flash, redirect, url_for, session
+from flask import current_app, flash, redirect, url_for, session, request
 from ..helpers.oauth import authorized_callback
 from ..models import UserConnection
 
@@ -13,7 +14,10 @@ def connect(provider, kind):
     providers = current_app.oauth.providers
 
     if provider in providers:
-        return providers[provider].authorize(callback=url_for('oauth.authorized', provider=provider, kind=kind, _external=True))
+        if provider == 'dropbox' and re.match(r'^localhost:\d+$', request.host) is False:
+            return providers[provider].authorize(callback=url_for('oauth.authorized', provider=provider, kind=kind, _external=True, _scheme='https'))
+        else:
+            return providers[provider].authorize(callback=url_for('oauth.authorized', provider=provider, kind=kind, _external=True))
     else:
         flash('Not found provider', 'error')
         return redirect(url_for('user.signin'))
