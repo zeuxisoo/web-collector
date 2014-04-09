@@ -34,7 +34,7 @@ class Sitemap(BaseCommand):
             })
 
         sitemap   = render_template('sitemap.xml', pages=pages)
-        save_path = path.join(current_app.static_folder, 'siemap.xml')
+        save_path = path.join(current_app.static_folder, 'sitemap.xml')
 
         self.logger.info("===> creating sitemap.xml to {0}".format(save_path))
 
