@@ -46,16 +46,20 @@ def authorized_callback(response, provider_name, kind):
 
             return redirect(url_for('user.change_connection' if g.user else 'index.index'))
 
-        # Redirect to sign in page if the provider.email() is registered in website
-        if provider_email:
-            user = User.query.filter_by(email=provider.email()).first()
-
-            if user:
-                flash('You already registered, Please sign in by email account', 'error')
-                return redirect(url_for('user.change_connection' if g.user else 'user.signin'))
-
-        # If kind is normal will create user, else just connect like dropbox
+        # If kind is normal,
+        # - no
+        #   - check the username is registered, yes: redirect, no create user
+        # - yes
+        #   - just connect like dropbox
         if kind == 'normal':
+            # Redirect to sign in page if the provider.email() is registered in website
+            if provider_email:
+                user = User.query.filter_by(email=provider.email()).first()
+
+                if user:
+                    flash('You already registered, Please sign in by email account', 'error')
+                    return redirect(url_for('user.change_connection' if g.user else 'user.signin'))
+
             # Check the username is or not exists, if exists, it will md5 email for username
             username = provider_email.split('@')[0]
 
