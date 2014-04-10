@@ -2,6 +2,7 @@
 
 from os import path
 from datetime import datetime
+from dateutil import tz
 from flask import g, current_app, url_for, render_template
 from ..models import Stream, Today
 from .base import BaseCommand
@@ -23,14 +24,14 @@ class Sitemap(BaseCommand):
             pages.append({
                 'url'      : url_for('stream.detail', result_id=stream.result_id, name=stream.result_name, _external=True),
                 'image'    : stream.result_image,
-                'create_at': stream.result_created_at.isoformat(),
+                'create_at': stream.result_created_at.replace(tzinfo=tz.tzlocal()).isoformat(),
             })
 
         for today in todays:
             pages.append({
                 'url'      : url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name, _external=True),
                 'image'    : today.result_image,
-                'create_at': datetime.combine(today.result_date, datetime.min.time()).isoformat(),
+                'create_at': datetime.combine(today.result_date, datetime.min.time()).replace(tzinfo=tz.tzlocal()).isoformat(),
             })
 
         sitemap   = render_template('sitemap.xml', pages=pages)
