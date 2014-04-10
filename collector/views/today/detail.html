@@ -64,7 +64,7 @@
             </div>
             <div class="row">
                 {% for today in random %}
-                    <div class="col-xs-3 col-sm-3 col-md-3">
+                    <div class="col-xs-6 col-sm-3 col-md-3">
                         <a class="thumbnail" rel="group" href="{{ url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name) }}">
                             <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill(100, 146, 'FFF', 'true') }}" alt="{{ today.result_name }}" class="tips" data-placement="bottom" title="{{ today.result_name }}">
                         </a>
