@@ -23,12 +23,15 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-default">Sign in</button>
-                        &nbsp;or&nbsp;
-                        <a class="btn btn-social btn-facebook" href="{{ url_for('oauth.connect', provider='facebook') }}">
-                            <i class="fa fa-facebook"></i> Sign in with Facebook
-                        </a>
                     </div>
                 </form>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend>Or sign with ...</legend>
+                <a class="btn btn-social btn-facebook" href="{{ url_for('oauth.connect', provider='facebook') }}">
+                    <i class="fa fa-facebook"></i> Sign in with Facebook
+                </a>
             </fieldset>
         </div>
     </div>
