@@ -3,7 +3,7 @@
 import os
 from celery.schedules import crontab
 
-SERVER_NAME                = 'localhost'
+# SERVER_NAME                = 'localhost'
 DEBUG                      = True
 SESSION_COOKIE_NAME        = '_s'
 PERMANENT_SESSION_LIFETIME = 3600 * 24 * 30
