@@ -54,12 +54,12 @@
                         <hr>
                     {% endif %}
                     <div class="media">
-                        <a class="pull-left" href="#">
+                        <a class="pull-left" href="{{ url_for('user.profile', username=comment.user.username) }}">
                             <img class="media-object img-rounded" src="{{ comment.user.avatar(48) }}">
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">
-                                {{ comment.user }}
+                                <a href="{{ url_for('user.profile', username=comment.user.username) }}">{{ comment.user }}</a>
                                 <small>
                                     <time datetime="{{ comment.create_at | clock_xml_format }}" pubdate>
                                         {{ comment.create_at | clock_humanize }}
