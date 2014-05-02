@@ -17,6 +17,10 @@ def create_app(config=None):
 
     app.config.from_pyfile('configs/default.py')
 
+    production_config = os.path.join(os.path.dirname(__file__), 'configs/production.py')
+    if os.path.exists(production_config):
+        app.config.from_pyfile(production_config)
+
     if isinstance(config, dict):
         app.config.update(config)
     elif config:
