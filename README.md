@@ -9,6 +9,10 @@ Install the dependency
     source venv/bin/activate
     pip install -r requirements.txt
 
+Create and update production environment
+
+    cp collector/configs/production.py.sample collector/configs/production.py
+
 Create the database
 
     python manager.py createdb
