@@ -85,3 +85,21 @@ class BaseCommand(object):
             return stream
         else:
             return None
+
+    def update_today_image(self, result):
+        today = Today.query.filter_by(result_id=result['id']).first()
+
+        if today:
+            today.result_image            = result['image']
+            today.result_width            = result['width']
+            today.result_height           = result['height']
+            today.result_thumbnail        = result['thumbnail']
+            today.result_thumbnail_width  = result['thumbnail_width']
+            today.result_thumbnail_height = result['thumbnail_height']
+            today.filename                = "{0}{1}".format(result['id'], os.path.splitext(result['image'])[1])
+
+            today.save()
+
+            return today
+        else:
+            return None
