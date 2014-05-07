@@ -54,3 +54,7 @@ All
 Latest
 
     python manager.py latest -t [stream | today | todaydetail]
+
+Repair
+
+    python manager.py repair -n [streamimage | todayimage | todaydetailimage]
