@@ -84,7 +84,7 @@ def latest(table=None):
 def repair(name=None):
     """Repair all unexpected case"""
 
-    from collector.commands import RepairStreamImage, RepairTodayImage
+    from collector.commands import RepairStreamImage, RepairTodayImage, RepairTodayDetailImage
 
     if name == "streamimage":
         repair_stream_image = RepairStreamImage()
@@ -92,8 +92,11 @@ def repair(name=None):
     elif name == "todayimage":
         repair_today_image = RepairTodayImage()
         repair_today_image.make()
+    elif name == "todaydetailimage":
+        repair_today_detail_image = RepairTodayDetailImage()
+        repair_today_detail_image.make()
     else:
-        print("Usage: python manager.py repair -n [streamimage | todayimage]")
+        print("Usage: python manager.py repair -n [streamimage | todayimage | todaydetailimage]")
 
 if __name__ == '__main__':
     manager.run()

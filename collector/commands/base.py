@@ -103,3 +103,22 @@ class BaseCommand(object):
             return today
         else:
             return None
+
+    def update_today_detail_image(self, today_date, result):
+        today_detail = TodayDetail.query.filter_by(today_date=today_date, result_id=result['id']).first()
+
+        if today_detail:
+            today_detail.result_id               = result['id']
+            today_detail.result_thumbnail        = result['thumbnail']
+            today_detail.result_thumbnail_width  = result['thumbnail_width']
+            today_detail.result_thumbnail_height = result['thumbnail_height']
+            today_detail.result_image            = result['image']
+            today_detail.result_width            = result['width']
+            today_detail.result_height           = result['height']
+            today_detail.filename                = "{0}{1}".format(result['id'], os.path.splitext(result['image'])[1])
+
+            today_detail.save()
+
+            return today_detail
+        else:
+            return None
