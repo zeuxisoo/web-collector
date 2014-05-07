@@ -67,3 +67,21 @@ class BaseCommand(object):
             result_created_at       = parser.parse(result['created_at']),
             filename                = "{0}{1}".format(result['id'], os.path.splitext(result['image'])[1])
         ).save()
+
+    def update_stream_image(self, result):
+        stream = Stream.query.filter_by(result_id=result['id']).first()
+
+        if stream:
+            stream.result_thumbnail        = result['thumbnail']
+            stream.result_thumbnail_width  = result['thumbnail_width']
+            stream.result_thumbnail_height = result['thumbnail_height']
+            stream.result_image            = result['image']
+            stream.result_width            = result['width']
+            stream.result_height           = result['height']
+            stream.filename                = "{0}{1}".format(result['id'], os.path.splitext(result['image'])[1])
+
+            stream.save()
+
+            return stream
+        else:
+            return None

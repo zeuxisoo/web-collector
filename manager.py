@@ -80,5 +80,17 @@ def latest(table=None):
     else:
         print("Usage: python manager.py latest -t [stream | today | todaydetail]")
 
+@manager.command
+def repair(name=None):
+    """Repair all unexpected case"""
+
+    from collector.commands import RepairStreamImage
+
+    if name == "streamimage":
+        repair_stream_image = RepairStreamImage()
+        repair_stream_image.make()
+    else:
+        print("Usage: python manager.py repair -n [streamimage]")
+
 if __name__ == '__main__':
     manager.run()
