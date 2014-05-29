@@ -83,7 +83,8 @@ SOCIAL_BUTTON = {
 GRAVATAR_BASE_URL = 'http://www.gravatar.com/avatar/'
 GRAVATAR_EXTRA    = ''
 
-GOOGLE_ANALYTICS  = ''
+GOOGLE_ANALYTICS    = ''
+GOOGLE_ANALYTICS_DC = False
 
 GOOGLE_ADSENSE = {
     'client'   : 'ca-pub-XXXXX',
