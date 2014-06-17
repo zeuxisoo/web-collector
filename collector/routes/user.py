@@ -104,3 +104,7 @@ def change_connection():
 
     return render_template('user/change/connection.html', connected_providers=connected_providers, dropbox_logs=dropbox_logs)
 
+@require_login
+@blueprint.route('/change/settings', methods=['GET', 'POST'])
+def change_settings():
+    return render_template('user/change/settings.html')
