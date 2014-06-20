@@ -38,6 +38,6 @@ def fill_with_images(items):
     return items
 
 def fill_with_user_settings(item):
-    item.settings = UserSettings.query.filter_by(user_id=g.user.id).first()
+    item.settings = UserSettings.query.filter_by(user_id=item.id).first()
 
     return item
