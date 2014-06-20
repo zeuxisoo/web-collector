@@ -1,6 +1,7 @@
 # coding: utf-8
 
-from ..models import User, Stream, Today
+from flask import g
+from ..models import User, Stream, Today, UserSettings
 
 def force_integer(value, default=1):
     try:
@@ -35,3 +36,8 @@ def fill_with_images(items):
             item.image = today_dict.get(item.target_id)
 
     return items
+
+def fill_with_user_settings(item):
+    item.settings = UserSettings.query.filter_by(user_id=g.user.id).first()
+
+    return item

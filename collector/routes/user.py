@@ -5,7 +5,7 @@ from flask import flash, redirect, url_for, render_template
 from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordForm, ChangeSettingsForm
 from ..models import User, UserConnection, DropboxLog, Bookmark, Stream, Today, UserSettings
 from ..helpers.user import login_user, logout_user, require_login
-from ..helpers.value import fill_with_images
+from ..helpers.value import fill_with_images, fill_with_user_settings
 from ..helpers.oauth import is_aouth_signin
 
 blueprint = Blueprint('user', __name__)
@@ -13,6 +13,7 @@ blueprint = Blueprint('user', __name__)
 @blueprint.route('/profile/<username>')
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
+    user = fill_with_user_settings(user)
 
     totals = dict(
         stream = Bookmark.query.filter_by(category='stream', user_id=user.id).count(),
