@@ -2,8 +2,8 @@
 
 from flask import Blueprint, g
 from flask import flash, redirect, url_for, render_template
-from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordForm
-from ..models import User, UserConnection, DropboxLog, Bookmark, Stream, Today
+from ..forms import SignupForm, SigninForm, ChangeProfileForm, ChangePasswordForm, ChangeSettingsForm
+from ..models import User, UserConnection, DropboxLog, Bookmark, Stream, Today, UserSettings
 from ..helpers.user import login_user, logout_user, require_login
 from ..helpers.value import fill_with_images
 from ..helpers.oauth import is_aouth_signin
@@ -107,4 +107,20 @@ def change_connection():
 @require_login
 @blueprint.route('/change/settings', methods=['GET', 'POST'])
 def change_settings():
-    return render_template('user/change/settings.html')
+    user_settings = UserSettings.query.filter_by(user_id=g.user.id).first()
+    form          = ChangeSettingsForm(obj=user_settings)
+
+    if form.validate_on_submit():
+        if user_settings:
+            user_settings.public_profile = form.public_profile.data
+            user_settings.save()
+        else:
+            UserSettings(
+                user_id = g.user.id,
+                public_profile = form.public_profile.data
+            ).save()
+
+        flash('Your settings was updated', 'success')
+        return redirect(url_for('user.change_settings'))
+
+    return render_template('user/change/settings.html', form=form)
