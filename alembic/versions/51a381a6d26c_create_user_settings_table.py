@@ -19,7 +19,7 @@ def upgrade():
     op.create_table('user_settings',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('public_profile', sa.Integer(), nullable=True),
+    sa.Column('protect_profile', sa.Integer(), nullable=True),
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')

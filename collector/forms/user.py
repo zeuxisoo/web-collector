@@ -121,4 +121,4 @@ class ChangePasswordForm(BaseForm):
 
 class ChangeSettingsForm(BaseForm):
 
-    public_profile = BooleanField('Yes')
+    protect_profile = BooleanField('Yes')

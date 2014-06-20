@@ -112,12 +112,12 @@ def change_settings():
 
     if form.validate_on_submit():
         if user_settings:
-            user_settings.public_profile = form.public_profile.data
+            user_settings.protect_profile = form.protect_profile.data
             user_settings.save()
         else:
             UserSettings(
                 user_id = g.user.id,
-                public_profile = form.public_profile.data
+                protect_profile = form.protect_profile.data
             ).save()
 
         flash('Your settings was updated', 'success')

@@ -8,10 +8,10 @@
             <form method="post" action="{{ url_for('user.change_settings') }}" class="form-horizontal" role="form">
                 {{ form.csrf_token }}
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="public_profile">Protect Profile</label>
+                    <label class="col-sm-2 control-label" for="protect_profile">Protect Profile</label>
                     <div class="col-sm-10 checkbox">
-                        {{ form.public_profile }}
-                        {{ form.public_profile.label }}
+                        {{ form.protect_profile }}
+                        {{ form.protect_profile.label }}
                     </div>
                 </div>
                 <div class="form-group">
