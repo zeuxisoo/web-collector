@@ -9,3 +9,4 @@ from .bookmark import *
 from .user_connection import *
 from .comment import *
 from .dropbox_log import *
+from .user_settings import *

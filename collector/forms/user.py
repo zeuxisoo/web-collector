@@ -118,3 +118,7 @@ class ChangePasswordForm(BaseForm):
 
         if User.password_verify(field.data.lower(), user.password) is False:
             raise ValueError("Password incorrect")
+
+class ChangeSettingsForm(BaseForm):
+
+    public_profile = BooleanField('Yes')
