@@ -58,3 +58,13 @@ Latest
 Repair
 
     python manager.py repair -n [streamimage | todayimage | todaydetailimage]
+
+#### Image
+
+EchoList (output all url into `static/echolist.TABLE.txt` from TABLE.result_image field)
+
+    python manager.py echolist -t [stream | today | todaydetail]
+
+DownloadList (Using the `aria2c` to download the EchoList into `static/download/aria2c/TABLE`)
+
+    python manager.py downloadlist -t [stream | today | todaydetail]
