@@ -61,7 +61,7 @@ Repair
 
 #### Image
 
-List (output all url into `static/echolist.TABLE.txt` from TABLE.result_image field)
+List (Output all url into `static/echolist.TABLE.txt` from TABLE.result_image field)
 
     python manager.py echolist -t [stream | today | todaydetail]
 
