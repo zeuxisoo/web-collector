@@ -109,6 +109,17 @@ def echolist(table=None):
     else:
         print("Usage: python manager.py echolist -t [stream | today | todaydetail]")
 
+@manager.command
+def downloadlist(table=None):
+    """Call aria2c to download the images from echolist file"""
+
+    from os import path
+    from collector.commands import DownloadList
+
+    if table in ("stream", "today", "todaydetail"):
+        DownloadList(table).make()
+    else:
+        print("Usage: python manager.py downloadlist -t [stream | today | todaydetail]")
 
 if __name__ == '__main__':
     manager.run()
