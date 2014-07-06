@@ -113,11 +113,21 @@ def echolist(table=None):
 def downloadlist(table=None):
     """Call aria2c to download the images from echolist file"""
 
-    from os import path
     from collector.commands import DownloadList
 
     if table in ("stream", "today", "todaydetail"):
         DownloadList(table).make()
+    else:
+        print("Usage: python manager.py downloadlist -t [stream | today | todaydetail]")
+
+@manager.command
+def removemisslist(table=None):
+    """Remove the missed image from TABLE base on downloaded image file"""
+
+    from collector.commands import RemoveMissList
+
+    if table in ("stream", "today", "todaydetail"):
+        RemoveMissList(table).make()
     else:
         print("Usage: python manager.py downloadlist -t [stream | today | todaydetail]")
 

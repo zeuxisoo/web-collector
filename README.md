@@ -61,10 +61,14 @@ Repair
 
 #### Image
 
-EchoList (output all url into `static/echolist.TABLE.txt` from TABLE.result_image field)
+List (output all url into `static/echolist.TABLE.txt` from TABLE.result_image field)
 
     python manager.py echolist -t [stream | today | todaydetail]
 
-DownloadList (Using the `aria2c` to download the EchoList into `static/download/aria2c/TABLE`)
+Download (Using the `aria2c` to download the EchoList into `static/download/aria2c/TABLE`)
 
     python manager.py downloadlist -t [stream | today | todaydetail]
+
+Remove (Remove the not exists record in TABLE by checking downloaded image)
+
+    python manager.py removemisslist -t [stream | today | todaydetail]
