@@ -98,5 +98,17 @@ def repair(name=None):
     else:
         print("Usage: python manager.py repair -n [streamimage | todayimage | todaydetailimage]")
 
+@manager.command
+def echolist(table=None):
+    """Output all result_image url from stream, today and todaydetail table"""
+
+    from collector.commands import EchoList
+
+    if table in ("stream", "today", "todaydetail"):
+        EchoList(table).make()
+    else:
+        print("Usage: python manager.py echolist -t [stream | today | todaydetail]")
+
+
 if __name__ == '__main__':
     manager.run()
