@@ -116,7 +116,7 @@
         {% for image in images %}
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <a class="thumbnail{% if no_border %} no-border{% endif %}" rel="group" href="{{ url_for('stream.detail', result_id=image.result_id, name=image.result_name) }}">
-                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}" class="tips" data-placement="bottom" title="{{ image.result_name }}">
+                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(category, 100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}" class="tips" data-placement="bottom" title="{{ image.result_name }}">
                 </a>
             </div>
         {% endfor %}
@@ -124,7 +124,7 @@
         {% for image in images %}
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <a class="thumbnail{% if no_border %} no-border{% endif %}" rel="group" href="{{ url_for('today.detail', result_date=image.result_date, result_id=image.result_id, name=image.result_name) }}">
-                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}" class="tips" data-placement="bottom" title="{{ image.result_name }}">
+                    <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ image.result_image | embedly_fill(category, 100, 100, 'FFF', 'true') }}" alt="{{ image.result_name }}" class="tips" data-placement="bottom" title="{{ image.result_name }}">
                 </a>
             </div>
         {% endfor %}

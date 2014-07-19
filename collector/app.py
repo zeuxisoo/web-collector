@@ -64,10 +64,11 @@ def register_curator(app):
     app.curator = API(app.config.get('CURATORS_API_TOKEN'))
 
 def register_jinja2(app):
-    app.jinja_env.filters['embedly_fill']  = Embedly(app.config.get('EMBEDLY_API_TOKEN')).fill
-    app.jinja_env.filters['social_button'] = SocialButton(app.config.get('SOCIAL_BUTTON')).create
-    app.jinja_env.filters['clock_humanize'] = Clock().humanize
-    app.jinja_env.filters['clock_xml_format'] = Clock().xml_format
+    app.jinja_env.filters['embedly_fill']             = Embedly(app.config.get('EMBEDLY_API_TOKEN')).fill
+    app.jinja_env.filters['embedly_fill_archive_url'] = Embedly(app.config.get('EMBEDLY_API_TOKEN')).fill_archive_url
+    app.jinja_env.filters['social_button']            = SocialButton(app.config.get('SOCIAL_BUTTON')).create
+    app.jinja_env.filters['clock_humanize']           = Clock().humanize
+    app.jinja_env.filters['clock_xml_format']         = Clock().xml_format
 
 def register_database(app):
     db.init_app(app)

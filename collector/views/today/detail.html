@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6">
             <div class="thumbnail">
-                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill(500, 500, 'FFF', 'true') }}">
+                <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill('today', 500, 500, 'FFF', 'true') }}">
             </div>
             {% include "share/addthis.html" %}
         </div>
@@ -41,7 +41,7 @@
                             </div>
                         </a>
                     {% endif %}
-                    <a href="{{ today.result_image }}" class="btn btn-info" download="{{ today.result_name }}">
+                    <a href="{{ today.result_image | embedly_fill_archive_url('today') }}" class="btn btn-info" download="{{ today.result_name }}">
                         <div class="hidden-xs">
                             <i class="glyphicon glyphicon-download-alt"></i> Download
                         </div>
@@ -57,7 +57,7 @@
                             <i class="glyphicon glyphicon-hdd"></i>
                         </div>
                     </a>
-                    <a href="{{ today.result_image }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
+                    <a href="{{ today.result_image | embedly_fill_archive_url('today') }}" class="btn btn-info pull-right fancybox tips" data-placement="bottom" title="Preview images">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
                 </div>
@@ -66,7 +66,7 @@
                 {% for today in random %}
                     <div class="col-xs-6 col-sm-3 col-md-3">
                         <a class="thumbnail" rel="group" href="{{ url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name) }}">
-                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill(100, 146, 'FFF', 'true') }}" alt="{{ today.result_name }}" class="tips" data-placement="bottom" title="{{ today.result_name }}">
+                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ today.result_image | embedly_fill('today', 100, 146, 'FFF', 'true') }}" alt="{{ today.result_name }}" class="tips" data-placement="bottom" title="{{ today.result_name }}">
                         </a>
                     </div>
                 {% endfor %}

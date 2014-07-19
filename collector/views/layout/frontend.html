@@ -59,6 +59,12 @@
     </div>
     <div id="wrapper">
         <div class="container">
+            {% if config.get('ARCHIVE') %}
+                <div class="alert alert-warning" archive="archive">
+                    <strong>[INFO]</strong> The website was enabled archive mode, So data was freezed and did not get updated!
+                </div>
+            {% endif %}
+
             {% if form and form.errors %}
                 {% for field_name, field_errors in form.errors | dictsort if field_errors %}
                         {% if loop.index <= 1 %}

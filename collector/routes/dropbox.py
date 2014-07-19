@@ -2,7 +2,7 @@
 
 import functools
 from flask import Blueprint, g
-from flask import url_for, redirect, flash, abort
+from flask import url_for, redirect, flash, abort, current_app
 from ..models import Stream, Today, UserConnection
 from ..helpers.user import require_login
 from ..tasks.dropbox import sync_image
@@ -14,6 +14,9 @@ blueprint = Blueprint('dropbox', __name__)
 def create(category, result_id, page_name):
     if category not in ['stream', 'today']:
         return abort(400, 'Image category does not match in dropbox.create page')
+
+    if current_app.config.get('ARCHIVE') is True:
+        return abort(400, 'Can not send to dropbox when website in archive mode')
 
     models = {
         'stream': Stream,

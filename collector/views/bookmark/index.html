@@ -17,7 +17,7 @@
                 {% for stream in paginator.items %}
                     <div class="col-xs-6 col-sm-6 col-md-3">
                         <a class="thumbnail" rel="group" href="{{ url_for('bookmark.detail', category=category, result_id=stream.result_id, name=stream.result_name) }}">
-                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}" class="tips" data-placement="bottom" title="{{ stream.result_name }}">
+                            <img src="{{ url_for('static', filename='client/img/loader.gif') }}" data-src="{{ stream.result_image | embedly_fill(category, 200, 200, 'FFF', 'true') }}" alt="{{ stream.result_name }}" class="tips" data-placement="bottom" title="{{ stream.result_name }}">
                         </a>
                     </div>
                 {% endfor %}

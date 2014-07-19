@@ -8,7 +8,13 @@
 
     $(function() {
         var source = $("#today-girl-template").html();
-        if (typeof source !== "undefined") {
+        var archive = $(".alert[archive]").attr('archive');
+
+        if (archive == 'archive') {
+            $("#today-girl").parent().remove()
+        }
+
+        if (typeof source !== "undefined" && archive == 'archive') {
             var template = Handlebars.compile(source);
             $.getJSON("/ajax/today-girl").success(function(data) {
                 var html = template({
