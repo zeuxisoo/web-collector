@@ -1,4 +1,8 @@
-#### Install
+# Collector
+
+A simple web application to re-preview the curator API
+
+## Install
 
 Create the virtual environment
 
@@ -17,7 +21,11 @@ Create the database
 
     python manager.py createdb
 
-#### Dropbox
+Enable archive mode
+
+    echo "ARCHIVE=True" >> collector/configs/production.py # need restart web application
+
+## Dropbox
 
 1. Go to https://www.dropbox.com/developers
 2. Click App Console and create new app
@@ -25,7 +33,7 @@ Create the database
 4. Enter the App name
 5. Add the callback url
 
-#### Redis
+## Redis
 
 Install from brew
 
@@ -35,7 +43,7 @@ Start it
 
     redis-server /usr/local/etc/redis.conf
 
-#### Web and Task Server
+## Web and Task Server
 
 Web
 
@@ -45,7 +53,7 @@ Task
 
     python manager.py runtask -n [celery | beat | all]
 
-#### Data
+## Data
 
 All
 
@@ -59,7 +67,7 @@ Repair
 
     python manager.py repair -n [streamimage | todayimage | todaydetailimage]
 
-#### Image
+## Image
 
 List (Output all url into `static/echolist.TABLE.txt` from TABLE.result_image field)
 
