@@ -18,19 +18,21 @@ class Sitemap(BaseCommand):
         streams = Stream.query.order_by(Stream.result_created_at.desc()).offset(offset).limit(limit).all()
         todays  = Today.query.order_by(Today.result_date.desc()).offset(offset).limit(limit).all()
 
+        fill_archive_url = current_app.jinja_env.filters['embedly_fill_archive_url']
+
         pages = []
 
         for stream in streams:
             pages.append({
                 'url'      : url_for('stream.detail', result_id=stream.result_id, name=stream.result_name, _external=True),
-                'image'    : stream.result_image,
+                'image'    : fill_archive_url(stream.result_image, 'stream'),
                 'create_at': stream.result_created_at.replace(tzinfo=tz.tzlocal()).isoformat(),
             })
 
         for today in todays:
             pages.append({
                 'url'      : url_for('today.detail', result_date=today.result_date, result_id=today.result_id, name=today.result_name, _external=True),
-                'image'    : today.result_image,
+                'image'    : fill_archive_url(today.result_image, 'today'),
                 'create_at': datetime.combine(today.result_date, datetime.min.time()).replace(tzinfo=tz.tzlocal()).isoformat(),
             })
 
