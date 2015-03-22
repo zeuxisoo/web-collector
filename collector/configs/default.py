@@ -109,3 +109,7 @@ FACEBOOK_COMMENT = {
     'colorscheme': 'light',
     'order_by'   : 'social'
 }
+
+EXTERNAL_LINKS = {
+    # 'name': "url"
+}
